@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Find help near you</title>
+        <meta name="viewport" charset="UTF-8" content="initial-scale=1.0, width=device-width" />
+        <!-- map core -->
+        <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+        <!-- map services -->
+        <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+        <!-- source for map ui -->
+        <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
+        <!-- style sheet for map UI -->
+        <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css"/>
+        <!-- source for map events -->
+        <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+        <script type="text/javascript" src="../../environments/hereCreds.js"></script>
+        <script type="text/javascript" src="../../assets/icon"></script>
+    </head>
+    <body>
+        <h1 style="text-align: center;">100 Days of Code with HERE</h1>
+        <!-- Container to hold map -->
+        <div id="mapContainer" style= "align-self: center; width: 100vw; height: 70vh; background-color: #605094;"></div>
+    </body>
+    <script>
+        // Initialize platform with JS API KEY
+        var platform = new H.service.Platform({
+            apikey: window.hereCreds.JS_KEY
+        });
+        // initializing default layers for the map
+        var defaultLayers = platform.createDefaultLayers();
+        // rendering map within the container on the page
+        var map = new H.Map(
+                document.getElementById('mapContainer'),
+                defaultLayers.vector.normal.map, // rendering vector map with NORMAL map view.
+                {
+                    zoom: 12, // Initial zoom level of map
+                    center: {lat: 59.32698, lng: 18.12622} // Initial center of map
+                });
+        
+        // creating default UI for map
+        var ui = H.ui.UI.createDefault(map, defaultLayers);
+        
+        // Add basic map events like pan and zoom 
+
+        var mapEvents = new H.mapevents.MapEvents(map);
+
+        // Initialize for map behaviour on events
+
+        var behavior = new H.mapevents.Behavior(mapEvents);
+
+        // get position from web browser 
+
+        var positionIcon = new H.map.Icon('../../assets/icon/currentPosition.svg');
+
+        var helperIcon = new H.map.Icon('../../assets/icon/helperPosition.svg');
+        var seekerIcon = new H.map.Icon('../../assets/icon/seekerPosition.svg');
+
+        if(navigator.geolocation) {
+            
+            navigator.geolocation.getCurrentPosition(position => {
+
+                // console.log(position.coords);
+                // set maker position using the latitude and longitude in the received position
+                markerPosition = {lat:position.coords.latitude,lng:position.coords.longitude};
+                //  create makrker element using the received position
+                posMarker = new H.map.Marker(markerPosition, {icon: positionIcon });
+                //  Add marker to map.
+                map.addObject(posMarker);
+                map.setCenter(markerPosition);
+            });
+        } 
+        else {
+            console.error("Geolocation is not supported by this browser!");
+        }
+
+        //  API to extract helper / seeker address
+
+        function showParticipants() 
+        {
+            let url = `http://134.122.80.13/api/v1/crisis/1/participants/?format=json`;
+            fetch(url,{
+                "method":"GET"
+            })
+            .then(response => response.json())
+            .then(response => {
+
+                let participant = response.results.participants;
+
+                for(let i = 0; i < participant.length; i ++ ){
+                    let helperGroup = new H.map.Group();
+                    console.log(participant);
+
+                    let helperPosition = {lat:participant[i].position.latitude, lng:participant[i].position.longitude};
+                    let helperInfo = 'name = '+ participant[i].user.firstName + ' ' + participant[i].user.lastName +
+                                    'place ID : ' + participant[i].placeId ;  // will add ability later
+
+                    let helperMarker = new H.map.Marker(helperPosition,{icon: helperIcon});
+
+                    helperMarker.setData(helperInfo);
+
+                    helperGroup.addObject(helperMarker);
+                }
+                map.addObject(helperGroup);
+                //  get geo bounding box for the group and set it to the map
+                map.getViewModel().setLookAtData({
+                    bounds: restGroup.getBoundingBox()
+                });
+
+            }, error => {
+                    console.error(error);
+                });
+
+        }
+        showParticipants();
+              
+    </script>
+</html>
