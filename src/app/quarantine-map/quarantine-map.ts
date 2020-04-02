@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { environment } from '../../environments/environment';
 
 declare var H: any;
@@ -13,7 +13,7 @@ interface LatLng {
   templateUrl: 'quarantine-map.html',
   styleUrls: ['quarantine-map.scss']
 })
-export class QuarantineMapPage implements OnInit {
+export class QuarantineMapPage implements AfterViewInit {
   private HEREMapsPlatform: any;
   private HEREMapObj: any;
   private HEREMapUI: any;
@@ -23,7 +23,7 @@ export class QuarantineMapPage implements OnInit {
 
   @ViewChild('mapContainer', { static: true }) mapElement: ElementRef;
 
-  ngOnInit() {
+  ngAfterViewInit() {
     const mapCenterlatLng: LatLng = { lat: 10.525037, lng: 76.214553 };
     this.initHEREMap(mapCenterlatLng);
     this.dropMarker(mapCenterlatLng, {
