@@ -35,8 +35,7 @@ export class QuarantineMapPage implements AfterViewInit {
   initHEREMap(mapCenter) {
     // Initialize the platform object:
     this.HEREMapsPlatform = new H.service.Platform({
-      apikey: environment.APIKey,
-      useHTTPS: true
+      apikey: environment.JS_KEY
     });
     // Obtain the default map types from the platform object
     this.defaultLayers = this.HEREMapsPlatform.createDefaultLayers();
