@@ -46,6 +46,15 @@ export class QuarantineMapPage implements AfterViewInit {
       this.defaultLayers.vector.normal.map,
       { zoom: 14, center: mapCenter }
     );
+
+    // Refer : https://developer.here.com/documentation/maps/3.1.14.0/api_reference/H.map.Style.html
+    const provider = this.HEREMapObj.getBaseLayer().getProvider();
+    const style = new H.map.Style(
+      `assets/normal.day.yaml`,
+      `https://js.api.here.com/v3/3.1/styles/omv/`
+    );
+    provider.setStyle(style);
+
     // Create the default UI:
     this.HEREMapUI = H.ui.UI.createDefault(this.HEREMapObj, this.defaultLayers);
     // Enable the event system on the map instance:
