@@ -21,7 +21,7 @@ Thank you so much for your interest in contributing! See the table of contents a
 
 If you have a question about this project, how to use it, or just need clarification about something:
 
-- Open an Issue at https://github.com/Quarantined-Help/quarantined-hybrid-app/issues
+- Open an Issue at https://github.com/Quarantine-Help/quarantine-hybrid-app/issues
 - Provide as much context as you can about what you're running into.
 - Provide project and platform versions (nodejs, npm, ionic etc), depending on what seems relevant. If not, please be ready to provide that information if the maintainers ask for it.
 
@@ -34,7 +34,7 @@ Once it's filed:
 
 If you run into an error or bug with the project:
 
-- Open an Issue at https://github.com/Quarantined-Help/quarantined-hybrid-app/issues
+- Open an Issue at https://github.com/Quarantine-Help/quarantine-hybrid-app/issues
 - Include _reproduction steps_ that someone else can follow to recreate the bug or error on their own.
 - Provide project and platform versions (nodejs, npm, ionic etc), depending on what seems relevant. If not, please be ready to provide that information if the maintainers ask for it.
 
@@ -52,7 +52,7 @@ Once it's filed:
 
 If the project doesn't do something you need or want it to do:
 
-- Open an Issue at https://github.com/Quarantined-Help/quarantined-hybrid-app/issues
+- Open an Issue at https://github.com/Quarantine-Help/quarantine-hybrid-app/issues
 - Provide as much context as you can about what you're running into.
 - Please try and be clear about why existing features and alternatives would not work for you.
 
@@ -95,7 +95,7 @@ Code contributions of just about any size are acceptable! In course of time, con
 - Write/Do tests that verify that your contribution works as expected. 
 - Add screenshots or animated recordings/gifs of the changes if relevant.
 - Write clear, concise commit message(s) as per [conventional commits specification](https://www.conventionalcommits.org).
-- Go to https://github.com/Quarantined-Help/quarantined-hybrid-app/pulls and open a new pull request with your changes.
+- Go to https://github.com/Quarantine-Help/quarantine-hybrid-app/pulls and open a new pull request with your changes.
 - If your PR is connected to an open issue, add a line in your PR's description that says `Fixes: #123`, where `#123` is the number of the issue you're fixing.
 
 #### Conventional Commits
@@ -144,7 +144,7 @@ Once you've filed the PR:
 ## Label Issues
 One of the most important tasks in handling issues is labeling them usefully and accurately. All other tasks involving issues ultimately rely on the issue being classified in such a way that relevant parties looking to do their tasks can find them quickly and easily.
 
-To label issues, [open up the list of unlabeled issues](https://github.com/Quarantined-Help/quarantined-hybrid-app/issues?q=is%3Aopen+is%3Aissue+no%3Alabel) and, **from newest to oldest**, read through each one and apply issue labels according to the table below. If you're unsure about what label to apply, skip the issue and try the next one: don't feel obligated to label every issue yourself!
+To label issues, [open up the list of unlabeled issues](https://github.com/Quarantine-Help/quarantine-hybrid-app/issues?q=is%3Aopen+is%3Aissue+no%3Alabel) and, **from newest to oldest**, read through each one and apply issue labels according to the table below. If you're unsure about what label to apply, skip the issue and try the next one: don't feel obligated to label every issue yourself!
 
 Label | Apply When | Notes
 --- | --- | ---
