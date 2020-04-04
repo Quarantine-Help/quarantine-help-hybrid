@@ -6,7 +6,7 @@
 
 A hybrid mobile frontend for the QuarantineHelp project. The project aims to help people to find help while in quarantine. 
 
-This repo contains the hybrid app frontend built using the Ionic Framework. 
+This repo contains the hybrid app frontend built using the Ionic Framework. The PWA version of the app can be found at https://mobile.quarantinehelp.space/.
 
 ## Getting started
 ### Local Development server
