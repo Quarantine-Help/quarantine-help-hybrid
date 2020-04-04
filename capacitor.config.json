@@ -1,0 +1,9 @@
+{
+  "appId": "spacee.quarantinehelp.mobile",
+  "appName": "quarantine-help",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "cordova": {},
+  "linuxAndroidStudioPath": "/opt/google/android-studio/bin/studio.sh"
+}
