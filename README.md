@@ -14,9 +14,19 @@ This repo contains the hybrid app frontend built using the Ionic Framework.
 * After [installing up nodeJS and Ionic](https://ionicframework.com/docs/installation/cli), you can run `ng serve` for a dev server. 
 * Navigate to `http://localhost:8100/`. The app will automatically reload if you change any of the source files.
 
-### Build
+## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Run `ionic build` to build the project. The build artifacts will be stored in the `www/` directory. Use the `--prod` flag for a production build.
+
+#### Copy your Web Assets
+
+When you are ready to run your app natively on a device or in a simulator, copy your built web assets using `npx cap copy`. 
+
+Note: You may need to run `npx cap sync` if you wish to update the native dependencies too.
+
+#### Open your Native IDE
+
+Capacitor uses the Native IDEs to build, simulate, and run your app. To open it run `npx cap open`
 
 ## License
 This project is made available under the terms of the GPLv3. See the [LICENSE][license] file for the full text of the license.
