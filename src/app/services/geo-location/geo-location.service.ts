@@ -15,8 +15,11 @@ export class GeoLocationService {
    * @returns An observable containing GeolocationPosition object, which contains coords.
    */
   getCurrentPosition(options?) {
-    return from(
-      Geolocation.getCurrentPosition({ enableHighAccuracy: true, ...options })
-    );
+    return Geolocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 15000,
+      ...options,
+    });
   }
 }
