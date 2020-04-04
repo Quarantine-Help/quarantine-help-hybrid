@@ -6,7 +6,7 @@ const routes: Routes = [
   {
     path: 'quarantine-map',
     loadChildren: () =>
-      import('./quarantine-map/quarantine-map.module').then(
+      import('./pages/quarantine-map/quarantine-map.module').then(
         m => m.QuarantineMapPageModule
       )
   }
