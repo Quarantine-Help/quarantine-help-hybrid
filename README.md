@@ -34,5 +34,6 @@ This project is made available under the terms of the GPLv3. See the [LICENSE][l
 [license]: https://github.com/Quarantine-Help/quarantine-hybrid-app/blob/master/LICENSE
 
 ## Contributing
+Please go through the issues and find something you can work on. Ask questions/comments and let us know before you take up something. 
 
-Thanks for your interest in contributing! Read up on our [guidelines](https://github.com/Quarantine-Help/quarantine-hybrid-app/blob/master/CONTRIBUTING.md) to start contributing.
+Do read up on our [guidelines](https://github.com/Quarantine-Help/quarantine-hybrid-app/blob/master/CONTRIBUTING.md).
