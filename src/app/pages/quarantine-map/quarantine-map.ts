@@ -106,7 +106,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
           .then((toast) => {
             this.toastElement = toast.present();
             toast.onWillDismiss().then((OverlayEventDetail) => {
-              if (OverlayEventDetail.data === 'cancel') {
+              if (OverlayEventDetail.role === 'cancel') {
                 this.exitApp();
               } else {
                 this.getGPSAndLoadMap();
