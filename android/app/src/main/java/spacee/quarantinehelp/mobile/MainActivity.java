@@ -1,4 +1,4 @@
-package spacee.quarantinehelp.mobile;
+package space.quarantinehelp.mobile;
 
 import android.os.Bundle;
 
