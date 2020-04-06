@@ -1,3 +1,25 @@
-<!-- <ion-content> This component nesting alone caused approx. 1 hours troubleshooting -->
-<div #mapContainer id="map-container"></div>
-<!-- </ion-content> -->
+<ion-app>
+  <ion-header>
+    <ion-toolbar fixed>
+      <ion-buttons slot="start">
+        <ion-menu-button autoHide="false"></ion-menu-button>
+      </ion-buttons>
+      <ion-buttons slot="primary">
+        <ion-button color="secondary">
+          <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-searchbar placeholder="Search" showCancelButton="focus" animated></ion-searchbar>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- This ion-content component nesting alone had caused approx. 1 hours troubleshooting - beware !!-->
+  <ion-content>
+    <div #mapContainer id="map-container"></div>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button class="ion-margin-bottom ion-margin-end" color="light">
+        <ion-icon name="locate" color="primary"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </ion-content>
+</ion-app>
