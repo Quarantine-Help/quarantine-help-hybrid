@@ -30,6 +30,8 @@ Note: You may need to run `npx cap sync` if you wish to update the native depend
 
 Capacitor uses the Native IDEs to build, simulate, and run your app. To open it run `npx cap open`
 
+Tip : I have added npm scripts `capDev` and `capProd` that could be used to run the above steps in a single command. So may use it like `npm run capDev` to build the Ionic project, sync for capacitor and open up Android Studio.
+
 ## Contributing
 
 Go through the Github issues and find something you can work on. Read the [conrtibution guidelines](https://github.com/Quarantine-Help/quarantine-hybrid-app/blob/master/CONTRIBUTING.md). Ask questions and let us know before you take up something. 

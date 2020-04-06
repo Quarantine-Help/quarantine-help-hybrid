@@ -9,6 +9,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
+    "capProd": "ionic build --prod && npx cap sync && npx cap open android",
+    "capDev": "ionic build && npx cap sync && npx cap open android",
     "e2e": "ng e2e"
   },
   "private": true,
