@@ -56,7 +56,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     // Load the maps after getting the view & maps js sdk loaded
-    this.getGPSAndLoadMap();
+    this.getGPSAndLoadCenteredMap();
   }
 
   // TODO
@@ -65,7 +65,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
   }
 
   // TODO - refactor ?
-  getGPSAndLoadMap() {
+  getGPSAndLoadCenteredMap() {
     this.geoLocationService
       .getCurrentPosition()
       .then((mapCenterlatLng) => {
@@ -83,7 +83,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
         if (this.HEREMapObj === undefined) {
           this.initHEREMap(this.currentLocation);
         } else {
-          this.HEREMapObj.setCenter(this.currentLocation);
+          this.HEREMapObj.setCenter(this.currentLocation, true);
         }
         this.dropMarker(this.currentLocation, {
           title: 'John Doe',
@@ -109,7 +109,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
               if (OverlayEventDetail.role === 'cancel') {
                 this.exitApp();
               } else {
-                this.getGPSAndLoadMap();
+                this.getGPSAndLoadCenteredMap();
               }
             });
           });
@@ -127,6 +127,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
       })
       .then((onLoadSuccess) => {
         this.loadingAniHEREMap = onLoadSuccess;
+        this.loadingAniHEREMap.present();
       })
       .catch((error) => alert(error));
 
@@ -177,11 +178,6 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
       false
     );
     this.HEREMapObj.addObject(marker);
-  }
-
-  // Centers the map on the passed coordinates 
-  setMapCenter(coords: LatLng = this.currentLocation) {
-    this.HEREMapObj.setCenter(coords);
   }
 
   /**
