@@ -1,5 +1,7 @@
 {
   "name": "quarantine-help",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }
