@@ -154,6 +154,9 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
 
     // Create the default UI:
     this.HEREMapUI = H.ui.UI.createDefault(this.HEREMapObj, this.defaultLayers);
+    this.HEREMapUI.getControl('zoom').setAlignment('right-middle');
+    this.HEREMapUI.getControl('mapsettings').setAlignment('right-middle');
+    this.HEREMapUI.getControl('scalebar').setAlignment('left-bottom');
     // Enable the event system on the map instance:
     this.HEREmapEvents = new H.mapevents.MapEvents(this.HEREMapObj);
     // Instantiate the default behavior on the map events
@@ -174,6 +177,11 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
       false
     );
     this.HEREMapObj.addObject(marker);
+  }
+
+  // Centers the map on the passed coordinates 
+  setMapCenter(coords: LatLng = this.currentLocation) {
+    this.HEREMapObj.setCenter(coords);
   }
 
   /**
