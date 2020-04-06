@@ -1,4 +1,13 @@
 #map-container {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
+}
+
+ion-searchbar {
+  --box-shadow: #f5f6f9;
+  --background: #f5f6f9;
+}
+
+ion-header .toolbar {
+  margin: auto;
 }
