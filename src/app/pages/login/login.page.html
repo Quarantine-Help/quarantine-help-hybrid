@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-img src="assets/header-temp.svg"></ion-img>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <form #form="ngForm" (ngSubmit)="login()">
+      <ion-row class="ion-justify-content-center formHeight">
+        <ion-col class="ion-align-self-center" size-md="4" size-lg="3" size-xs="10">
+          <ion-list>
+            <ion-item lines="inset">
+              <ion-label color="medium" position="fixed">Phone no</ion-label>
+              <ion-input type="number"></ion-input>
+            </ion-item>
+            <ion-item lines="inset">
+              <ion-label color="medium" position="fixed">Password</ion-label>
+              <ion-input type="password"></ion-input>
+            </ion-item>
+          </ion-list>
+          <ion-item lines="none" class="ion-margin-top">
+            <ion-button expand="block" type="submit" [disabled]="form.invalid" class="ion-margin-top" shape="round"
+              fill="outline" size="large" color="medium">
+              <strong>Login</strong>
+            </ion-button>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center ion-align-items-center">
+        <ion-item lines="none">
+          <ion-text color="medium" class="ion-text-center">
+            I'm a new user, <strong ion-button (click)="registerUser()">Register</strong>
+          </ion-text>
+        </ion-item>
+      </ion-row>
+    </form>
+  </ion-grid>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-row class="ion-justify-content-center ion-padding-bottom ion-margin-bottom">
+    <ion-text class="ion-text-center" color="medium"> About us</ion-text>
+  </ion-row>
+</ion-footer>

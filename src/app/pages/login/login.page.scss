@@ -1,0 +1,38 @@
+//md upto lg devices
+@media (min-width:768px) {
+  ion-img {
+    max-width: 50vw;
+    max-height: 200px;
+  }
+}
+
+// xl and above devices
+@media (min-width:1200px) {
+  ion-toolbar {
+    height: 15vh;
+  }
+
+  ion-img {
+    max-width: 25vw;
+    max-height: 12vh;
+  }
+}
+
+ion-toolbar {
+  --border-color: transparent;
+}
+
+form,
+ion-grid {
+  height: 100%;
+}
+
+ion-row.formHeight {
+  height: 80%;
+}
+
+ion-button {
+  width: 70vw;
+  margin-left: auto;
+  margin-right: auto;
+}
