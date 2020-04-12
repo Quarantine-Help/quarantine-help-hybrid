@@ -22,17 +22,24 @@ ion-toolbar {
   --border-color: transparent;
 }
 
-form,
-ion-grid {
-  height: 100%;
-}
-
-ion-row.formHeight {
-  height: 80%;
-}
-
 ion-button {
   width: 70vw;
   margin-left: auto;
   margin-right: auto;
+}
+
+.formInvalid {
+  color: #ea6153;
+  text-align: center;
+}
+
+ion-header::after {
+  background: none;
+}
+
+ion-card {
+  height: 90%;
+  display: flex;
+  align-items: center;
+  box-shadow: none;
 }
