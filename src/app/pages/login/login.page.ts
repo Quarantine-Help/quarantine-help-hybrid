@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { LoginUserCred } from '../../models/auth';
+import { LoginUserCred, LoginResponse } from '../../models/auth';
 import { LoadingService } from 'src/app/services/loading/loading.service';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -20,10 +21,12 @@ export class LoginPage implements OnInit, OnDestroy {
   passwordIcon: 'eye' | 'eye-off' = 'eye';
   pageClean: boolean; // Flag to check if no changes were made.
   loginSubs: Subscription;
+  loginResponse: LoginResponse;
   constructor(
     private authService: AuthService,
     public alertController: AlertController,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private router: Router
   ) {
     this.pageClean = true;
     this.showPasswordText = false;
@@ -65,8 +68,11 @@ export class LoginPage implements OnInit, OnDestroy {
         const userCred: LoginUserCred = this.loginForm.value;
         this.authService
           .loginUser(userCred)
-          .then((data) => {
-            console.log(JSON.stringify(data));
+          .then((data: LoginResponse) => {
+            this.loginAni.dismiss();
+            this.loginResponse = data;
+            this.router.navigate(['/quarantine-map']);
+            console.log(this.loginResponse);
           })
           .catch((errorObj) => {
             this.loginAni.dismiss();

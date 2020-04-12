@@ -91,7 +91,6 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
       .then((mapCenterlatLng) => {
         // Destroy loading controller on dismiss
         if (this.loadingAniGPSData !== undefined) {
-          console.log('this.loadingAniGPSData', this.loadingAniGPSData);
           this.loadingAniGPSData.dismiss().then(() => {
             this.loadingAniGPSData = undefined;
           });
