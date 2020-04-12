@@ -6,7 +6,7 @@
 	"doctype-first": false,
 	"doctype-html5": true,
 	"id-class-ad-disabled": true,
-	"id-class-value": "dash",
+	"id-class-value": "false",
 	"id-unique": true,
 	"inline-style-disabled": false,
 	"space-tab-mixed-disabled": "space2",
