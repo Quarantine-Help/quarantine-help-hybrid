@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-img src="assets/header-temp.svg"></ion-img>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-grid>
+      <form [formGroup]="loginForm">
+        <ion-row class="ion-justify-content-center formHeight">
+          <ion-col class="ion-align-self-center" size-md="4" size-lg="3" size-xs="10">
+            <ion-list>
+              <ion-item lines="inset">
+                <ion-label color="medium" position="floating">Email Id</ion-label>
+                <ion-input type="email" formControlName="email" required></ion-input>
+              </ion-item>
+              <ion-item lines="none" class="formInvalid"
+                *ngIf="(loginForm.get('email').invalid && (loginForm.get('email').dirty || loginForm.get('email').touched))">
+                <div *ngIf="loginForm.get('email').errors.required">
+                  Email address is required.
+                </div>
+                <div *ngIf="loginForm.get('email').errors.email">
+                  Please enter a valid email.
+                </div>
+              </ion-item>
+              <ion-item lines="inset">
+                <ion-label color="medium" position="floating">Password</ion-label>
+                <ion-input clearOnEdit="false" [type]="passwordIcon === 'eye'? 'password':'text' " formControlName="password" required>
+                </ion-input>
+                <ion-icon slot="end" [name]="passwordIcon" (click)="togglePasswordVisibility()" color="medium"
+                  class="ion-align-self-center">
+                </ion-icon>
+              </ion-item>
+              <ion-item lines="none" class="formInvalid"
+                *ngIf="(loginForm.get('password').invalid && (loginForm.get('password').dirty || loginForm.get('password').touched))">
+                <div *ngIf="loginForm.get('password').errors.required">
+                  Password is required.
+                </div>
+                <div *ngIf="loginForm.get('password').errors.minlength">
+                  Please enter minimum 8 characters.
+                </div>
+              </ion-item>
+            </ion-list>
+            <ion-item lines="none" class="ion-margin-top">
+              <ion-button expand="block" type="submit" class="ion-margin-top" shape="round" fill="outline"
+                size="default" color="medium" (click)="loginUser()" [disabled]="(pageClean || !loginForm.valid)">
+                <strong>Login</strong>
+              </ion-button>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center ion-align-items-center">
+          <ion-item lines="none">
+            <ion-text color="medium" class="ion-text-center">
+              I'm a new user, <strong ion-button (click)="registerUser()">Register</strong>
+            </ion-text>
+          </ion-item>
+        </ion-row>
+      </form>
+    </ion-grid>
+  </ion-card>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-row class="ion-justify-content-center ion-padding-bottom ion-margin-bottom">
+    <ion-text class="ion-text-center" color="medium"> About us</ion-text>
+  </ion-row>
+</ion-footer>
+<!-- 
+<div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+
+  <div *ngIf="name.errors.required">
+    Name is required.
+  </div>
+  <div *ngIf="name.errors.minlength">
+    Name must be at least 4 characters long.
+  </div>
+  <div *ngIf="name.errors.forbiddenName">
+    Name cannot be Bob.
+  </div>
+</div> -->

@@ -91,7 +91,6 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
       .then((mapCenterlatLng) => {
         // Destroy loading controller on dismiss
         if (this.loadingAniGPSData !== undefined) {
-          console.log('this.loadingAniGPSData', this.loadingAniGPSData);
           this.loadingAniGPSData.dismiss().then(() => {
             this.loadingAniGPSData = undefined;
           });
@@ -160,7 +159,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
 
     // Initialize the platform object:
     this.HEREMapsPlatform = new H.service.Platform({
-      apikey: environment.JS_KEY,
+      apikey: environment.HERE_MAPS_JS_KEY,
     });
 
     // Obtain the default map types from the platform object
