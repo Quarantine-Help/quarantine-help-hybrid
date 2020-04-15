@@ -15,7 +15,7 @@ export class CommonHTTPService {
    * @returns Promise which resolved on HTTP GET success
    */
   httpGet(url) {
-    console.log('Starting HTTP GET call to ', url);
+    // console.log('Starting HTTP GET call to ', url);
     const options: { observe: 'response' } = { observe: 'response' };
     return new Promise((resolve, reject) => {
       this.http
@@ -40,7 +40,7 @@ export class CommonHTTPService {
    * @returns Promise which resolved on HTTP POST success
    */
   httpPost(url, body) {
-    console.log('Starting HTTP POST call to ', url, body);
+    // console.log('Starting HTTP POST call to ', url, body);
     return new Promise((resolve, reject) => {
       const headerOptions = new HttpHeaders();
       headerOptions.append('Content-Type', 'application/json');

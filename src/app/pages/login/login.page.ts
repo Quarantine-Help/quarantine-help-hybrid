@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { LoginUserCred, LoginResponse } from '../../models/auth';
+import { StorageService } from 'src/app/services/storage/storage.service';
 import { LoadingService } from 'src/app/services/loading/loading.service';
-import { FormControl, Validators, FormGroup } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { LoginUserCred, LoginResponse } from '../../models/auth';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,8 @@ export class LoginPage implements OnInit, OnDestroy {
     private authService: AuthService,
     public alertController: AlertController,
     private loadingService: LoadingService,
-    private router: Router
+    private router: Router,
+    private storageService: StorageService
   ) {
     this.pageClean = true;
     this.showPasswordText = false;
@@ -69,10 +71,10 @@ export class LoginPage implements OnInit, OnDestroy {
         this.authService
           .loginUser(userCred)
           .then((data: LoginResponse) => {
+            this.storageService
+              .setObject('authToken', JSON.stringify(data.body.token))
             this.loginAni.dismiss();
-            this.loginResponse = data;
             this.router.navigate(['/quarantine-map']);
-            console.log(this.loginResponse);
           })
           .catch((errorObj) => {
             this.loginAni.dismiss();
