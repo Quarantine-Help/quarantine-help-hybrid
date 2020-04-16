@@ -48,20 +48,20 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     // Start the loading animation for getting GPS data
-    // this.loadingService
-    //   .presentLoadingWithOptions({
-    //     duration: 0,
-    //     message: `Getting current location.`,
-    //   })
-    //   .then((onLoadSuccess) => {
-    //     this.loadingAniGPSData = onLoadSuccess;
-    //     this.loadingAniGPSData.present();
-    //     // Get the GPS data
-    //     this.getGPSLocation();
-    //     // Start the map loading process in parallel
-    //     this.initHEREMap();
-    //   })
-    //   .catch((error) => alert(error));
+    this.loadingService
+      .presentLoadingWithOptions({
+        duration: 0,
+        message: `Getting current location.`,
+      })
+      .then((onLoadSuccess) => {
+        this.loadingAniGPSData = onLoadSuccess;
+        this.loadingAniGPSData.present();
+        // Get the GPS data
+        this.getGPSLocation();
+        // Start the map loading process in parallel
+        this.initHEREMap();
+      })
+      .catch((error) => alert(error));
   }
 
   // Show/hide the map-filter component.
