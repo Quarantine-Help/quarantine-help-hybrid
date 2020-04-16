@@ -3,6 +3,13 @@
 ## Description
 <!--- Describe your changes in detail -->
 
+## Screenshots
+<!-- Add screenshots if this contains a UI related change -->
+<!-- Device Name -->
+<!-- <img src="" width="50%"/> -->
+iPhone X
+<img src="https://user-images.githubusercontent.com/4099066/78979818-bca98000-7b70-11ea-9a6d-7ba1f79c0c08.png" width="50%"/>
+
 ## Related Issue
 <!--- This project only accepts pull requests related to open issues -->
 <!--- If suggesting a new feature or change, please discuss it in an issue first -->
