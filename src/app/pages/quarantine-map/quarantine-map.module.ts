@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { QuarantineMapPage } from './quarantine-map';
+import { MapFilterComponent } from '../../components/map-filter/map-filter.component';
 
 @NgModule({
   imports: [
@@ -14,10 +15,11 @@ import { QuarantineMapPage } from './quarantine-map';
     RouterModule.forChild([
       {
         path: '',
-        component: QuarantineMapPage
-      }
-    ])
+        component: QuarantineMapPage,
+      },
+    ]),
   ],
-  declarations: [QuarantineMapPage]
+  declarations: [QuarantineMapPage, MapFilterComponent],
+  exports: [MapFilterComponent],
 })
 export class QuarantineMapPageModule {}

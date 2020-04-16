@@ -34,6 +34,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
   loadingAniHEREMap: HTMLIonLoadingElement;
   loadingAniGPSData: HTMLIonLoadingElement;
   toastElement: Promise<void>;
+  showFiltering: boolean;
 
   constructor(
     private geoLocationService: GeoLocationService,
@@ -41,24 +42,31 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
     private toastService: ToastService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.showFiltering = false;
+  }
 
   ngAfterViewInit() {
     // Start the loading animation for getting GPS data
-    this.loadingService
-      .presentLoadingWithOptions({
-        duration: 0,
-        message: `Getting current location.`,
-      })
-      .then((onLoadSuccess) => {
-        this.loadingAniGPSData = onLoadSuccess;
-        this.loadingAniGPSData.present();
-        // Get the GPS data
-        this.getGPSLocation();
-        // Start the map loading process in parallel
-        this.initHEREMap();
-      })
-      .catch((error) => alert(error));
+    // this.loadingService
+    //   .presentLoadingWithOptions({
+    //     duration: 0,
+    //     message: `Getting current location.`,
+    //   })
+    //   .then((onLoadSuccess) => {
+    //     this.loadingAniGPSData = onLoadSuccess;
+    //     this.loadingAniGPSData.present();
+    //     // Get the GPS data
+    //     this.getGPSLocation();
+    //     // Start the map loading process in parallel
+    //     this.initHEREMap();
+    //   })
+    //   .catch((error) => alert(error));
+  }
+
+  // Show/hide the map-filter component.
+  toggleFiltering() {
+    this.showFiltering = !this.showFiltering;
   }
 
   // TODO
@@ -193,6 +201,11 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
     this.HEREmapEvents = new H.mapevents.MapEvents(this.HEREMapObj);
     // Instantiate the default behavior on the map events
     this.mapEventsBehavior = new H.mapevents.Behavior(this.HEREmapEvents);
+  }
+
+  // Apply the filters from the filter component and call the API..
+  onFiltersApplied(filters) {
+    console.log(filters);
   }
 
   dropMarker(coordinates: LatLng, info: { title: string; desc: string }) {

@@ -4,14 +4,15 @@
       <ion-menu-button autoHide="false"></ion-menu-button>
     </ion-buttons>
     <ion-buttons slot="primary">
-      <ion-button color="secondary">
-        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+      <ion-button color="secondary" (click)="toggleFiltering()">
+        <!-- <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon> -->
+        <ion-icon slot="icon-only" name="filter" color="dark"></ion-icon>
       </ion-button>
     </ion-buttons>
     <ion-searchbar placeholder="Search" showCancelButton="focus" animated></ion-searchbar>
   </ion-toolbar>
 </ion-header>
-
+<map-filter [showFiltering]="showFiltering" (filtersApplied)="onFiltersApplied($event)"></map-filter>
 <!-- This ion-content component nesting alone had caused approx. 1 hours troubleshooting - beware !!-->
 <ion-content>
   <div #mapContainer id="map-container"></div>
