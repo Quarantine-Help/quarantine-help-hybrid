@@ -7,45 +7,100 @@
 <ion-content class="ion-padding ion-margin">
   <ion-card>
     <ion-grid class="ion-padding ion-margin">
-      <ion-row>
-        <ion-col>
-          <ion-button color="light" expand="block"> Quarantined </ion-button>
-        </ion-col>
-        <ion-col>
-          <ion-button color="secondary" expand="block"> Volunteer </ion-button>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <ion-item>
-            <ion-label color="medium" position="floating">First Name</ion-label>
-            <ion-input></ion-input>
-          </ion-item>
-        </ion-col>
-        <ion-col>
-          <ion-item>
-            <ion-label color="medium" position="floating">Last Name</ion-label>
-            <ion-input></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-      <ion-item>
-        <ion-label color="medium" position="floating">Email address </ion-label>
-        <ion-input type="email"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label color="medium" position="floating">Phone Number </ion-label>
-        <ion-input type="number"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label color="medium" position="floating">Password </ion-label>
-        <ion-input type="password"></ion-input>
-      </ion-item>
-      <ion-row class="ion-justify-content-center ion-padding-vertical">
-        <ion-col size-md="4" size-lg="3" size-xs="8">
-          <ion-button color="medium" shape="round" expand="full" size="default" fill="outline"> Register </ion-button>
-        </ion-col>
-      </ion-row>
+      <form [formGroup]="registrationForm">
+        <ion-row>
+          <ion-col>
+            <ion-button color="light" expand="block"> Quarantined </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button color="secondary" expand="block"> Volunteer </ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label color="medium" position="floating">First Name</ion-label>
+              <ion-input required formControlName="firstName"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ion-label color="medium" position="floating">Last Name</ion-label>
+              <ion-input required formControlName="lastName"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item lines="none" class="formInvalid"
+              *ngIf="(registrationForm.get('firstName').invalid && (registrationForm.get('firstName').dirty || registrationForm.get('firstName').touched))">
+              <div *ngIf="registrationForm.get('firstName').errors.required">
+                First Name is required.
+              </div>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item lines="none" class="formInvalid"
+              *ngIf="(registrationForm.get('lastName').invalid && (registrationForm.get('lastName').dirty || registrationForm.get('lastName').touched))">
+              <div *ngIf="registrationForm.get('lastName').errors.required">
+                Last Name is required.
+              </div>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-item>
+          <ion-label color="medium" position="floating">Email address </ion-label>
+          <ion-input required formControlName="email" type="email"></ion-input>
+        </ion-item>
+        <ion-item lines="none" class="formInvalid"
+          *ngIf="(registrationForm.get('email').invalid && (registrationForm.get('email').dirty || registrationForm.get('email').touched))">
+          <div *ngIf="registrationForm.get('email').errors.required">
+            Email address is required.
+          </div>
+          <div *ngIf="registrationForm.get('email').errors.email">
+            Please enter a valid email.
+          </div>
+        </ion-item>
+        <ion-item>
+          <ion-label color="medium" position="floating">Phone Number </ion-label>
+          <ion-input required formControlName="phoneNumber" type="tel"></ion-input>
+        </ion-item>
+        <ion-item lines="none" class="formInvalid"
+          *ngIf="(registrationForm.get('phoneNumber').invalid && (registrationForm.get('phoneNumber').dirty || registrationForm.get('phoneNumber').touched))">
+          <div *ngIf="registrationForm.get('phoneNumber').errors.required">
+            Phone Number is required.
+          </div>
+          <div *ngIf="registrationForm.get('phoneNumber').errors.minlength">
+            Please enter atleast 8 digits.
+          </div>
+          <div *ngIf="registrationForm.get('phoneNumber').errors.maxlength">
+            Number exceeded maximum length.
+          </div>
+        </ion-item>
+        <ion-item>
+          <ion-label color="medium" position="floating">Password </ion-label>
+          <ion-input [type]="passwordIcon === 'eye'? 'password':'text'" required formControlName="password"
+            type="password"></ion-input>
+          <ion-icon slot="end" [name]="passwordIcon" (click)="togglePasswordVisibility()" color="medium"
+            class="ion-align-self-center">
+          </ion-icon>
+        </ion-item>
+        <ion-item lines="none" class="formInvalid"
+          *ngIf="(registrationForm.get('password').invalid && (registrationForm.get('password').dirty || registrationForm.get('password').touched))">
+          <div *ngIf="registrationForm.get('password').errors.required">
+            Password is required.
+          </div>
+          <div *ngIf="registrationForm.get('password').errors.minlength">
+            Please enter minimum 8 characters.
+          </div>
+        </ion-item>
+        <ion-row class="ion-justify-content-center ion-padding-vertical">
+          <ion-col size-md="4" size-lg="3" size-xs="8">
+            <ion-button color="medium" shape="round" expand="full" size="default" fill="outline"
+              [disabled]="(pageClean || !registrationForm.valid)" (click)="registerUser()"> Register </ion-button>
+          </ion-col>
+        </ion-row>
+      </form>
     </ion-grid>
   </ion-card>
 </ion-content>
