@@ -71,8 +71,10 @@ export class LoginPage implements OnInit, OnDestroy {
         this.authService
           .loginUser(userCred)
           .then((data: LoginResponse) => {
-            this.storageService
-              .setObject('authToken', JSON.stringify(data.body.token))
+            this.storageService.setObject(
+              'authToken',
+              JSON.stringify(data.body.token)
+            );
             this.loginAni.dismiss();
             this.router.navigate(['/quarantine-map']);
           })
