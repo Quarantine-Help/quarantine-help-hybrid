@@ -5,102 +5,253 @@
 </ion-header>
 
 <ion-content class="ion-padding ion-margin">
-  <ion-card>
-    <ion-grid class="ion-padding ion-margin">
-      <form [formGroup]="registrationForm">
-        <ion-row>
-          <ion-col>
-            <ion-button color="light" expand="block"> Quarantined </ion-button>
-          </ion-col>
-          <ion-col>
-            <ion-button color="secondary" expand="block"> Volunteer </ion-button>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
+  <ion-grid class="ion-padding">
+    <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="setDefault" color="secondary">
+      <ion-segment-button value="Quarantined">
+        <ion-label> I'm Quarantined</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="Volunteer">
+        <ion-label> I'm a Volunteer</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+    <form [formGroup]="registrationForm" *ngIf="showVolunteer; else quarantineForm">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-md="2" size-lg="2">
+          <ion-item>
+            <ion-label color="medium" position="floating">First Name</ion-label>
+            <ion-input required formControlName="firstName"></ion-input>
+          </ion-item>
+          <ion-item lines="none" class="formInvalid"
+            *ngIf="(registrationForm.get('firstName').invalid && (registrationForm.get('firstName').dirty || registrationForm.get('firstName').touched))">
+            <div *ngIf="registrationForm.get('firstName').errors.required">
+              First Name is required.
+            </div>
+          </ion-item>
+        </ion-col>
+        <ion-col size-md="2" size-lg="2">
+          <ion-item>
+            <ion-label color="medium" position="floating">Last Name</ion-label>
+            <ion-input required formControlName="lastName"></ion-input>
+          </ion-item>
+          <ion-item lines="none" class="formInvalid"
+            *ngIf="(registrationForm.get('lastName').invalid && (registrationForm.get('lastName').dirty || registrationForm.get('lastName').touched))">
+            <div *ngIf="registrationForm.get('lastName').errors.required">
+              Last Name is required.
+            </div>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-md="4" size-lg="4" size-xs="12">
+          <ion-item>
+            <ion-label color="medium" position="floating">Email address </ion-label>
+            <ion-input required formControlName="email" type="email"></ion-input>
+          </ion-item>
+          <ion-item lines="none" class="formInvalid"
+            *ngIf="(registrationForm.get('email').invalid && (registrationForm.get('email').dirty || registrationForm.get('email').touched))">
+            <div *ngIf="registrationForm.get('email').errors.required">
+              Email address is required.
+            </div>
+            <div *ngIf="registrationForm.get('email').errors.email">
+              Please enter a valid email.
+            </div>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-md="4" size-lg="4" size-xs="12">
+          <ion-item>
+            <ion-label color="medium" position="floating">Phone Number </ion-label>
+            <ion-input required formControlName="phoneNumber" type="tel"></ion-input>
+          </ion-item>
+          <ion-item lines="none" class="formInvalid"
+            *ngIf="(registrationForm.get('phoneNumber').invalid && (registrationForm.get('phoneNumber').dirty || registrationForm.get('phoneNumber').touched))">
+            <div *ngIf="registrationForm.get('phoneNumber').errors.required">
+              Phone Number is required.
+            </div>
+            <div *ngIf="registrationForm.get('phoneNumber').errors.minlength">
+              Please enter atleast 8 digits.
+            </div>
+            <div *ngIf="registrationForm.get('phoneNumber').errors.maxlength">
+              Number exceeded maximum length.
+            </div>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-md="4" size-lg="4" size-xs="12">
+          <ion-item>
+            <ion-label color="medium" position="floating">Password </ion-label>
+            <ion-input [type]="passwordIcon === 'eye'? 'password':'text'" required formControlName="password"
+              type="password"></ion-input>
+            <ion-icon slot="end" [name]="passwordIcon" (click)="togglePasswordVisibility()" color="medium"
+              class="ion-align-self-center">
+            </ion-icon>
+          </ion-item>
+          <ion-item lines="none" class="formInvalid"
+            *ngIf="(registrationForm.get('password').invalid && (registrationForm.get('password').dirty || registrationForm.get('password').touched))">
+            <div *ngIf="registrationForm.get('password').errors.required">
+              Password is required.
+            </div>
+            <div *ngIf="registrationForm.get('password').errors.minlength">
+              Please enter minimum 8 characters.
+            </div>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center ion-padding-vertical">
+        <ion-col size-md="4" size-lg="3" size-xs="8">
+          <ion-button color="medium" shape="round" expand="full" size="default" fill="outline"
+            [disabled]="(pageClean || !registrationForm.valid)" (click)="registerUser()"> Register </ion-button>
+        </ion-col>
+      </ion-row>
+    </form>
+    <ng-template #quarantineForm>
+      <form [formGroup]="quarantineRegistration">
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-md="2" size-lg="2">
             <ion-item>
               <ion-label color="medium" position="floating">First Name</ion-label>
               <ion-input required formControlName="firstName"></ion-input>
             </ion-item>
-          </ion-col>
-          <ion-col>
-            <ion-item>
-              <ion-label color="medium" position="floating">Last Name</ion-label>
-              <ion-input required formControlName="lastName"></ion-input>
-            </ion-item>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
             <ion-item lines="none" class="formInvalid"
-              *ngIf="(registrationForm.get('firstName').invalid && (registrationForm.get('firstName').dirty || registrationForm.get('firstName').touched))">
-              <div *ngIf="registrationForm.get('firstName').errors.required">
+              *ngIf="(quarantineRegistration.get('firstName').invalid && (quarantineRegistration.get('firstName').dirty || quarantineRegistration.get('firstName').touched))">
+              <div *ngIf="quarantineRegistration.get('firstName').errors.required">
                 First Name is required.
               </div>
             </ion-item>
           </ion-col>
-          <ion-col>
+          <ion-col size-md="2" size-lg="2">
+            <ion-item>
+              <ion-label color="medium" position="floating">Last Name</ion-label>
+              <ion-input required formControlName="lastName"></ion-input>
+            </ion-item>
             <ion-item lines="none" class="formInvalid"
-              *ngIf="(registrationForm.get('lastName').invalid && (registrationForm.get('lastName').dirty || registrationForm.get('lastName').touched))">
-              <div *ngIf="registrationForm.get('lastName').errors.required">
+              *ngIf="(quarantineRegistration.get('lastName').invalid && (quarantineRegistration.get('lastName').dirty || quarantineRegistration.get('lastName').touched))">
+              <div *ngIf="quarantineRegistration.get('lastName').errors.required">
                 Last Name is required.
               </div>
             </ion-item>
           </ion-col>
         </ion-row>
-        <ion-item>
-          <ion-label color="medium" position="floating">Email address </ion-label>
-          <ion-input required formControlName="email" type="email"></ion-input>
-        </ion-item>
-        <ion-item lines="none" class="formInvalid"
-          *ngIf="(registrationForm.get('email').invalid && (registrationForm.get('email').dirty || registrationForm.get('email').touched))">
-          <div *ngIf="registrationForm.get('email').errors.required">
-            Email address is required.
-          </div>
-          <div *ngIf="registrationForm.get('email').errors.email">
-            Please enter a valid email.
-          </div>
-        </ion-item>
-        <ion-item>
-          <ion-label color="medium" position="floating">Phone Number </ion-label>
-          <ion-input required formControlName="phoneNumber" type="tel"></ion-input>
-        </ion-item>
-        <ion-item lines="none" class="formInvalid"
-          *ngIf="(registrationForm.get('phoneNumber').invalid && (registrationForm.get('phoneNumber').dirty || registrationForm.get('phoneNumber').touched))">
-          <div *ngIf="registrationForm.get('phoneNumber').errors.required">
-            Phone Number is required.
-          </div>
-          <div *ngIf="registrationForm.get('phoneNumber').errors.minlength">
-            Please enter atleast 8 digits.
-          </div>
-          <div *ngIf="registrationForm.get('phoneNumber').errors.maxlength">
-            Number exceeded maximum length.
-          </div>
-        </ion-item>
-        <ion-item>
-          <ion-label color="medium" position="floating">Password </ion-label>
-          <ion-input [type]="passwordIcon === 'eye'? 'password':'text'" required formControlName="password"
-            type="password"></ion-input>
-          <ion-icon slot="end" [name]="passwordIcon" (click)="togglePasswordVisibility()" color="medium"
-            class="ion-align-self-center">
-          </ion-icon>
-        </ion-item>
-        <ion-item lines="none" class="formInvalid"
-          *ngIf="(registrationForm.get('password').invalid && (registrationForm.get('password').dirty || registrationForm.get('password').touched))">
-          <div *ngIf="registrationForm.get('password').errors.required">
-            Password is required.
-          </div>
-          <div *ngIf="registrationForm.get('password').errors.minlength">
-            Please enter minimum 8 characters.
-          </div>
-        </ion-item>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-md="4" size-lg="4" size-xs="12">
+            <ion-item>
+              <ion-label color="medium" position="floating"> Address </ion-label>
+              <ion-input required formControlName="address"></ion-input>
+            </ion-item>
+            <ion-item lines="none" class="formInvalid"
+              *ngIf="(quarantineRegistration.get('address').invalid && (quarantineRegistration.get('address').dirty || quarantineRegistration.get('address').touched))">
+              <div *ngIf="quarantineRegistration.get('address').errors.required">
+                Address is required.
+              </div>
+              <div *ngIf="quarantineRegistration.get('address').errors.minlength">
+                Please enter minimum 2 characters.
+              </div>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-md="4" size-lg="4" size-xs="12">
+            <ion-item>
+              <ion-label color="medium" position="floating"> City </ion-label>
+              <ion-input required formControlName="city"></ion-input>
+            </ion-item>
+            <ion-item lines="none" class="formInvalid"
+              *ngIf="(quarantineRegistration.get('city').invalid && (quarantineRegistration.get('city').dirty || quarantineRegistration.get('city').touched))">
+              <div *ngIf="quarantineRegistration.get('city').errors.required">
+                City is required.
+              </div>
+              <div *ngIf="quarantineRegistration.get('city').errors.minlength">
+                Please enter minimum 2 characters.
+              </div>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-md="4" size-lg="4" size-xs="12">
+            <ion-item>
+              <ion-label color="medium" position="floating"> Country </ion-label>
+              <ion-input required formControlName="country"></ion-input>
+            </ion-item>
+            <ion-item lines="none" class="formInvalid"
+              *ngIf="(quarantineRegistration.get('country').invalid && (quarantineRegistration.get('country').dirty || quarantineRegistration.get('country').touched))">
+              <div *ngIf="quarantineRegistration.get('country').errors.required">
+                Country is required.
+              </div>
+              <div *ngIf="quarantineRegistration.get('country').errors.minlength">
+                Please enter minimum 2 characters.
+              </div>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-md="4" size-lg="4" size-xs="12">
+            <ion-item>
+              <ion-label color="medium" position="floating">Email address </ion-label>
+              <ion-input required formControlName="email" type="email"></ion-input>
+            </ion-item>
+            <ion-item lines="none" class="formInvalid"
+              *ngIf="(quarantineRegistration.get('email').invalid && (quarantineRegistration.get('email').dirty || quarantineRegistration.get('email').touched))">
+              <div *ngIf="quarantineRegistration.get('email').errors.required">
+                Email address is required.
+              </div>
+              <div *ngIf="quarantineRegistration.get('email').errors.email">
+                Please enter a valid email.
+              </div>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-md="4" size-lg="4" size-xs="12">
+            <ion-item>
+              <ion-label color="medium" position="floating">Phone Number </ion-label>
+              <ion-input required formControlName="phoneNumber" type="tel"></ion-input>
+            </ion-item>
+            <ion-item lines="none" class="formInvalid"
+              *ngIf="(quarantineRegistration.get('phoneNumber').invalid && (quarantineRegistration.get('phoneNumber').dirty || quarantineRegistration.get('phoneNumber').touched))">
+              <div *ngIf="quarantineRegistration.get('phoneNumber').errors.required">
+                Phone Number is required.
+              </div>
+              <div *ngIf="quarantineRegistration.get('phoneNumber').errors.minlength">
+                Please enter atleast 8 digits.
+              </div>
+              <div *ngIf="quarantineRegistration.get('phoneNumber').errors.maxlength">
+                Number exceeded maximum length.
+              </div>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-md="4" size-lg="4" size-xs="12">
+            <ion-item>
+              <ion-label color="medium" position="floating">Password </ion-label>
+              <ion-input [type]="passwordIcon === 'eye'? 'password':'text'" required formControlName="password"
+                type="password"></ion-input>
+              <ion-icon slot="end" [name]="passwordIcon" (click)="togglePasswordVisibility()" color="medium"
+                class="ion-align-self-center">
+              </ion-icon>
+            </ion-item>
+            <ion-item lines="none" class="formInvalid"
+              *ngIf="(quarantineRegistration.get('password').invalid && (quarantineRegistration.get('password').dirty || quarantineRegistration.get('password').touched))">
+              <div *ngIf="quarantineRegistration.get('password').errors.required">
+                Password is required.
+              </div>
+              <div *ngIf="quarantineRegistration.get('password').errors.minlength">
+                Please enter minimum 8 characters.
+              </div>
+            </ion-item>
+          </ion-col>
+        </ion-row>
         <ion-row class="ion-justify-content-center ion-padding-vertical">
           <ion-col size-md="4" size-lg="3" size-xs="8">
             <ion-button color="medium" shape="round" expand="full" size="default" fill="outline"
-              [disabled]="(pageClean || !registrationForm.valid)" (click)="registerUser()"> Register </ion-button>
+              [disabled]="(pageCleanQuarantined || !quarantineRegistration.valid)" (click)="registerVolunteer()">
+              Register
+            </ion-button>
           </ion-col>
         </ion-row>
       </form>
-    </ion-grid>
-  </ion-card>
+    </ng-template>
+  </ion-grid>
 </ion-content>
