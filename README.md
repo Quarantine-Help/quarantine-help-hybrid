@@ -4,7 +4,7 @@
 [![Depfu](https://badges.depfu.com/badges/8bf41f1c7aea414b96f712e8d77f86be/count.svg)](https://depfu.com/github/Quarantined-Help/quarantined-hybrid-app?project_id=11656)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Netlify Status](https://img.shields.io/netlify/c3bf37cb-7592-4f95-8e89-c2636bfd9bf0?label=netlify%20live)](https://app.netlify.com/sites/qhmobile/deploys)
-[![Netlify Status](https://img.shields.io/netlify/5b4633d8-6473-4c15-bed7-acf6b442adf1?label=netlify%20dev)](https://app.netlify.com/sites/qhmobiledev/deployss)
+[![Netlify Status](https://img.shields.io/netlify/5b4633d8-6473-4c15-bed7-acf6b442adf1?label=netlify%20dev)](https://app.netlify.com/sites/qhmobiledev/deploys)
 [![Slack](https://cdn.brandfolder.io/5H442O3W/as/pl546j-7le8zk-ex8w65/Slack_RGB.auto?width=78&height=20)][slack-invite]
 
 A hybrid mobile frontend for the QuarantineHelp project. The project aims to help people to find help while in quarantine.
