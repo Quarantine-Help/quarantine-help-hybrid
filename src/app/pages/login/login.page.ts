@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
-import { LoadingService } from 'src/app/services/loading/loading.service';
+import { MiscService } from 'src/app/services/misc/misc.service';
 import { LoginUserCred, LoginResponse } from '../../models/auth';
 
 @Component({
@@ -26,7 +26,7 @@ export class LoginPage implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     public alertController: AlertController,
-    private loadingService: LoadingService,
+    private miscService: MiscService,
     private router: Router,
     private storageService: StorageService
   ) {
@@ -58,7 +58,7 @@ export class LoginPage implements OnInit, OnDestroy {
 
   loginUser() {
     // start the loading animation
-    this.loadingService
+    this.miscService
       .presentLoadingWithOptions({
         duration: 0,
         message: `Checking credentials`,
@@ -106,19 +106,7 @@ export class LoginPage implements OnInit, OnDestroy {
 
   handleLoginErrors(errorMessages: string[], statusCode) {
     console.log(...errorMessages, statusCode);
-    this.presentAlert(...errorMessages);
-  }
-
-  async presentAlert(messages = 'Unknown error !') {
-    const alert = await this.alertController.create({
-      header: 'Error',
-      subHeader: 'Login failed !',
-      // message: `The following error occurred: ${messages} Please try again`,
-      message: messages,
-      buttons: ['Try again'],
-    });
-
-    await alert.present();
+    this.miscService.presentAlert({ message: errorMessages.join('. ') });
   }
 
   registerUser() {
