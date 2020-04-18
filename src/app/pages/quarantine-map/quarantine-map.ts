@@ -9,10 +9,15 @@ import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { GeoLocationService } from 'src/app/services/geo-location/geo-location.service';
-import { LoadingService } from 'src/app/services/loading/loading.service';
-import { ToastService } from 'src/app/services/toast/toast.service';
+import { MiscService } from 'src/app/services/misc/misc.service';
+import { CoreAPIService } from 'src/app/services/core-api/core-api.service';
 
 import { GeolocationPosition, LatLng } from '../../models/geo';
+import {
+  NearbyParticipantsResponse,
+  NearbyParticipant,
+} from '../../models/core-api';
+import { RequestTypes, SearchFilters, Categories } from 'src/app/models/maps';
 
 declare var H: any;
 
@@ -32,15 +37,22 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
   currentLocation: LatLng = undefined;
   @ViewChild('mapContainer', { static: true }) mapElement: ElementRef;
   loadingAniHEREMap: HTMLIonLoadingElement;
+  loadingAniNearbyParticipants: HTMLIonLoadingElement;
   loadingAniGPSData: HTMLIonLoadingElement;
   toastElement: Promise<void>;
   showFiltering: boolean;
+  filters: SearchFilters;
 
   constructor(
     private geoLocationService: GeoLocationService,
-    private loadingService: LoadingService,
-    private toastService: ToastService
-  ) {}
+    private miscService: MiscService,
+    private coreAPIService: CoreAPIService
+  ) {
+    this.filters = {
+      distance: 5,
+      category: 'all',
+    };
+  }
 
   ngOnInit() {
     this.showFiltering = false;
@@ -48,7 +60,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     // Start the loading animation for getting GPS data
-    this.loadingService
+    this.miscService
       .presentLoadingWithOptions({
         duration: 0,
         message: `Getting current location.`,
@@ -75,7 +87,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
   }
 
   onFabClick() {
-    this.loadingService
+    this.miscService
       .presentLoadingWithOptions({
         duration: 0,
         message: `Getting current location.`,
@@ -116,11 +128,12 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
           this.HEREMapObj.setZoom(4, true);
         }
 
-        // Add a test marker
-        this.dropMarker(this.currentLocation, {
-          title: 'John Doe',
-          desc: 'Require non-emergency medical supplies.',
-        });
+        this.getNearbyParticipants(
+          this.filters.distance,
+          this.currentLocation,
+          this.filters.category
+        );
+
         this.HEREMapObj.setCenter(this.currentLocation, true);
       })
       .catch((error) => {
@@ -132,7 +145,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
           });
         }
         // Show error message and retry option on GPS fail
-        this.toastService
+        this.miscService
           .presentToastWithOptions({
             message: error.message,
             color: 'secondary',
@@ -154,7 +167,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
   initHEREMap() {
     // TODO - Use a map load completion event instead of fixed 3000ms to dismiss loading animation
     // Start a map loading animation and dismiss after 5 sec.
-    this.loadingService
+    this.miscService
       .presentLoadingWithOptions({
         duration: 3000,
         message: `Loading the map.`,
@@ -204,11 +217,74 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
   }
 
   // Apply the filters from the filter component and call the API..
-  onFiltersApplied(filters) {
-    console.log(filters);
+  onFiltersApplied(filters: SearchFilters) {
+    this.filters = filters;
+    this.getNearbyParticipants(
+      this.filters.distance,
+      this.HEREMapObj.getCenter(),
+      this.filters.category
+    );
+  }
+
+  // TODO - refactor
+  getNearbyParticipants(radius: number, latlng: LatLng, category: Categories) {
+    // create a RequestTypes string value for query param, as per API requirements.
+    let requestType: RequestTypes;
+    if (category === 'grocery') {
+      requestType = 'G';
+    } else if (category === 'medicine') {
+      requestType = 'M';
+    }
+
+    this.miscService
+      .presentLoadingWithOptions({
+        duration: 0,
+        message: `Looking for nearby requests`,
+      })
+      .then((onLoadSuccess) => {
+        this.loadingAniNearbyParticipants = onLoadSuccess;
+        this.loadingAniNearbyParticipants.present();
+        this.coreAPIService
+          .getNearbyParticipants(radius, latlng, requestType)
+          .then((result: NearbyParticipantsResponse) => {
+            console.log(result);
+            // Dismiss & destroy loading controller on
+            if (this.loadingAniNearbyParticipants !== undefined) {
+              this.loadingAniNearbyParticipants.dismiss().then(() => {
+                this.loadingAniNearbyParticipants = undefined;
+              });
+            }
+            // Inform user if there are no nearby requests
+            if (result.body.count === 0) {
+              this.miscService.presentAlert({
+                header: 'Info',
+                subHeader: 'No nearby requests.',
+                message:
+                  'We are unable to find any requests nearby. Please relax the search criteria.',
+                buttons: ['Ok'],
+              });
+            } else {
+              // Drop markers on participant location
+              result.body.results.forEach((participant: NearbyParticipant) => {
+                this.dropMarker(
+                  {
+                    lat: parseFloat(participant.position.latitude),
+                    lng: parseFloat(participant.position.longitude),
+                  },
+                  {
+                    title: 'Help',
+                    desc: 'Just kidding',
+                  }
+                );
+              });
+            }
+          });
+      })
+      .catch((error) => alert(error));
   }
 
   dropMarker(coordinates: LatLng, info: { title: string; desc: string }) {
+    console.log('Dropping markers at', coordinates);
     const marker = new H.map.Marker(coordinates);
     marker.setData(`<b>${info.title}</b><br>${info.desc}`);
     marker.addEventListener(
