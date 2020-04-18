@@ -8,9 +8,9 @@ import { LoginUserCred } from '../../models/auth';
   providedIn: 'root',
 })
 export class AuthService {
-  baseURL: string;
-  loginURL: string;
-  registerURL: string;
+  private baseURL: string;
+  private loginURL: string;
+  private registerURL: string;
   constructor(private commonHTTP: CommonHTTPService) {
     const suffix = `auth`;
     this.baseURL = `${environment.DJANGO_API_ENDPOINT}/v${environment.DJANGO_API_VERSION}/${suffix}`;

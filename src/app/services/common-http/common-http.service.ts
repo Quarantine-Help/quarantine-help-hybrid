@@ -15,11 +15,11 @@ export class CommonHTTPService {
    * @returns Promise which resolved on HTTP GET success
    */
   httpGet(url) {
-    // console.log('Starting HTTP GET call to ', url);
+    console.log('Starting HTTP GET call to ', url);
     const options: { observe: 'response' } = { observe: 'response' };
     return new Promise((resolve, reject) => {
       this.http
-        .get(url, options)
+        .get(encodeURI(url), options)
         .toPromise()
         .then((data) => {
           resolve(data);
@@ -49,7 +49,7 @@ export class CommonHTTPService {
         observe: 'response',
       };
       this.http
-        .post(url, body, options)
+        .post(encodeURI(url), body, options)
         .toPromise()
         .then((resp) => {
           resolve(resp);
