@@ -16,6 +16,7 @@ import { GeolocationPosition, LatLng } from '../../models/geo';
 import {
   NearbyParticipantsResponse,
   NearbyParticipant,
+  ParticipantRequest,
 } from '../../models/core-api';
 import { RequestTypes, SearchFilters, Categories } from 'src/app/models/maps';
 
@@ -33,6 +34,10 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
   private HEREmapEvents: any;
   private mapEventsBehavior: any;
   private defaultLayers: any;
+  private markers: any;
+  private markerGroup: any;
+  private groceryIcon: any;
+  private medicalIcon: any;
 
   currentLocation: LatLng = undefined;
   @ViewChild('mapContainer', { static: true }) mapElement: ElementRef;
@@ -42,6 +47,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
   toastElement: Promise<void>;
   showFiltering: boolean;
   filters: SearchFilters;
+  allIcon: any;
 
   constructor(
     private geoLocationService: GeoLocationService,
@@ -52,13 +58,27 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
       distance: 5,
       category: 'all',
     };
-  }
-
-  ngOnInit() {
     this.showFiltering = false;
   }
 
+  ngOnInit() {}
+
   ngAfterViewInit() {
+    // Create a marker group for future use.
+    this.markerGroup = new H.map.Group();
+    this.markers = [];
+
+    // initialize Icon files
+    this.medicalIcon = new H.map.Icon('assets/common/medicalIcon.svg', {
+      size: { w: 56, h: 56 },
+    });
+    this.groceryIcon = new H.map.Icon('assets/common/groceryIcon.svg', {
+      size: { w: 56, h: 56 },
+    });
+    this.allIcon = new H.map.Icon('assets/common/allIcon.svg', {
+      size: { w: 56, h: 56 },
+    });
+
     // Start the loading animation for getting GPS data
     this.miscService
       .presentLoadingWithOptions({
@@ -79,6 +99,11 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
   // Show/hide the map-filter component.
   toggleFiltering() {
     this.showFiltering = !this.showFiltering;
+    if (this.showFiltering) {
+      this.HEREMapObj.getViewPort().setPadding(50, 50, 120, 100);
+    } else {
+      this.HEREMapObj.getViewPort().setPadding(50, 50, 50, 100);
+    }
   }
 
   // TODO
@@ -185,11 +210,16 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
 
     // Obtain the default map types from the platform object
     this.defaultLayers = this.HEREMapsPlatform.createDefaultLayers();
+
     // Instantiate (and display) a map object:
+    const MAX_ZOOM_LEVEL = 21;
     this.HEREMapObj = new H.Map(
       this.mapElement.nativeElement,
       this.defaultLayers.vector.normal.map,
-      { zoom: 14 }
+      {
+        zoom: MAX_ZOOM_LEVEL,
+        padding: { top: 50, left: 50, bottom: 50, right: 100 },
+      }
     );
 
     // Edge case : if map loads later than the GPS, we could use the location already fetched
@@ -221,13 +251,20 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
     this.filters = filters;
     this.getNearbyParticipants(
       this.filters.distance,
-      this.HEREMapObj.getCenter(),
+      this.HEREMapObj.getCenter(), // When using the search filters, use current map center to query.
       this.filters.category
     );
   }
 
   // TODO - refactor
   getNearbyParticipants(radius: number, latlng: LatLng, category: Categories) {
+    // Removes all markers, marker group and event listeners.
+    this.markers.forEach((marker) => {
+      marker.dispose();
+    });
+    // this.markerGroup.removeObjects(this.markers);
+    this.HEREMapObj.removeObjects(this.HEREMapObj.getObjects());
+
     // create a RequestTypes string value for query param, as per API requirements.
     let requestType: RequestTypes;
     if (category === 'grocery') {
@@ -247,7 +284,6 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
         this.coreAPIService
           .getNearbyParticipants(radius, latlng, requestType)
           .then((result: NearbyParticipantsResponse) => {
-            console.log(result);
             // Dismiss & destroy loading controller on
             if (this.loadingAniNearbyParticipants !== undefined) {
               this.loadingAniNearbyParticipants.dismiss().then(() => {
@@ -264,28 +300,59 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
                 buttons: ['Ok'],
               });
             } else {
-              // Drop markers on participant location
-              result.body.results.forEach((participant: NearbyParticipant) => {
-                this.dropMarker(
-                  {
-                    lat: parseFloat(participant.position.latitude),
-                    lng: parseFloat(participant.position.longitude),
-                  },
-                  {
-                    title: 'Help',
-                    desc: 'Just kidding',
-                  }
-                );
-              });
+              this.dropMarkersAndReCenter(result.body.results);
             }
           });
       })
       .catch((error) => alert(error));
   }
 
-  dropMarker(coordinates: LatLng, info: { title: string; desc: string }) {
-    console.log('Dropping markers at', coordinates);
-    const marker = new H.map.Marker(coordinates);
+  dropMarkersAndReCenter(participants) {
+    participants.forEach((participant: NearbyParticipant) => {
+      // Set the correct icon for the marker, based on the requests
+      const isGroceryRequest = participant.requests.some(
+        (request) => request.type === 'G'
+      );
+      const isMedicineRequest = participant.requests.some(
+        (request) => request.type === 'M'
+      );
+      let markerIcon;
+      if (isGroceryRequest && isMedicineRequest) {
+        markerIcon = { icon: this.allIcon };
+      } else if (isGroceryRequest) {
+        markerIcon = { icon: this.groceryIcon };
+      } else {
+        markerIcon = { icon: this.medicalIcon };
+      }
+
+      // Create markers for the participants request
+      this.createMarker(
+        {
+          lat: parseFloat(participant.position.latitude),
+          lng: parseFloat(participant.position.longitude),
+        },
+        markerIcon,
+        {
+          title: 'Help',
+          desc: 'Just kidding',
+        }
+      );
+    });
+    this.markerGroup.addObjects(this.markers);
+    this.HEREMapObj.addObject(this.markerGroup);
+
+    // get geo bounding box for the group and set it to the map
+    this.HEREMapObj.getViewModel().setLookAtData({
+      bounds: this.markerGroup.getBoundingBox(),
+    });
+  }
+
+  createMarker(
+    coordinates: LatLng,
+    markerIcon,
+    info: { title: string; desc: string }
+  ) {
+    const marker = new H.map.Marker(coordinates, markerIcon);
     marker.setData(`<b>${info.title}</b><br>${info.desc}`);
     marker.addEventListener(
       'tap',
@@ -297,7 +364,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
       },
       false
     );
-    this.HEREMapObj.addObject(marker);
+    this.markers.push(marker);
   }
 
   /**

@@ -45,7 +45,7 @@ interface User {
   email: string;
 }
 
-interface ParticipantRequest {
+export interface ParticipantRequest {
   id: number;
   type: string;
   deadline: string;
