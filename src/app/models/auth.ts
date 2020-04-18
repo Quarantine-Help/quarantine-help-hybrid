@@ -1,8 +1,3 @@
-export interface LoginUserCred {
-  email: string;
-  password: string;
-}
-
 export interface LoginResponse {
   headers: {
     normalizedNames?: any;
@@ -20,4 +15,9 @@ interface LoginRespBody {
   token: string;
   participantId: number;
   email: string;
+}
+
+export interface LoginUserCred {
+  email: string;
+  password: string;
 }

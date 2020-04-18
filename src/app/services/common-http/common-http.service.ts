@@ -19,7 +19,7 @@ export class CommonHTTPService {
     const options: { observe: 'response' } = { observe: 'response' };
     return new Promise((resolve, reject) => {
       this.http
-        .get(url, options)
+        .get(encodeURI(url), options)
         .toPromise()
         .then((data) => {
           resolve(data);
@@ -49,7 +49,7 @@ export class CommonHTTPService {
         observe: 'response',
       };
       this.http
-        .post(url, body, options)
+        .post(encodeURI(url), body, options)
         .toPromise()
         .then((resp) => {
           resolve(resp);
