@@ -1,12 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
-
-interface SearchFilters {
-  distance: number;
-  category: Categories;
-}
-
-type Categories = 'all' | 'medicine' | 'grocery';
+import { SearchFilters, Categories } from 'src/app/models/maps';
 
 @Component({
   selector: 'map-filter',
