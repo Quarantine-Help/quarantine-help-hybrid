@@ -22,6 +22,7 @@ export class AuthGuardGuard implements CanActivate, CanActivateChild {
     | UrlTree {
     return true;
   }
+
   canActivateChild(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot

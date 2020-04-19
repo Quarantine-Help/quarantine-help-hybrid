@@ -1,0 +1,257 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-img src="assets/header-temp.svg"></ion-img>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding ion-margin">
+  <ion-grid class="ion-padding">
+    <ion-segment (ionChange)="onSegmentChange()" [(ngModel)]="userSegment">
+      <ion-segment-button value="quarantined">
+        <ion-label>I'm Quarantined</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="volunteer">
+        <ion-label>I Volunteer</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+    <form [formGroup]="volRegForm" *ngIf="userSegment === 'volunteer'; else quaRegFormRef">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-md="2" size-lg="2">
+          <ion-item>
+            <ion-label color="medium" position="floating">First Name</ion-label>
+            <ion-input required formControlName="firstName"></ion-input>
+          </ion-item>
+          <ion-item lines="none" class="formInvalid"
+            *ngIf="(volRegForm.get('firstName').invalid && (volRegForm.get('firstName').dirty || volRegForm.get('firstName').touched))">
+            <div *ngIf="volRegForm.get('firstName').errors.required">
+              First Name is required.
+            </div>
+          </ion-item>
+        </ion-col>
+        <ion-col size-md="2" size-lg="2">
+          <ion-item>
+            <ion-label color="medium" position="floating">Last Name</ion-label>
+            <ion-input required formControlName="lastName"></ion-input>
+          </ion-item>
+          <ion-item lines="none" class="formInvalid"
+            *ngIf="(volRegForm.get('lastName').invalid && (volRegForm.get('lastName').dirty || volRegForm.get('lastName').touched))">
+            <div *ngIf="volRegForm.get('lastName').errors.required">
+              Last Name is required.
+            </div>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-md="4" size-lg="4" size-xs="12">
+          <ion-item>
+            <ion-label color="medium" position="floating">Email address </ion-label>
+            <ion-input required formControlName="email" type="email"></ion-input>
+          </ion-item>
+          <ion-item lines="none" class="formInvalid"
+            *ngIf="(volRegForm.get('email').invalid && (volRegForm.get('email').dirty || volRegForm.get('email').touched))">
+            <div *ngIf="volRegForm.get('email').errors.required">
+              Email address is required.
+            </div>
+            <div *ngIf="volRegForm.get('email').errors.email">
+              Please enter a valid email.
+            </div>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-md="4" size-lg="4" size-xs="12">
+          <ion-item>
+            <ion-label color="medium" position="floating">Phone Number </ion-label>
+            <ion-input required formControlName="phoneNumber" type="tel"></ion-input>
+          </ion-item>
+          <ion-item lines="none" class="formInvalid"
+            *ngIf="(volRegForm.get('phoneNumber').invalid && (volRegForm.get('phoneNumber').dirty || volRegForm.get('phoneNumber').touched))">
+            <div *ngIf="volRegForm.get('phoneNumber').errors.required">
+              Phone Number is required.
+            </div>
+            <div *ngIf="volRegForm.get('phoneNumber').errors.minlength">
+              Please enter atleast 8 digits.
+            </div>
+            <div *ngIf="volRegForm.get('phoneNumber').errors.maxlength">
+              Number exceeded maximum length.
+            </div>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-md="4" size-lg="4" size-xs="12">
+          <ion-item>
+            <ion-label color="medium" position="floating">Password </ion-label>
+            <ion-input [type]="passwordIcon === 'eye'? 'password':'text'" required formControlName="password"
+              type="password"></ion-input>
+            <ion-icon slot="end" [name]="passwordIcon" (click)="togglePasswordVisibility()" color="medium"
+              class="ion-align-self-center">
+            </ion-icon>
+          </ion-item>
+          <ion-item lines="none" class="formInvalid"
+            *ngIf="(volRegForm.get('password').invalid && (volRegForm.get('password').dirty || volRegForm.get('password').touched))">
+            <div *ngIf="volRegForm.get('password').errors.required">
+              Password is required.
+            </div>
+            <div *ngIf="volRegForm.get('password').errors.minlength">
+              Please enter minimum 8 characters.
+            </div>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center ion-padding-vertical">
+        <ion-col size-md="4" size-lg="3" size-xs="8">
+          <ion-button color="medium" shape="round" expand="full" size="default" fill="outline"
+            [disabled]="(volFormClean || !volRegForm.valid)" (click)="registerUser()"> Register </ion-button>
+        </ion-col>
+      </ion-row>
+    </form>
+    <ng-template #quaRegFormRef>
+      <form [formGroup]="quaRegForm">
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-md="2" size-lg="2">
+            <ion-item>
+              <ion-label color="medium" position="floating">First Name</ion-label>
+              <ion-input required formControlName="firstName"></ion-input>
+            </ion-item>
+            <ion-item lines="none" class="formInvalid"
+              *ngIf="(quaRegForm.get('firstName').invalid && (quaRegForm.get('firstName').dirty || quaRegForm.get('firstName').touched))">
+              <div *ngIf="quaRegForm.get('firstName').errors.required">
+                First Name is required.
+              </div>
+            </ion-item>
+          </ion-col>
+          <ion-col size-md="2" size-lg="2">
+            <ion-item>
+              <ion-label color="medium" position="floating">Last Name</ion-label>
+              <ion-input required formControlName="lastName"></ion-input>
+            </ion-item>
+            <ion-item lines="none" class="formInvalid"
+              *ngIf="(quaRegForm.get('lastName').invalid && (quaRegForm.get('lastName').dirty || quaRegForm.get('lastName').touched))">
+              <div *ngIf="quaRegForm.get('lastName').errors.required">
+                Last Name is required.
+              </div>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-md="4" size-lg="4" size-xs="12">
+            <ion-item>
+              <ion-label color="medium" position="floating"> Address </ion-label>
+              <ion-input required formControlName="address" ></ion-input>
+            </ion-item>
+            <ion-item lines="none" class="formInvalid"
+              *ngIf="(quaRegForm.get('address').invalid && (quaRegForm.get('address').dirty || quaRegForm.get('address').touched))">
+              <div *ngIf="quaRegForm.get('address').errors.required">
+                Address is required.
+              </div>
+              <div *ngIf="quaRegForm.get('address').errors.minlength">
+                Please enter minimum 2 characters.
+              </div>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-md="4" size-lg="4" size-xs="12">
+            <ion-item>
+              <ion-label color="medium" position="floating"> City </ion-label>
+              <ion-input required formControlName="city"></ion-input>
+            </ion-item>
+            <ion-item lines="none" class="formInvalid"
+              *ngIf="(quaRegForm.get('city').invalid && (quaRegForm.get('city').dirty || quaRegForm.get('city').touched))">
+              <div *ngIf="quaRegForm.get('city').errors.required">
+                City is required.
+              </div>
+              <div *ngIf="quaRegForm.get('city').errors.minlength">
+                Please enter minimum 2 characters.
+              </div>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-md="4" size-lg="4" size-xs="12">
+            <ion-item>
+              <ion-label color="medium" position="floating"> Country </ion-label>
+              <ion-input required formControlName="country"></ion-input>
+            </ion-item>
+            <ion-item lines="none" class="formInvalid"
+              *ngIf="(quaRegForm.get('country').invalid && (quaRegForm.get('country').dirty || quaRegForm.get('country').touched))">
+              <div *ngIf="quaRegForm.get('country').errors.required">
+                Country is required.
+              </div>
+              <div *ngIf="quaRegForm.get('country').errors.minlength">
+                Please enter minimum 2 characters.
+              </div>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-md="4" size-lg="4" size-xs="12">
+            <ion-item>
+              <ion-label color="medium" position="floating">Email address </ion-label>
+              <ion-input required formControlName="email" type="email"></ion-input>
+            </ion-item>
+            <ion-item lines="none" class="formInvalid"
+              *ngIf="(quaRegForm.get('email').invalid && (quaRegForm.get('email').dirty || quaRegForm.get('email').touched))">
+              <div *ngIf="quaRegForm.get('email').errors.required">
+                Email address is required.
+              </div>
+              <div *ngIf="quaRegForm.get('email').errors.email">
+                Please enter a valid email.
+              </div>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-md="4" size-lg="4" size-xs="12">
+            <ion-item>
+              <ion-label color="medium" position="floating">Phone Number </ion-label>
+              <ion-input required formControlName="phoneNumber" type="tel"></ion-input>
+            </ion-item>
+            <ion-item lines="none" class="formInvalid"
+              *ngIf="(quaRegForm.get('phoneNumber').invalid && (quaRegForm.get('phoneNumber').dirty || quaRegForm.get('phoneNumber').touched))">
+              <div *ngIf="quaRegForm.get('phoneNumber').errors.required">
+                Phone Number is required.
+              </div>
+              <div *ngIf="quaRegForm.get('phoneNumber').errors.minlength">
+                Please enter at least 8 digits.
+              </div>
+              <div *ngIf="quaRegForm.get('phoneNumber').errors.maxlength">
+                Number exceeded maximum length.
+              </div>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-md="4" size-lg="4" size-xs="12">
+            <ion-item>
+              <ion-label color="medium" position="floating">Password </ion-label>
+              <ion-input [type]="passwordIcon === 'eye'? 'password':'text'" required formControlName="password"
+                type="password"></ion-input>
+              <ion-icon slot="end" [name]="passwordIcon" (click)="togglePasswordVisibility()" color="medium"
+                class="ion-align-self-center">
+              </ion-icon>
+            </ion-item>
+            <ion-item lines="none" class="formInvalid"
+              *ngIf="(quaRegForm.get('password').invalid && (quaRegForm.get('password').dirty || quaRegForm.get('password').touched))">
+              <div *ngIf="quaRegForm.get('password').errors.required">
+                Password is required.
+              </div>
+              <div *ngIf="quaRegForm.get('password').errors.minlength">
+                Please enter minimum 8 characters.
+              </div>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center ion-padding-vertical">
+          <ion-col size-md="4" size-lg="3" size-xs="8">
+            <ion-button color="medium" shape="round" expand="full" size="default" fill="outline"
+              [disabled]="(quaFormClean || !quaRegForm.valid)" (click)="registerVolunteer()">
+              Register
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </form>
+    </ng-template>
+  </ion-grid>
+</ion-content>
