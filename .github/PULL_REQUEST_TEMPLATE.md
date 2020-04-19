@@ -33,5 +33,6 @@ iPhone X
 <!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
 - [ ] I have removed things like [WIP] or other and reread the PR.
 - [ ] My code follows the code style of this project, passes TSLint checks.
+- [ ] I've done a rebase on `develop` and my feature branch is up to date.
 - [ ] My change requires a change to the documentation.
 - [ ] I have updated the documentation accordingly.
