@@ -12,11 +12,11 @@ export class HEREMapService {
   constructor(private commonHTTP: CommonHTTPService) {
     this.reverseCodeBaseURL = 'https://reverse.geocoder.ls.hereapi.com/6.2/reversegeocode.json?';
     this.apiKey = 'INxGhspY9TqShx3heSZSBmobOsutPeE9eJaTxfHiiQQ';
-    this.urlSuffix = `%2C250&mode=retrieveAddresses&maxresults=1&gen=9&apiKey=${this.apiKey}`;
+    this.urlSuffix = `&mode=retrieveAddresses&maxresults=1&gen=9&apiKey=${this.apiKey}`;
   }
 
   getUserLocation(currentLocation) {
-    const requestURL = `${this.reverseCodeBaseURL}prox=${currentLocation.lat}%2C${currentLocation.lng}${this.urlSuffix}`;
-    return this.commonHTTP.httpGet(requestURL);
+    const requestURL = `${this.reverseCodeBaseURL}prox=${currentLocation.lat},${currentLocation.lng}${this.urlSuffix}`;
+    return this.commonHTTP.httpGet(encodeURI(requestURL));
   }
 }

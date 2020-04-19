@@ -2,8 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { GeoLocationService } from 'src/app/services/geo-location/geo-location.service';
-import { LoadingService } from 'src/app/services/loading/loading.service';
-import { ToastService } from 'src/app/services/toast/toast.service';
+import { MiscService } from 'src/app/services/misc/misc.service';
 import { GeolocationPosition, LatLng } from '../../models/geo';
 import { HEREMapService } from 'src/app/services/HERE-map/here-map.service';
 
@@ -32,32 +31,9 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   city: string;
   country: string;
 
-  segmentChanged(ev: any) {
-    this.quarantinedOrVolunteer = ev.detail.value;
-    if (this.quarantinedOrVolunteer === 'Quarantined') {
-      this.showVolunteer = false;
-      // Start the loading animation for getting GPS data
-      this.loadingService
-        .presentLoadingWithOptions({
-          duration: 0,
-          message: `Getting current location.`,
-        })
-        .then((onLoadSuccess) => {
-          this.loadingAniGPSData = onLoadSuccess;
-          this.loadingAniGPSData.present();
-          // Get the GPS data
-          this.getGPSLocation();
-        })
-        .catch((error) => alert(error));
-    } else if (this.quarantinedOrVolunteer === 'Volunteer') {
-      this.showVolunteer = true;
-    }
-  }
-
   constructor(
     private geoLocationService: GeoLocationService,
-    private loadingService: LoadingService,
-    private toastService: ToastService,
+    private miscService: MiscService,
     private hereMapService: HEREMapService
   ) {
     this.pageClean = true;
@@ -66,12 +42,8 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
     this.showVolunteer = true;
     this.setDefault = 'Volunteer';
     this.registrationForm = new FormGroup({
-      firstName: new FormControl('', [
-        Validators.required
-      ]),
-      lastName: new FormControl('', [
-        Validators.required
-      ]),
+      firstName: new FormControl('', [Validators.required]),
+      lastName: new FormControl('', [Validators.required]),
       email: new FormControl('', [
         Validators.required,
         Validators.minLength(4),
@@ -80,32 +52,25 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
       phoneNumber: new FormControl('', [
         Validators.minLength(8),
         Validators.maxLength(16),
-        Validators.required
+        Validators.required,
       ]),
       password: new FormControl('', [
         Validators.minLength(8),
         Validators.maxLength(30),
-        Validators.required
+        Validators.required,
       ]),
     });
     this.quarantineRegistration = new FormGroup({
-      firstName: new FormControl('', [
-        Validators.required
-      ]),
-      lastName: new FormControl('', [
-        Validators.required
-      ]),
+      firstName: new FormControl('', [Validators.required]),
+      lastName: new FormControl('', [Validators.required]),
       address: new FormControl('', [
         Validators.required,
-        Validators.minLength(2)
+        Validators.minLength(2),
       ]),
-      city: new FormControl('', [
-        Validators.required,
-        Validators.minLength(2)
-      ]),
+      city: new FormControl('', [Validators.required, Validators.minLength(2)]),
       country: new FormControl('', [
         Validators.required,
-        Validators.minLength(2)
+        Validators.minLength(2),
       ]),
       email: new FormControl('', [
         Validators.required,
@@ -115,12 +80,12 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
       phoneNumber: new FormControl('', [
         Validators.minLength(8),
         Validators.maxLength(16),
-        Validators.required
+        Validators.required,
       ]),
       password: new FormControl('', [
         Validators.minLength(8),
         Validators.maxLength(30),
-        Validators.required
+        Validators.required,
       ]),
     });
   }
@@ -129,9 +94,11 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
     this.regSubs = this.registrationForm.valueChanges.subscribe((change) => {
       this.pageClean = false;
     });
-    this.regQuarantineSubs = this.quarantineRegistration.valueChanges.subscribe((change) => {
-      this.pageCleanQuarantined = false;
-    });
+    this.regQuarantineSubs = this.quarantineRegistration.valueChanges.subscribe(
+      (change) => {
+        this.pageCleanQuarantined = false;
+      }
+    );
   }
 
   ngOnDestroy() {
@@ -156,6 +123,28 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
     console.log(this.quarantineRegistration.value);
   }
 
+  segmentChanged(ev: any) {
+    this.quarantinedOrVolunteer = ev.detail.value;
+    if (this.quarantinedOrVolunteer === 'Quarantined') {
+      this.showVolunteer = false;
+      // Start the loading animation for getting GPS data
+      this.miscService
+        .presentLoadingWithOptions({
+          duration: 0,
+          message: `Getting current location.`,
+        })
+        .then((onLoadSuccess) => {
+          this.loadingAniGPSData = onLoadSuccess;
+          this.loadingAniGPSData.present();
+          // Get the GPS data
+          this.getGPSLocation();
+        })
+        .catch((error) => alert(error));
+    } else if (this.quarantinedOrVolunteer === 'Volunteer') {
+      this.showVolunteer = true;
+    }
+  }
+
   getGPSLocation() {
     this.geoLocationService
       .getCurrentPosition()
@@ -170,25 +159,16 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
           lat: mapCenterlatLng.coords.latitude,
           lng: mapCenterlatLng.coords.longitude,
         };
-        this.hereMapService.getUserLocation(this.currentLocation).then((data: any) => {
-          this.address = data.body.Response.View[0].Result[0].Location.Address.Label;
-          this.city = data.body.Response.View[0].Result[0].Location.Address.City;
-          this.country = data.body.Response.View[0].Result[0].Location.Address.Country;
-        });
-        // Checks to see if we are re-trying to get GPS or the first time
-        // if (this.HEREMapObj === undefined) {
-        //   this.initHEREMap();
-        // } else {
-        //   this.HEREMapObj.setCenter(this.currentLocation, true);
-        //   this.HEREMapObj.setZoom(4, true);
-        // }
-
-        // Add a test marker
-        // this.dropMarker(this.currentLocation, {
-        //   title: 'John Doe',
-        //   desc: 'Require non-emergency medical supplies.',
-        // });
-        // this.HEREMapObj.setCenter(this.currentLocation, true);
+        this.hereMapService
+          .getUserLocation(this.currentLocation)
+          .then((data: any) => {
+            this.address =
+              data.body.Response.View[0].Result[0].Location.Address.Label;
+            this.city =
+              data.body.Response.View[0].Result[0].Location.Address.City;
+            this.country =
+              data.body.Response.View[0].Result[0].Location.Address.Country;
+          });
       })
       .catch((error) => {
         console.error(`ERROR - Unable to getting location`, error);
@@ -199,7 +179,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
           });
         }
         // Show error message and retry option on GPS fail
-        this.toastService
+        this.miscService
           .presentToastWithOptions({
             message: error.message,
             color: 'secondary',
@@ -216,5 +196,4 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
           });
       });
   }
-
 }
