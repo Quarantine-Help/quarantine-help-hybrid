@@ -1,6 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { GeoLocationService } from 'src/app/services/geo-location/geo-location.service';
+import { LoadingService } from 'src/app/services/loading/loading.service';
+import { ToastService } from 'src/app/services/toast/toast.service';
+import { GeolocationPosition, LatLng } from '../../models/geo';
+import { HEREMapService } from 'src/app/services/HERE-map/here-map.service';
 
 @Component({
   selector: 'app-user-registration',
@@ -19,17 +24,42 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   showVolunteer: boolean; // Flag for hiding and showing 2 forms
   quarantinedOrVolunteer: string;
   setDefault: string;
+  loadingAniGPSData: HTMLIonLoadingElement;
+  currentLocation: LatLng = undefined;
+  toastElement: Promise<void>;
+  private HEREMapObj: any;
+  address: string;
+  city: string;
+  country: string;
 
   segmentChanged(ev: any) {
     this.quarantinedOrVolunteer = ev.detail.value;
     if (this.quarantinedOrVolunteer === 'Quarantined') {
       this.showVolunteer = false;
+      // Start the loading animation for getting GPS data
+      this.loadingService
+        .presentLoadingWithOptions({
+          duration: 0,
+          message: `Getting current location.`,
+        })
+        .then((onLoadSuccess) => {
+          this.loadingAniGPSData = onLoadSuccess;
+          this.loadingAniGPSData.present();
+          // Get the GPS data
+          this.getGPSLocation();
+        })
+        .catch((error) => alert(error));
     } else if (this.quarantinedOrVolunteer === 'Volunteer') {
       this.showVolunteer = true;
     }
   }
 
-  constructor() {
+  constructor(
+    private geoLocationService: GeoLocationService,
+    private loadingService: LoadingService,
+    private toastService: ToastService,
+    private hereMapService: HEREMapService
+  ) {
     this.pageClean = true;
     this.pageCleanQuarantined = true;
     this.showPasswordText = false;
@@ -125,4 +155,66 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   registerVolunteer() {
     console.log(this.quarantineRegistration.value);
   }
+
+  getGPSLocation() {
+    this.geoLocationService
+      .getCurrentPosition()
+      .then((mapCenterlatLng) => {
+        // Destroy loading controller on dismiss
+        if (this.loadingAniGPSData !== undefined) {
+          this.loadingAniGPSData.dismiss().then(() => {
+            this.loadingAniGPSData = undefined;
+          });
+        }
+        this.currentLocation = {
+          lat: mapCenterlatLng.coords.latitude,
+          lng: mapCenterlatLng.coords.longitude,
+        };
+        this.hereMapService.getUserLocation(this.currentLocation).then((data: any) => {
+          this.address = data.body.Response.View[0].Result[0].Location.Address.Label;
+          this.city = data.body.Response.View[0].Result[0].Location.Address.City;
+          this.country = data.body.Response.View[0].Result[0].Location.Address.Country;
+        });
+        // Checks to see if we are re-trying to get GPS or the first time
+        // if (this.HEREMapObj === undefined) {
+        //   this.initHEREMap();
+        // } else {
+        //   this.HEREMapObj.setCenter(this.currentLocation, true);
+        //   this.HEREMapObj.setZoom(4, true);
+        // }
+
+        // Add a test marker
+        // this.dropMarker(this.currentLocation, {
+        //   title: 'John Doe',
+        //   desc: 'Require non-emergency medical supplies.',
+        // });
+        // this.HEREMapObj.setCenter(this.currentLocation, true);
+      })
+      .catch((error) => {
+        console.error(`ERROR - Unable to getting location`, error);
+        // Destroy loading controller on dismiss and ask for a retry
+        if (this.loadingAniGPSData) {
+          this.loadingAniGPSData.dismiss().then(() => {
+            this.loadingAniGPSData = undefined;
+          });
+        }
+        // Show error message and retry option on GPS fail
+        this.toastService
+          .presentToastWithOptions({
+            message: error.message,
+            color: 'secondary',
+          })
+          .then((toast) => {
+            this.toastElement = toast.present();
+            toast.onWillDismiss().then((OverlayEventDetail) => {
+              if (OverlayEventDetail.role === 'cancel') {
+                // this.exitApp();
+              } else {
+                this.getGPSLocation();
+              }
+            });
+          });
+      });
+  }
+
 }

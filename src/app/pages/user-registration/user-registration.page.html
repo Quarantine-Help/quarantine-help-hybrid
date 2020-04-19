@@ -138,7 +138,7 @@
           <ion-col size-md="4" size-lg="4" size-xs="12">
             <ion-item>
               <ion-label color="medium" position="floating"> Address </ion-label>
-              <ion-input required formControlName="address"></ion-input>
+              <ion-input required formControlName="address" [(ngModel)]="address"></ion-input>
             </ion-item>
             <ion-item lines="none" class="formInvalid"
               *ngIf="(quarantineRegistration.get('address').invalid && (quarantineRegistration.get('address').dirty || quarantineRegistration.get('address').touched))">
@@ -155,7 +155,7 @@
           <ion-col size-md="4" size-lg="4" size-xs="12">
             <ion-item>
               <ion-label color="medium" position="floating"> City </ion-label>
-              <ion-input required formControlName="city"></ion-input>
+              <ion-input required formControlName="city" [(ngModel)]="city"></ion-input>
             </ion-item>
             <ion-item lines="none" class="formInvalid"
               *ngIf="(quarantineRegistration.get('city').invalid && (quarantineRegistration.get('city').dirty || quarantineRegistration.get('city').touched))">
@@ -172,7 +172,7 @@
           <ion-col size-md="4" size-lg="4" size-xs="12">
             <ion-item>
               <ion-label color="medium" position="floating"> Country </ion-label>
-              <ion-input required formControlName="country"></ion-input>
+              <ion-input required formControlName="country" [(ngModel)]="country"></ion-input>
             </ion-item>
             <ion-item lines="none" class="formInvalid"
               *ngIf="(quarantineRegistration.get('country').invalid && (quarantineRegistration.get('country').dirty || quarantineRegistration.get('country').touched))">
