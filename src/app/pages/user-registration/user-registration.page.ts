@@ -1,47 +1,46 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
+
 import { GeoLocationService } from 'src/app/services/geo-location/geo-location.service';
 import { MiscService } from 'src/app/services/misc/misc.service';
-import { GeolocationPosition, LatLng } from '../../models/geo';
 import { HEREMapService } from 'src/app/services/HERE-map/here-map.service';
+import { LatLng } from '../../models/geo';
+import { ReverseGeoResult } from 'src/app/models/here-map';
 
+type userSegments = 'volunteer' | 'quarantined';
+interface UserAddress {
+  address: string;
+  city: string;
+  country: string;
+}
 @Component({
   selector: 'app-user-registration',
   templateUrl: './user-registration.page.html',
   styleUrls: ['./user-registration.page.scss'],
 })
 export class UserRegistrationPage implements OnInit, OnDestroy {
-  registrationForm: FormGroup;
-  quarantineRegistration: FormGroup;
+  userSegment: userSegments;
+  volRegForm: FormGroup;
+  quaRegForm: FormGroup;
+  volRegFormSubs: Subscription;
+  quaRegFormSubs: Subscription;
+  volFormClean: boolean; // Flag to check if no changes were made.
+  quaFormClean: boolean;
   showPasswordText: boolean; // To toggle password visibility
   passwordIcon: 'eye' | 'eye-off' = 'eye';
-  pageClean: boolean; // Flag to check if no changes were made.
-  pageCleanQuarantined: boolean;
-  regSubs: Subscription;
-  regQuarantineSubs: Subscription;
-  showVolunteer: boolean; // Flag for hiding and showing 2 forms
-  quarantinedOrVolunteer: string;
-  setDefault: string;
-  loadingAniGPSData: HTMLIonLoadingElement;
-  currentLocation: LatLng = undefined;
   toastElement: Promise<void>;
-  private HEREMapObj: any;
-  address: string;
-  city: string;
-  country: string;
+  loadingAniGPSData: HTMLIonLoadingElement;
+  loadingAniGetAddr: HTMLIonLoadingElement;
+  currentLocation: LatLng = undefined;
+  userAddress: UserAddress;
 
   constructor(
     private geoLocationService: GeoLocationService,
     private miscService: MiscService,
     private hereMapService: HEREMapService
   ) {
-    this.pageClean = true;
-    this.pageCleanQuarantined = true;
-    this.showPasswordText = false;
-    this.showVolunteer = true;
-    this.setDefault = 'Volunteer';
-    this.registrationForm = new FormGroup({
+    this.volRegForm = new FormGroup({
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
       email: new FormControl('', [
@@ -60,7 +59,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
         Validators.required,
       ]),
     });
-    this.quarantineRegistration = new FormGroup({
+    this.quaRegForm = new FormGroup({
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
       address: new FormControl('', [
@@ -91,19 +90,29 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.regSubs = this.registrationForm.valueChanges.subscribe((change) => {
-      this.pageClean = false;
+    this.showPasswordText = false;
+    this.userSegment = 'volunteer';
+    this.userAddress = undefined;
+    this.volRegFormSubs = this.volRegForm.valueChanges.subscribe((change) => {
+      this.volFormClean = false;
     });
-    this.regQuarantineSubs = this.quarantineRegistration.valueChanges.subscribe(
-      (change) => {
-        this.pageCleanQuarantined = false;
-      }
-    );
+    this.quaRegFormSubs = this.quaRegForm.valueChanges.subscribe((change) => {
+      this.quaFormClean = false;
+    });
+
+    // Provide user with instructions on filling the form.
+    this.miscService.presentAlert({
+      header: 'Info',
+      subHeader: 'Registration Options',
+      buttons: ['Ok'],
+      message: `Please select <strong>I'm Quarantined</strong> if you are in quarantine and require assistance from volunteers.
+      <br><br>You may continue in the <strong>I Volunteer</strong> tab otherwise.`,
+    });
   }
 
   ngOnDestroy() {
-    this.regSubs.unsubscribe();
-    this.regQuarantineSubs.unsubscribe();
+    this.volRegFormSubs.unsubscribe();
+    this.quaRegFormSubs.unsubscribe();
   }
 
   togglePasswordVisibility() {
@@ -115,18 +124,8 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
     }
   }
 
-  registerUser() {
-    console.log(this.registrationForm.value);
-  }
-
-  registerVolunteer() {
-    console.log(this.quarantineRegistration.value);
-  }
-
-  segmentChanged(ev: any) {
-    this.quarantinedOrVolunteer = ev.detail.value;
-    if (this.quarantinedOrVolunteer === 'Quarantined') {
-      this.showVolunteer = false;
+  onSegmentChange() {
+    if (this.userSegment === 'quarantined') {
       // Start the loading animation for getting GPS data
       this.miscService
         .presentLoadingWithOptions({
@@ -135,65 +134,118 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
         })
         .then((onLoadSuccess) => {
           this.loadingAniGPSData = onLoadSuccess;
-          this.loadingAniGPSData.present();
           // Get the GPS data
           this.getGPSLocation();
         })
         .catch((error) => alert(error));
-    } else if (this.quarantinedOrVolunteer === 'Volunteer') {
-      this.showVolunteer = true;
     }
   }
 
   getGPSLocation() {
-    this.geoLocationService
-      .getCurrentPosition()
-      .then((mapCenterlatLng) => {
-        // Destroy loading controller on dismiss
-        if (this.loadingAniGPSData !== undefined) {
-          this.loadingAniGPSData.dismiss().then(() => {
-            this.loadingAniGPSData = undefined;
-          });
-        }
-        this.currentLocation = {
-          lat: mapCenterlatLng.coords.latitude,
-          lng: mapCenterlatLng.coords.longitude,
-        };
-        this.hereMapService
-          .getUserLocation(this.currentLocation)
-          .then((data: any) => {
-            this.address =
-              data.body.Response.View[0].Result[0].Location.Address.Label;
-            this.city =
-              data.body.Response.View[0].Result[0].Location.Address.City;
-            this.country =
-              data.body.Response.View[0].Result[0].Location.Address.AdditionalData[0].value;
-          });
-      })
-      .catch((error) => {
-        console.error(`ERROR - Unable to getting location`, error);
-        // Destroy loading controller on dismiss and ask for a retry
-        if (this.loadingAniGPSData) {
-          this.loadingAniGPSData.dismiss().then(() => {
-            this.loadingAniGPSData = undefined;
-          });
-        }
-        // Show error message and retry option on GPS fail
-        this.miscService
-          .presentToastWithOptions({
-            message: error.message,
-            color: 'secondary',
-          })
-          .then((toast) => {
-            this.toastElement = toast.present();
-            toast.onWillDismiss().then((OverlayEventDetail) => {
-              if (OverlayEventDetail.role === 'cancel') {
-                // this.exitApp();
-              } else {
-                this.getGPSLocation();
-              }
+    // If GPS data already exists, use it.
+    if (this.currentLocation) {
+      this.getUserAddress();
+    } else {
+      this.loadingAniGPSData.present();
+      this.geoLocationService
+        .getCurrentPosition()
+        .then((location) => {
+          // Destroy loading controller on dismiss
+          if (this.loadingAniGPSData !== undefined) {
+            this.loadingAniGPSData.dismiss().then(() => {
+              this.loadingAniGPSData = undefined;
             });
-          });
-      });
+          }
+          this.currentLocation = {
+            lat: location.coords.latitude,
+            lng: location.coords.longitude,
+          };
+          this.getUserAddress();
+        })
+        .catch((error) => {
+          console.error(`ERROR - Unable to getting location`, error);
+          // Destroy loading controller on dismiss and ask for a retry
+          if (this.loadingAniGPSData) {
+            this.loadingAniGPSData.dismiss().then(() => {
+              this.loadingAniGPSData = undefined;
+            });
+          }
+          // Show error message and retry option on GPS fail
+          this.miscService
+            .presentToastWithOptions({
+              message: error.message,
+              color: 'secondary',
+            })
+            .then((toast) => {
+              this.toastElement = toast.present();
+              toast.onWillDismiss().then((OverlayEventDetail) => {
+                if (OverlayEventDetail.role === 'cancel') {
+                  // this.exitApp();
+                } else {
+                  this.getGPSLocation();
+                }
+              });
+            });
+        });
+    }
+  }
+
+  getUserAddress() {
+    // call reverse-geo code iff the user address does not exist
+    if (this.userAddress) {
+      this.quaRegForm.get('address').setValue(this.userAddress.address);
+      this.quaRegForm.get('city').setValue(this.userAddress.city);
+      this.quaRegForm.get('country').setValue(this.userAddress.country);
+    } else {
+      this.miscService
+        .presentLoadingWithOptions({
+          duration: 0,
+          message: `Getting user address`,
+        })
+        .then((onLoadSuccess) => {
+          this.loadingAniGetAddr = onLoadSuccess;
+          this.loadingAniGetAddr.present();
+          // Get the user address
+          this.hereMapService
+            .getUserAddress(this.currentLocation)
+            .then((data: ReverseGeoResult) => {
+              console.log(data);
+              // Destroy loading controller on dismiss
+              if (this.loadingAniGetAddr !== undefined) {
+                this.loadingAniGetAddr.dismiss().then(() => {
+                  this.loadingAniGetAddr = undefined;
+                });
+              }
+              const geoDataObj =
+                data.body.Response.View[0].Result[0].Location.Address;
+              this.userAddress = {
+                address: geoDataObj.Label,
+                city: geoDataObj.City,
+                country: geoDataObj.AdditionalData[0].value,
+              };
+              // set the values to the form
+              this.quaRegForm.get('address').setValue(this.userAddress.address);
+              this.quaRegForm.get('city').setValue(this.userAddress.city);
+              this.quaRegForm.get('country').setValue(this.userAddress.country);
+            });
+        })
+        .catch((error) => {
+          console.error('Error getting address', error);
+          // Destroy loading controller on dismiss.
+          if (this.loadingAniGetAddr) {
+            this.loadingAniGetAddr.dismiss().then(() => {
+              this.loadingAniGetAddr = undefined;
+            });
+          }
+        });
+    }
+  }
+
+  registerUser() {
+    console.log(this.volRegForm.value);
+  }
+
+  registerVolunteer() {
+    console.log(this.quaRegForm.value);
   }
 }
