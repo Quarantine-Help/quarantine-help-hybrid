@@ -18,7 +18,7 @@ import {
   NearbyParticipant,
   ParticipantRequest,
 } from '../../models/core-api';
-import { RequestTypes, SearchFilters, Categories } from 'src/app/models/maps';
+import { RequestTypes, SearchFilters, Categories } from 'src/app/models/here-map';
 
 declare var H: any;
 

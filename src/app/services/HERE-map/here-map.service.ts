@@ -15,7 +15,7 @@ export class HEREMapService {
     this.urlSuffix = `&mode=retrieveAddresses&maxresults=1&gen=9&apiKey=${this.apiKey}`;
   }
 
-  getUserLocation(currentLocation) {
+  getUserAddress(currentLocation) {
     const requestURL = `${this.reverseCodeBaseURL}prox=${currentLocation.lat},${currentLocation.lng}${this.urlSuffix}`;
     return this.commonHTTP.httpGet(encodeURI(requestURL));
   }
