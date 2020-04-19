@@ -71,16 +71,57 @@ So you wanna contribute some code! That's great! This project uses Git workflow 
 To run the project locally:
 
 - [Install Node.js](https://nodejs.org/en/download/)
-- Install Ionic CLI - `npm install -g @ionic/cli`
+- Install Ionic CLI - `$ npm install -g @ionic/cli`
 - [Fork the project](https://guides.github.com/activities/forking/#fork)
 
 Then in your terminal:
 
-- `cd path/to/your/clone`
-- `npm install`
-- `ionic serve`
+```
+$ cd path/to/your/clone
+$ npm install
+$ ionic serve
+```
 
 And you should be ready to go!
+
+## Workflow summary
+A recommended workflow would be to 
+
+##### Create a fork and setup the upstream remote
+- [Fork](https://guides.github.com/activities/forking) the Github repo.
+- Clone the fork and then set an upstream remote.
+```
+$ git clone https://github.com/YOUR-USERNAME/YOUR-FORK-NAME
+$ git remote add upstream  https://github.com/Quarantine-Help/quarantine-hybrid-app.git
+```
+
+##### Update local repo development branch
+Your forks `develop` branch needs to stay in sync with the project's develop branch before you create a feature branch.
+```
+$ git checkout develop
+$ git fetch upstream
+$ git merge upstream/develop
+```
+#### Create the feature branch in the local and personal repo.
+```
+git checkout -b YOUR-FEATURE NAME
+git push -u origin YOUR-FEATURE NAME
+```
+### Keeping feature branch up to date and reducing merge conflicts.
+Develop your feature and keep pushing to your fork. You may open a PR (with a `[WIP]` suffix in the PR title) once a significant portion of the feature is complete. Do the following steps as required so that the merge conflicts would be minimal. 
+
+##### Update local repo develop branch (as done initially)
+```
+$ git checkout develop
+$ git fetch upstream
+$ git merge upstream/develop
+```
+##### Rebase develop changes into feature branch (if any)
+```
+$ git checkout YOUR-FEATURE NAME
+$ git rebase develop
+```
+Fix all conflicts and make sure no errors were introduced.
 
 ## Contribute Code
 We like code commits a lot! They're super handy, and they keep the project going and doing the work it needs to do to be useful to others.
