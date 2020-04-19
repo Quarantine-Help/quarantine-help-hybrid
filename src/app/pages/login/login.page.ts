@@ -47,6 +47,11 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    // TODO - remove on actual release
+    this.pageClean = false;
+    this.loginForm.controls.email.setValue('testuser1@patient.com');
+    this.loginForm.controls.password.setValue('testuser1');
+
     this.loginSubs = this.loginForm.valueChanges.subscribe((change) => {
       this.pageClean = false;
     });
@@ -111,5 +116,6 @@ export class LoginPage implements OnInit, OnDestroy {
 
   registerUser() {
     console.log('go to register page');
+    this.router.navigate(['/map']);
   }
 }

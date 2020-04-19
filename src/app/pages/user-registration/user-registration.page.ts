@@ -7,6 +7,7 @@ import { MiscService } from 'src/app/services/misc/misc.service';
 import { HEREMapService } from 'src/app/services/HERE-map/here-map.service';
 import { LatLng } from '../../models/geo';
 import { ReverseGeoResult } from 'src/app/models/here-map';
+import { Router } from '@angular/router';
 
 type userSegments = 'volunteer' | 'quarantined';
 interface UserAddress {
@@ -38,7 +39,8 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   constructor(
     private geoLocationService: GeoLocationService,
     private miscService: MiscService,
-    private hereMapService: HEREMapService
+    private hereMapService: HEREMapService,
+    private router: Router
   ) {
     this.volRegForm = new FormGroup({
       firstName: new FormControl('', [Validators.required]),
@@ -243,9 +245,11 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
 
   registerUser() {
     console.log(this.volRegForm.value);
+    this.router.navigate(['/login']);
   }
 
   registerVolunteer() {
     console.log(this.quaRegForm.value);
+    this.router.navigate(['/login']);
   }
 }
