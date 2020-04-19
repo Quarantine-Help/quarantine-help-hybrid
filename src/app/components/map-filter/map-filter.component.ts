@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
-import { SearchFilters, Categories } from 'src/app/models/maps';
+import { SearchFilters, Categories } from 'src/app/models/here-map';
 
 @Component({
   selector: 'map-filter',

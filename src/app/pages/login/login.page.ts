@@ -76,7 +76,7 @@ export class LoginPage implements OnInit, OnDestroy {
               JSON.stringify(data.body.token)
             );
             this.loginAni.dismiss();
-            this.router.navigate(['/quarantine-map']);
+            this.router.navigate(['/map']);
           })
           .catch((errorObj) => {
             this.loginAni.dismiss();
@@ -100,7 +100,7 @@ export class LoginPage implements OnInit, OnDestroy {
     if (this.passwordIcon === 'eye-off') {
       setTimeout(() => {
         this.passwordIcon = 'eye';
-      }, 6000);
+      }, 10000);
     }
   }
 
