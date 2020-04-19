@@ -111,7 +111,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
     if (this.passwordIcon === 'eye-off') {
       setTimeout(() => {
         this.passwordIcon = 'eye';
-      }, 6000);
+      }, 10000);
     }
   }
 
@@ -167,7 +167,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
             this.city =
               data.body.Response.View[0].Result[0].Location.Address.City;
             this.country =
-              data.body.Response.View[0].Result[0].Location.Address.Country;
+              data.body.Response.View[0].Result[0].Location.Address.AdditionalData[0].value;
           });
       })
       .catch((error) => {
