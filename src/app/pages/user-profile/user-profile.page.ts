@@ -8,7 +8,8 @@ import { FormControl, Validators, FormGroup } from '@angular/forms';
 })
 export class UserProfilePage implements OnInit {
   quaRegForm: FormGroup;
-  isVolunteer: boolean;
+  volRegForm: FormGroup;
+  isVolunteer: boolean; // flag for showing different forms
   isEditable: boolean;
   userDetails: {
     firstName: string;
@@ -21,6 +22,20 @@ export class UserProfilePage implements OnInit {
   };
 
   constructor() {
+    this.volRegForm = new FormGroup({
+      firstName: new FormControl('', [Validators.required]),
+      lastName: new FormControl('', [Validators.required]),
+      email: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.email,
+      ]),
+      phoneNumber: new FormControl('', [
+        Validators.minLength(8),
+        Validators.maxLength(16),
+        Validators.required,
+      ]),
+    });
     this.quaRegForm = new FormGroup({
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
@@ -47,7 +62,7 @@ export class UserProfilePage implements OnInit {
   }
 
   ngOnInit() {
-    this.isVolunteer = false;
+    this.isVolunteer = true;
     this.isEditable = false;
     this.userDetails = {
       firstName: 'johny',
@@ -65,6 +80,10 @@ export class UserProfilePage implements OnInit {
     this.quaRegForm.get('country').setValue(this.userDetails.country);
     this.quaRegForm.get('email').setValue(this.userDetails.emailid);
     this.quaRegForm.get('phoneNumber').setValue(this.userDetails.phoneNumber);
+    this.volRegForm.get('firstName').setValue(this.userDetails.firstName);
+    this.volRegForm.get('lastName').setValue(this.userDetails.lastName);
+    this.volRegForm.get('email').setValue(this.userDetails.emailid);
+    this.volRegForm.get('phoneNumber').setValue(this.userDetails.phoneNumber);
   }
 
   onEdit() {
@@ -78,5 +97,10 @@ export class UserProfilePage implements OnInit {
   saveUser() {
     this.isEditable = false;
     console.log(this.quaRegForm.value);
+  }
+
+  saveVolUser() {
+    this.isEditable = false;
+    console.log(this.volRegForm.value);
   }
 }
