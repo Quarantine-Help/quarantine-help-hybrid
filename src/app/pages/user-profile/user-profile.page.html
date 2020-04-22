@@ -60,13 +60,13 @@
           <ion-col size-md="2" size-lg="2">
             <ion-item>
               <ion-label color="medium" position="floating">First Name</ion-label>
-              <ion-input formControlName="firstName" required></ion-input>
+              <ion-input [readonly]="!isEditable" formControlName="firstName" required></ion-input>
             </ion-item>
           </ion-col>
           <ion-col size-md="2" size-lg="2">
             <ion-item>
               <ion-label color="medium" position="floating">Last Name</ion-label>
-              <ion-input formControlName="lastName" required></ion-input>
+              <ion-input [readonly]="!isEditable" formControlName="lastName" required></ion-input>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -74,7 +74,7 @@
           <ion-col size-md="4" size-lg="4" size-xs="12">
             <ion-item>
               <ion-label color="medium" position="floating"> Address </ion-label>
-              <ion-input formControlName="address" required></ion-input>
+              <ion-input [readonly]="!isEditable" formControlName="address" required></ion-input>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -82,7 +82,7 @@
           <ion-col size-md="4" size-lg="4" size-xs="12">
             <ion-item>
               <ion-label color="medium" position="floating"> City </ion-label>
-              <ion-input formControlName="city" required></ion-input>
+              <ion-input [readonly]="!isEditable" formControlName="city" required></ion-input>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -90,7 +90,7 @@
           <ion-col size-md="4" size-lg="4" size-xs="12">
             <ion-item>
               <ion-label color="medium" position="floating"> Country </ion-label>
-              <ion-input formControlName="country" required></ion-input>
+              <ion-input [readonly]="!isEditable" formControlName="country" required></ion-input>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -98,7 +98,7 @@
           <ion-col size-md="4" size-lg="4" size-xs="12">
             <ion-item>
               <ion-label color="medium" position="floating">Email address </ion-label>
-              <ion-input formControlName="email" required type="email"></ion-input>
+              <ion-input [readonly]="!isEditable" formControlName="email" required type="email"></ion-input>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -106,7 +106,7 @@
           <ion-col size-md="4" size-lg="4" size-xs="12">
             <ion-item>
               <ion-label color="medium" position="floating">Phone Number </ion-label>
-              <ion-input formControlName="phoneNumber" required type="tel"></ion-input>
+              <ion-input [readonly]="!isEditable" formControlName="phoneNumber" required type="tel"></ion-input>
             </ion-item>
           </ion-col>
         </ion-row>
