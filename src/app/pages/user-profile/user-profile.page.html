@@ -1,0 +1,110 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-img src="assets/header-temp.svg"></ion-img>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding ion-margin">
+  <ion-grid class="ion-padding">
+    <form *ngIf="isVolunteer; else quaRegFormRef">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-md="2" size-lg="2">
+          <ion-item>
+            <ion-label color="medium" position="floating">First Name</ion-label>
+            <ion-input required></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-md="2" size-lg="2">
+          <ion-item>
+            <ion-label color="medium" position="floating">Last Name</ion-label>
+            <ion-input required></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-md="4" size-lg="4" size-xs="12">
+          <ion-item>
+            <ion-label color="medium" position="floating">Email address </ion-label>
+            <ion-input required type="email"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-md="4" size-lg="4" size-xs="12">
+          <ion-item>
+            <ion-label color="medium" position="floating">Phone Number </ion-label>
+            <ion-input required type="tel"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center ion-padding-vertical">
+        <ion-col size-md="4" size-lg="3" size-xs="8">
+          <ion-button color="primary" shape="round" expand="full" size="default" fill="outline"> Save </ion-button>
+        </ion-col>
+      </ion-row>
+    </form>
+    <ng-template #quaRegFormRef>
+    <form>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-md="2" size-lg="2">
+          <ion-item>
+            <ion-label color="medium" position="floating">First Name</ion-label>
+            <ion-input required></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-md="2" size-lg="2">
+          <ion-item>
+            <ion-label color="medium" position="floating">Last Name</ion-label>
+            <ion-input required></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-md="4" size-lg="4" size-xs="12">
+          <ion-item>
+            <ion-label color="medium" position="floating"> Address </ion-label>
+            <ion-input required name="address"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-md="4" size-lg="4" size-xs="12">
+          <ion-item>
+            <ion-label color="medium" position="floating"> City </ion-label>
+            <ion-input required name="city"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-md="4" size-lg="4" size-xs="12">
+          <ion-item>
+            <ion-label color="medium" position="floating"> Country </ion-label>
+            <ion-input required name="country"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-md="4" size-lg="4" size-xs="12">
+          <ion-item>
+            <ion-label color="medium" position="floating">Email address </ion-label>
+            <ion-input required type="email"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-md="4" size-lg="4" size-xs="12">
+          <ion-item>
+            <ion-label color="medium" position="floating">Phone Number </ion-label>
+            <ion-input required type="tel"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center ion-padding-vertical">
+        <ion-col size-md="4" size-lg="3" size-xs="8">
+          <ion-button color="primary" shape="round" expand="full" size="default" fill="outline"> Save </ion-button>
+        </ion-col>
+      </ion-row>
+    </form>
+    </ng-template>
+  </ion-grid>
+</ion-content>
