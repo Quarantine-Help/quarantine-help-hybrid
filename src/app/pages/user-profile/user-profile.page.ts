@@ -56,7 +56,7 @@ export class UserProfilePage implements OnInit {
 
   ngOnInit() {
     // TODO: get the user type from backend
-    this.isVolunteer = true;
+    this.isVolunteer = false;
     this.isEditable = false;
     this.syncProfileDetails();
   }

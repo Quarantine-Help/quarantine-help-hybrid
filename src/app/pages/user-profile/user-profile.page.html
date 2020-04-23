@@ -102,11 +102,23 @@
               <ion-label color="medium" position="floating">First Name</ion-label>
               <ion-input [readonly]="!isEditable" formControlName="firstName" required></ion-input>
             </ion-item>
+            <ion-item lines="none" class="formInvalid"
+            *ngIf="(quaRegForm.get('firstName').invalid && (quaRegForm.get('firstName').dirty || quaRegForm.get('firstName').touched))">
+            <div *ngIf="quaRegForm.get('firstName').errors.required">
+              First Name is required.
+            </div>
+          </ion-item>
           </ion-col>
           <ion-col size-md="2" size-lg="2">
             <ion-item>
               <ion-label color="medium" position="floating">Last Name</ion-label>
               <ion-input [readonly]="!isEditable" formControlName="lastName" required></ion-input>
+            </ion-item>
+            <ion-item lines="none" class="formInvalid"
+              *ngIf="(quaRegForm.get('lastName').invalid && (quaRegForm.get('lastName').dirty || quaRegForm.get('lastName').touched))">
+              <div *ngIf="quaRegForm.get('lastName').errors.required">
+                Last Name is required.
+              </div>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -116,6 +128,15 @@
               <ion-label color="medium" position="floating"> Address </ion-label>
               <ion-input [readonly]="!isEditable" formControlName="address" required></ion-input>
             </ion-item>
+            <ion-item lines="none" class="formInvalid"
+              *ngIf="(quaRegForm.get('address').invalid && (quaRegForm.get('address').dirty || quaRegForm.get('address').touched))">
+              <div *ngIf="quaRegForm.get('address').errors.required">
+                Address is required.
+              </div>
+              <div *ngIf="quaRegForm.get('address').errors.minlength">
+                Please enter minimum 2 characters.
+              </div>
+            </ion-item>
           </ion-col>
         </ion-row>
         <ion-row class="ion-justify-content-center">
@@ -123,6 +144,15 @@
             <ion-item>
               <ion-label color="medium" position="floating"> City </ion-label>
               <ion-input [readonly]="!isEditable" formControlName="city" required></ion-input>
+            </ion-item>
+            <ion-item lines="none" class="formInvalid"
+              *ngIf="(quaRegForm.get('city').invalid && (quaRegForm.get('city').dirty || quaRegForm.get('city').touched))">
+              <div *ngIf="quaRegForm.get('city').errors.required">
+                City is required.
+              </div>
+              <div *ngIf="quaRegForm.get('city').errors.minlength">
+                Please enter minimum 2 characters.
+              </div>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -132,6 +162,15 @@
               <ion-label color="medium" position="floating"> Country </ion-label>
               <ion-input [readonly]="!isEditable" formControlName="country" required></ion-input>
             </ion-item>
+            <ion-item lines="none" class="formInvalid"
+              *ngIf="(quaRegForm.get('country').invalid && (quaRegForm.get('country').dirty || quaRegForm.get('country').touched))">
+              <div *ngIf="quaRegForm.get('country').errors.required">
+                Country is required.
+              </div>
+              <div *ngIf="quaRegForm.get('country').errors.minlength">
+                Please enter minimum 2 characters.
+              </div>
+            </ion-item>
           </ion-col>
         </ion-row>
         <ion-row class="ion-justify-content-center">
@@ -139,6 +178,15 @@
             <ion-item>
               <ion-label color="medium" position="floating">Email address </ion-label>
               <ion-input [readonly]="!isEditable" formControlName="email" required type="email"></ion-input>
+            </ion-item>
+            <ion-item lines="none" class="formInvalid"
+              *ngIf="(quaRegForm.get('email').invalid && (quaRegForm.get('email').dirty || quaRegForm.get('email').touched))">
+              <div *ngIf="quaRegForm.get('email').errors.required">
+                Email address is required.
+              </div>
+              <div *ngIf="quaRegForm.get('email').errors.email">
+                Please enter a valid email.
+              </div>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -148,11 +196,23 @@
               <ion-label color="medium" position="floating">Phone Number </ion-label>
               <ion-input [readonly]="!isEditable" formControlName="phoneNumber" required type="tel"></ion-input>
             </ion-item>
+            <ion-item lines="none" class="formInvalid"
+              *ngIf="(quaRegForm.get('phoneNumber').invalid && (quaRegForm.get('phoneNumber').dirty || quaRegForm.get('phoneNumber').touched))">
+              <div *ngIf="quaRegForm.get('phoneNumber').errors.required">
+                Phone Number is required.
+              </div>
+              <div *ngIf="quaRegForm.get('phoneNumber').errors.minlength">
+                Please enter at least 8 digits.
+              </div>
+              <div *ngIf="quaRegForm.get('phoneNumber').errors.maxlength">
+                Number exceeded maximum length.
+              </div>
+            </ion-item>
           </ion-col>
         </ion-row>
         <ion-row class="ion-justify-content-center ion-padding-vertical">
           <ion-col size-md="4" size-lg="3" size-xs="8">
-            <ion-button [disabled]="!quaRegForm.dirty" (click)="saveUser()" color="primary" shape="round" expand="full"
+            <ion-button [disabled]="(quaRegForm.pristine || quaRegForm.invalid)" (click)="saveUser()" color="primary" shape="round" expand="full"
               size="default" *ngIf="isEditable" fill="outline"> Save </ion-button>
           </ion-col>
         </ion-row>
