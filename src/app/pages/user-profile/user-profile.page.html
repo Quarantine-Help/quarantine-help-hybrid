@@ -50,7 +50,7 @@
         </ion-row>
         <ion-row class="ion-justify-content-center ion-padding-vertical">
           <ion-col size-md="4" size-lg="3" size-xs="8">
-            <ion-button (click)="saveVolUser()" color="primary" shape="round" expand="full" size="default" *ngIf="isEditable" fill="outline"> Save </ion-button>
+            <ion-button [disabled]="!volRegForm.dirty" (click)="saveVolUser()" color="primary" shape="round" expand="full" size="default" *ngIf="isEditable" fill="outline"> Save </ion-button>
           </ion-col>
         </ion-row>
       </form>
@@ -112,7 +112,7 @@
         </ion-row>
         <ion-row class="ion-justify-content-center ion-padding-vertical">
           <ion-col size-md="4" size-lg="3" size-xs="8">
-            <ion-button (click)="saveUser()" color="primary" shape="round" expand="full" size="default" *ngIf="isEditable" fill="outline"> Save </ion-button>
+            <ion-button [disabled]="!quaRegForm.dirty" (click)="saveUser()" color="primary" shape="round" expand="full" size="default" *ngIf="isEditable" fill="outline"> Save </ion-button>
           </ion-col>
         </ion-row>
       </form>

@@ -62,7 +62,7 @@ export class UserProfilePage implements OnInit {
   }
 
   ngOnInit() {
-    this.isVolunteer = true;
+    this.isVolunteer = false;
     this.isEditable = false;
     this.userDetails = {
       firstName: 'johny',
