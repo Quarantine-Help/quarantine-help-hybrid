@@ -30,12 +30,24 @@
             <ion-label color="medium" position="floating">First Name</ion-label>
             <ion-input [readonly]="!isEditable" formControlName="firstName" required></ion-input>
           </ion-item>
+          <ion-item lines="none" class="formInvalid"
+            *ngIf="(volRegForm.get('firstName').invalid && (volRegForm.get('firstName').dirty || volRegForm.get('firstName').touched))">
+            <div *ngIf="volRegForm.get('firstName').errors.required">
+              First Name is required.
+            </div>
+          </ion-item>
         </ion-col>
         <ion-col size-md="2" size-lg="2">
           <ion-item>
             <ion-label color="medium" position="floating">Last Name</ion-label>
             <ion-input [readonly]="!isEditable" formControlName="lastName" required></ion-input>
           </ion-item>
+          <ion-item lines="none" class="formInvalid"
+          *ngIf="(volRegForm.get('lastName').invalid && (volRegForm.get('lastName').dirty || volRegForm.get('lastName').touched))">
+          <div *ngIf="volRegForm.get('lastName').errors.required">
+            Last Name is required.
+          </div>
+        </ion-item>
         </ion-col>
       </ion-row>
       <ion-row class="ion-justify-content-center">
@@ -43,6 +55,15 @@
           <ion-item>
             <ion-label color="medium" position="floating">Email address </ion-label>
             <ion-input [readonly]="!isEditable" formControlName="email" required type="email"></ion-input>
+          </ion-item>
+          <ion-item lines="none" class="formInvalid"
+            *ngIf="(volRegForm.get('email').invalid && (volRegForm.get('email').dirty || volRegForm.get('email').touched))">
+            <div *ngIf="volRegForm.get('email').errors.required">
+              Email address is required.
+            </div>
+            <div *ngIf="volRegForm.get('email').errors.email">
+              Please enter a valid email.
+            </div>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -52,11 +73,23 @@
             <ion-label color="medium" position="floating">Phone Number </ion-label>
             <ion-input [readonly]="!isEditable" formControlName="phoneNumber" required type="tel"></ion-input>
           </ion-item>
+          <ion-item lines="none" class="formInvalid"
+            *ngIf="(volRegForm.get('phoneNumber').invalid && (volRegForm.get('phoneNumber').dirty || volRegForm.get('phoneNumber').touched))">
+            <div *ngIf="volRegForm.get('phoneNumber').errors.required">
+              Phone Number is required.
+            </div>
+            <div *ngIf="volRegForm.get('phoneNumber').errors.minlength">
+              Please enter atleast 8 digits.
+            </div>
+            <div *ngIf="volRegForm.get('phoneNumber').errors.maxlength">
+              Number exceeded maximum length.
+            </div>
+          </ion-item>
         </ion-col>
       </ion-row>
       <ion-row class="ion-justify-content-center ion-padding-vertical">
         <ion-col size-md="4" size-lg="3" size-xs="8">
-          <ion-button [disabled]="!volRegForm.dirty" (click)="saveVolUser()" color="primary" shape="round" expand="full"
+          <ion-button [disabled]="(volRegForm.pristine || volRegForm.invalid)" (click)="saveVolUser()" color="primary" shape="round" expand="full"
             size="default" *ngIf="isEditable" fill="outline"> Save </ion-button>
         </ion-col>
       </ion-row>
