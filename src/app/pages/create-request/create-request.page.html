@@ -5,4 +5,14 @@
 </ion-header>
 <ion-item class=""> Create new request </ion-item>
 <ion-content class="ion-padding ion-margin">
+  <ion-segment (ionChange)="segmentChanged($event)" value="javascript">
+    <ion-segment-button value="python">
+      <ion-icon name="cart-outline"></ion-icon>
+      <ion-label>Grocery</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="javascript">
+      <ion-icon name="bandage-outline"></ion-icon>
+      <ion-label>Medicine</ion-label>
+    </ion-segment-button>
+  </ion-segment>
 </ion-content>
