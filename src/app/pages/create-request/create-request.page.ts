@@ -6,10 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./create-request.page.scss'],
 })
 export class CreateRequestPage implements OnInit {
+  constructor() {}
 
-  constructor() { }
+  ngOnInit() {}
 
-  ngOnInit() {
+  segmentChanged(e) {
+    console.log(e);
   }
-
 }
