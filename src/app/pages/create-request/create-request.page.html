@@ -3,7 +3,7 @@
     <ion-img src="assets/header-temp.svg"></ion-img>
   </ion-toolbar>
 </ion-header>
-<ion-item class=""> Create new request </ion-item>
+<ion-item> Create new request </ion-item>
 <ion-content class="ion-padding ion-margin">
   <ion-segment (ionChange)="segmentChanged($event)" value="Medicine">
     <ion-segment-button value="Grocery">
@@ -18,17 +18,37 @@
   <ion-item>
     <ion-textarea rows="10" placeholder="Describe your needs here"></ion-textarea>
   </ion-item>
-  <ion-item>
-    <ion-label> Add deadline for request </ion-label>
-    <ion-datetime displayFormat="DD MM YYYY" placeholder="Select Date"></ion-datetime>
-  </ion-item>
-<ion-grid>
-  <ion-row class="ion-justify-content-center ion-padding-vertical">
-    <ion-col size-md="4" size-lg="3" size-xs="8">
-      <ion-button color="primary" shape="round" expand="full" size="default" fill="outline">
-        Submit
-      </ion-button>
+  <ng-template #buttonRef>
+    <ion-button class="ion-margin-vertical" color="light" expand="full"
+    (click)="showPicker()"> Add deadline for request </ion-button>
+  </ng-template>
+  <ion-row *ngIf="showDaysHours; else buttonRef" class="text-center">
+    <ion-col> </ion-col>
+    <ion-col>
+      <ion-chip color="secondary" (click)="showDaysHours=false">
+        <ion-label> Days </ion-label>
+        <ion-icon name="close-circle"></ion-icon>
+      </ion-chip>
+    </ion-col>
+    <ion-col>
+      <ion-chip color="secondary" (click)="showDaysHours=false">
+        <ion-label> Hours </ion-label>
+        <ion-icon name="close-circle"></ion-icon>
+      </ion-chip>
     </ion-col>
   </ion-row>
-</ion-grid>
+  <ion-row *ngIf="showDaysHours" class="text-center">
+    <ion-col> Deadline </ion-col>
+    <ion-col> {{ selected[0] }} </ion-col>
+    <ion-col> {{ selected[1] }} </ion-col>
+  </ion-row>
+  <ion-grid>
+    <ion-row class="ion-justify-content-center ion-padding-vertical">
+      <ion-col size-md="4" size-lg="3" size-xs="8">
+        <ion-button color="primary" shape="round" expand="full" size="default" fill="outline">
+          Submit
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
