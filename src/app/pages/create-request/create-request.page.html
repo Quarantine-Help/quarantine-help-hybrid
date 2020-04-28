@@ -5,7 +5,7 @@
 </ion-header>
 <ion-item> Create new request </ion-item>
 <ion-content class="ion-padding ion-margin">
-  <ion-segment (ionChange)="segmentChanged($event)" value="Medicine">
+  <ion-segment (ionChange)="segmentChanged($event)" value="{{segmentSelected}}">
     <ion-segment-button value="Grocery">
       <ion-icon name="cart-outline"></ion-icon>
       <ion-label>Grocery</ion-label>
@@ -15,40 +15,43 @@
       <ion-label>Medicine</ion-label>
     </ion-segment-button>
   </ion-segment>
-  <ion-item>
-    <ion-textarea rows="10" placeholder="Describe your needs here"></ion-textarea>
-  </ion-item>
-  <ng-template #buttonRef>
-    <ion-button class="ion-margin-vertical" color="light" expand="full"
-    (click)="showPicker()"> Add deadline for request </ion-button>
-  </ng-template>
-  <ion-row *ngIf="showDaysHours; else buttonRef" class="text-center">
-    <ion-col> </ion-col>
-    <ion-col>
-      <ion-chip color="secondary" (click)="showDaysHours=false">
-        <ion-label> Days </ion-label>
-        <ion-icon name="close-circle"></ion-icon>
-      </ion-chip>
-    </ion-col>
-    <ion-col>
-      <ion-chip color="secondary" (click)="showDaysHours=false">
-        <ion-label> Hours </ion-label>
-        <ion-icon name="close-circle"></ion-icon>
-      </ion-chip>
-    </ion-col>
-  </ion-row>
-  <ion-row *ngIf="showDaysHours" class="text-center">
-    <ion-col> Deadline </ion-col>
-    <ion-col> {{ selected[0] }} </ion-col>
-    <ion-col> {{ selected[1] }} </ion-col>
-  </ion-row>
-  <ion-grid>
-    <ion-row class="ion-justify-content-center ion-padding-vertical">
-      <ion-col size-md="4" size-lg="3" size-xs="8">
-        <ion-button color="primary" shape="round" expand="full" size="default" fill="outline">
-          Submit
-        </ion-button>
+  <form [formGroup]="requestForm">
+    <ion-item>
+      <ion-textarea formControlName="requestMessage" rows="10" placeholder="Describe your needs here"></ion-textarea>
+    </ion-item>
+    <ng-template #buttonRef>
+      <ion-button class="ion-margin-vertical" color="light" expand="full" (click)="showPicker()"> Add deadline for
+        request </ion-button>
+    </ng-template>
+    <ion-row *ngIf="showDaysHours; else buttonRef" class="text-center">
+      <ion-col> </ion-col>
+      <ion-col>
+        <ion-chip color="secondary" (click)="showDaysHours=false">
+          <ion-label> Days </ion-label>
+          <ion-icon name="close-circle"></ion-icon>
+        </ion-chip>
+      </ion-col>
+      <ion-col>
+        <ion-chip color="secondary" (click)="showDaysHours=false">
+          <ion-label> Hours </ion-label>
+          <ion-icon name="close-circle"></ion-icon>
+        </ion-chip>
       </ion-col>
     </ion-row>
-  </ion-grid>
+    <ion-row *ngIf="showDaysHours" class="text-center">
+      <ion-col> Deadline </ion-col>
+      <ion-col> {{ selected[0] }} </ion-col>
+      <ion-col> {{ selected[1] }} </ion-col>
+    </ion-row>
+    <ion-grid>
+      <ion-row class="ion-justify-content-center ion-padding-vertical">
+        <ion-col size-md="4" size-lg="3" size-xs="8">
+          <ion-button (click)="submitRequest()" [disabled]="requestForm.invalid" color="primary" shape="round"
+            expand="full" size="default" fill="outline">
+            Submit
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
 </ion-content>
