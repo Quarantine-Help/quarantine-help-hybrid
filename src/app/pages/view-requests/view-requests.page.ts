@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-requests',
@@ -6,10 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./view-requests.page.scss'],
 })
 export class ViewRequestsPage implements OnInit {
+  constructor(private router: Router) {}
 
-  constructor() { }
+  ngOnInit() {}
 
-  ngOnInit() {
+  createNewReq() {
+    console.log('%cnavigate to create request page', 'color: green');
+    // uncomment this on merging
+    // this.router.navigate(['/create-request']);
   }
-
 }
