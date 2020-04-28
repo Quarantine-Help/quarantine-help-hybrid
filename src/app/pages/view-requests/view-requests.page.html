@@ -13,4 +13,15 @@
       </ion-button>
     </ion-row>
   </div>
+  <ion-item>
+    <label> My Requests </label>
+  </ion-item>
+  <ion-segment (ionChange)="segmentChanged($event)" value="Open Requests">
+    <ion-segment-button value="Open Requests">
+      <ion-label>Open Requests</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="Closed Requests">
+      <ion-label>Closed Requests</ion-label>
+    </ion-segment-button>
+  </ion-segment>
 </ion-content>
