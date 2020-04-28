@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PickerController } from '@ionic/angular';
 import { PickerOptions } from '@ionic/core';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-create-request',
@@ -8,17 +9,24 @@ import { PickerOptions } from '@ionic/core';
   styleUrls: ['./create-request.page.scss'],
 })
 export class CreateRequestPage implements OnInit {
+  requestForm: FormGroup;
   selected = ['', ''];
   showDaysHours: boolean;
+  segmentSelected: any;
 
-  constructor(private pickerCtrl: PickerController) {}
+  constructor(private pickerCtrl: PickerController) {
+    this.requestForm = new FormGroup({
+      requestMessage: new FormControl('', [Validators.required]),
+    });
+  }
 
   ngOnInit() {
     this.showDaysHours = false;
+    this.segmentSelected = 'Medicine';
   }
 
   segmentChanged(e) {
-    console.log(e);
+    this.segmentSelected = e.detail.value;
   }
 
   async showPicker() {
@@ -87,13 +95,21 @@ export class CreateRequestPage implements OnInit {
     picker.onDidDismiss().then(async ({ data, role }) => {
       if (role === 'cancel') {
         this.showDaysHours = false;
+      } else {
+        const day = await picker.getColumn('day');
+        const hour = await picker.getColumn('hour');
+        this.selected = [
+          day.options[day.selectedIndex].text,
+          hour.options[hour.selectedIndex].text,
+        ];
       }
-      const day = await picker.getColumn('day');
-      const hour = await picker.getColumn('hour');
-      this.selected = [
-        day.options[day.selectedIndex].text,
-        hour.options[hour.selectedIndex].text,
-      ];
     });
+  }
+
+  submitRequest() {
+    // TODO
+    console.log(this.requestForm);
+    console.log(this.selected);
+    console.log(this.segmentSelected);
   }
 }
