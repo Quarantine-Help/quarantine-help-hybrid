@@ -16,4 +16,8 @@ export class ViewRequestsPage implements OnInit {
     // uncomment this on merging
     // this.router.navigate(['/create-request']);
   }
+
+  segmentChanged(e) {
+    console.log(e);
+  }
 }
