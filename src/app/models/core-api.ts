@@ -55,3 +55,9 @@ export interface ParticipantRequest {
   assignmentHistory: any[];
   createdAt: string;
 }
+
+export type UserType =
+  | 'HL' // Helper - Volunteer
+  | 'AF' // Affected Participant - Quarantined
+  | 'AU' // Authorities
+  | 'TP'; // Third party
