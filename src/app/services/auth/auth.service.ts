@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { CommonHTTPService } from '../common-http/common-http.service';
 
-import { LoginUserCred } from '../../models/auth';
+import { LoginUserCred, UserRegData } from '../../models/auth';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,15 @@ export class AuthService {
     this.registerURL = `${this.baseURL}/register/`;
   }
 
+  // TODO : implement login thing
+  // https://www.youtube.com/watch?v=kSElNfI3cC0
+  // https://www.youtube.com/watch?v=GQDrfe2Xlvk
+
   loginUser(userCred: LoginUserCred) {
     return this.commonHTTP.httpPost(this.loginURL, userCred);
+  }
+
+  registerUser(userData: UserRegData) {
+    return this.commonHTTP.httpPost(this.registerURL, userData);
   }
 }
