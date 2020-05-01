@@ -29,6 +29,7 @@ export class UserProfilePage implements OnInit {
         Validators.required,
       ]),
     });
+
     this.quaRegForm = new FormGroup({
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
@@ -76,6 +77,7 @@ export class UserProfilePage implements OnInit {
       emailid: 'example@gmail.com',
       phoneNumber: '9846512234',
     };
+
     if (this.isVolunteer) {
       this.volRegForm.get('firstName').setValue(userDetails.firstName);
       this.volRegForm.get('lastName').setValue(userDetails.lastName);
@@ -85,10 +87,10 @@ export class UserProfilePage implements OnInit {
       this.quaRegForm.get('firstName').setValue(userDetails.firstName);
       this.quaRegForm.get('lastName').setValue(userDetails.lastName);
       this.quaRegForm.get('address').setValue(userDetails.address);
-      this.quaRegForm.get('city').setValue(userDetails.city);
-      this.quaRegForm.get('country').setValue(userDetails.country);
       this.quaRegForm.get('email').setValue(userDetails.emailid);
       this.quaRegForm.get('phoneNumber').setValue(userDetails.phoneNumber);
+      this.quaRegForm.get('city').setValue(userDetails.city);
+      this.quaRegForm.get('country').setValue(userDetails.country);
     }
   }
 

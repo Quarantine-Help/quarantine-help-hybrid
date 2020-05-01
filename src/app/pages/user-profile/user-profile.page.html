@@ -6,24 +6,25 @@
 
 <ion-content class="ion-padding ion-margin">
   <ion-grid class="ion-padding">
-    <ion-row class="ion-justify-content-center">
+    <ion-row class="ion-justify-content-center ion-align-items-center">
       <ion-col size-md="2" size-lg="2">
-        <strong class="graybutton">My profile</strong>
+        <ion-text color="primary">
+          <h1>My Profile</h1>
+        </ion-text>
       </ion-col>
-      <ion-col size-md="8" size-lg="8">
-      </ion-col>
-      <ion-col size-md="2" size-lg="2">
-        <strong class="graybutton" *ngIf="isEditable; else showEditRef" (click)="onCancel()">
-          <ion-icon name="caret-back-outline"></ion-icon> Cancel
-        </strong>
+      <ion-col size-md="2" offset-md="2" size-lg="2" offset-lg="2">
+        <ion-button expand="block" fill="clear" *ngIf="isEditable; else showEditRef" color="danger" (click)="onCancel()">
+          <ion-icon name="caret-back-outline" slot="start"></ion-icon> Cancel
+        </ion-button>
         <ng-template #showEditRef>
-          <strong class="graybutton" (click)="onEdit()">
-            <ion-icon name="create-outline"></ion-icon> Edit
-          </strong>
+          <ion-button expand="block" fill="clear" (click)="onEdit()" color="secondary">
+            <ion-icon name="create-outline" slot="start"></ion-icon> Edit
+          </ion-button>
         </ng-template>
       </ion-col>
     </ion-row>
-    <form [formGroup]="volRegForm" *ngIf="isVolunteer; else quaRegFormRef">
+
+    <form [formGroup]="volRegForm" *ngIf="isVolunteer; else quaRegFormRef" class="ion-padding-top ion-margin-top">
       <ion-row class="ion-justify-content-center">
         <ion-col size-md="2" size-lg="2">
           <ion-item>
@@ -90,12 +91,13 @@
       <ion-row class="ion-justify-content-center ion-padding-vertical">
         <ion-col size-md="4" size-lg="3" size-xs="8">
           <ion-button [disabled]="(volRegForm.pristine || volRegForm.invalid)" (click)="saveVolUser()" color="primary"
-            shape="round" expand="full" size="default" *ngIf="isEditable" fill="outline"> Save </ion-button>
+            shape="round" expand="full" size="default" *ngIf="isEditable" fill="solid"> Save </ion-button>
         </ion-col>
       </ion-row>
     </form>
+
     <ng-template #quaRegFormRef>
-      <form [formGroup]="quaRegForm">
+      <form [formGroup]="quaRegForm" class="ion-padding-top ion-margin-top">
         <ion-row class="ion-justify-content-center">
           <ion-col size-md="2" size-lg="2">
             <ion-item>
