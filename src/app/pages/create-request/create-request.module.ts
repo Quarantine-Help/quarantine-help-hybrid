@@ -14,8 +14,8 @@ import { CreateRequestPage } from './create-request.page';
     FormsModule,
     IonicModule,
     CreateRequestPageRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  declarations: [CreateRequestPage]
+  declarations: [CreateRequestPage],
 })
 export class CreateRequestPageModule {}
