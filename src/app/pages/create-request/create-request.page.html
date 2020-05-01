@@ -4,7 +4,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding ion-margin">
-  <ion-row class="ion-justify-content-center">
+  <ion-row class="ion-justify-content-center top-spacer">
     <ion-col size-md="6" size-lg="4" size-xs="12">
       <ion-text class="ion-padding" color="primary">
         <h2> Create a new request </h2>
@@ -42,7 +42,7 @@
     <ion-row *ngIf="showDaysHours; else buttonRef"
       class="text-center ion-justify-content-center ion-align-items-center ion-padding-top">
       <ion-col size-md="2" size-lg="1"  size-xs="3" offset-xs="1" class="ion-no-margin ion-no-padding">
-        <ion-text> Deadline </ion-text>
+        <ion-text color="primary"> Deadline </ion-text>
       </ion-col>
       <ion-col  size-md="2" size-lg="1" size-xs="4" class="ion-no-margin ion-no-padding" *ngIf="deadline.days !== '0'">
         <ion-chip color="secondary" (click)="showDaysHours=false">
