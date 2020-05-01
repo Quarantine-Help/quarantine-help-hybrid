@@ -6,8 +6,8 @@ import { CreateRequestPage } from './create-request.page';
 const routes: Routes = [
   {
     path: '',
-    component: CreateRequestPage
-  }
+    component: CreateRequestPage,
+  },
 ];
 
 @NgModule({
