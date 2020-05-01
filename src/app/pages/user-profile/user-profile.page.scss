@@ -1,33 +1,34 @@
 // md upto lg devices
 @media (min-width:768px) {
-    ion-img {
-      max-width: 50vw;
-      max-height: 200px;
-    }
+  ion-img {
+    max-width: 50vw;
+    max-height: 200px;
   }
-  
-  // xl and above devices
-  @media (min-width:1200px) {
-    ion-toolbar {
-      height: 15vh;
-    }
-  
-    ion-img {
-      max-width: 25vw;
-      max-height: 12vh;
-    }
-  }
-  .md {
-    ion-segment-button {
-      --indicator-height: 0.3em;
-    }
-  }
-  .graybutton{
-      color: #aaaaaa;
+}
+
+// xl and above devices
+@media (min-width:1200px) {
+  ion-toolbar {
+    height: 15vh;
   }
 
-  .formInvalid {
-    color: #ea6153;
-    text-align: center;
+  ion-img {
+    max-width: 25vw;
+    max-height: 12vh;
   }
-  
+}
+
+.md {
+  ion-segment-button {
+    --indicator-height: 0.3em;
+  }
+}
+
+.graybutton {
+  color: #aaaaaa;
+}
+
+.formInvalid {
+  color: #ea6153;
+  text-align: center;
+}
