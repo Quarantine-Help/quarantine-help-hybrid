@@ -9,12 +9,16 @@
 // xl and above devices
 @media (min-width:1200px) {
   ion-toolbar {
-    height: 15vh;
+    height: 9vh;
   }
 
   ion-img {
-    max-width: 25vw;
+    max-width: 20vw;
     max-height: 12vh;
+  }
+
+  .top-spacer {
+    padding: 5vh;
   }
 }
 
