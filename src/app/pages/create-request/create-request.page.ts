@@ -10,7 +10,7 @@ import { FormControl, Validators, FormGroup } from '@angular/forms';
 })
 export class CreateRequestPage implements OnInit {
   requestForm: FormGroup;
-  selected = ['', ''];
+  deadline: { days: string; hours: string };
   showDaysHours: boolean;
   segmentSelected: any;
 
@@ -23,6 +23,7 @@ export class CreateRequestPage implements OnInit {
   ngOnInit() {
     this.showDaysHours = false;
     this.segmentSelected = 'Medicine';
+    this.deadline = { days: '0', hours: '0' };
   }
 
   segmentChanged(e) {
@@ -45,45 +46,45 @@ export class CreateRequestPage implements OnInit {
         {
           name: 'day',
           options: [
-            { text: 'Today', value: 'Today' },
-            { text: 'Tomorrow', value: 'Tomorrow' },
-            { text: 'In 2 days', value: 'In 2 days' },
-            { text: 'In 3 days', value: 'In 3 days' },
-            { text: 'In 4 days', value: 'In 4 days' },
-            { text: 'In 5 days', value: 'In 5 days' },
-            { text: 'In 6 days', value: 'In 6 days' },
-            { text: 'In 7 days', value: 'In 7 days' },
-            { text: 'In 8 days', value: 'In 8 days' },
-            { text: 'In 9 days', value: 'In 9 days' },
-            { text: 'In 10 days', value: 'In 10 days' },
+            { text: 'Today', value: '0' },
+            { text: 'Tomorrow', value: '1' },
+            { text: 'In 2 days', value: '2' },
+            { text: 'In 3 days', value: '3' },
+            { text: 'In 4 days', value: '4' },
+            { text: 'In 5 days', value: '5' },
+            { text: 'In 6 days', value: '6' },
+            { text: 'In 7 days', value: '7' },
+            { text: 'In 8 days', value: '8' },
+            { text: 'In 9 days', value: '9' },
+            { text: 'In 10 days', value: '10' },
           ],
         },
         {
           name: 'hour',
           options: [
-            { text: '1 hour', value: '1 hour' },
-            { text: '2 hours', value: '2 hours' },
-            { text: '3 hours', value: '3 hours' },
-            { text: '4 hours', value: '4 hours' },
-            { text: '5 hours', value: '5 hours' },
-            { text: '6 hours', value: '6 hours' },
-            { text: '7 hours', value: '7 hours' },
-            { text: '8 hours', value: '8 hours' },
-            { text: '9 hours', value: '9 hours' },
-            { text: '10 hours', value: '10 hours' },
-            { text: '11 hours', value: '11 hours' },
-            { text: '12 hours', value: '12 hours' },
-            { text: '13 hours', value: '13 hours' },
-            { text: '14 hours', value: '14 hours' },
-            { text: '15 hours', value: '15 hours' },
-            { text: '16 hours', value: '16 hours' },
-            { text: '17 hours', value: '17 hours' },
-            { text: '18 hours', value: '18 hours' },
-            { text: '19 hours', value: '19 hours' },
-            { text: '20 hours', value: '20 hours' },
-            { text: '21 hours', value: '21 hours' },
-            { text: '22 hours', value: '22 hours' },
-            { text: '23 hours', value: '23 hours' },
+            { text: '1 hour', value: '1' },
+            { text: '2 hours', value: '2' },
+            { text: '3 hours', value: '3' },
+            { text: '4 hours', value: '4' },
+            { text: '5 hours', value: '5' },
+            { text: '6 hours', value: '6' },
+            { text: '7 hours', value: '7' },
+            { text: '8 hours', value: '8' },
+            { text: '9 hours', value: '9' },
+            { text: '10 hours', value: '10' },
+            { text: '11 hours', value: '11' },
+            { text: '12 hours', value: '12' },
+            { text: '13 hours', value: '13' },
+            { text: '14 hours', value: '14' },
+            { text: '15 hours', value: '15' },
+            { text: '16 hours', value: '16' },
+            { text: '17 hours', value: '17' },
+            { text: '18 hours', value: '18' },
+            { text: '19 hours', value: '19' },
+            { text: '20 hours', value: '20' },
+            { text: '21 hours', value: '21' },
+            { text: '22 hours', value: '22' },
+            { text: '23 hours', value: '23' },
           ],
         },
       ],
@@ -98,10 +99,10 @@ export class CreateRequestPage implements OnInit {
       } else {
         const day = await picker.getColumn('day');
         const hour = await picker.getColumn('hour');
-        this.selected = [
-          day.options[day.selectedIndex].text,
-          hour.options[hour.selectedIndex].text,
-        ];
+        this.deadline = {
+          days: day.options[day.selectedIndex].value,
+          hours: hour.options[hour.selectedIndex].value,
+        };
       }
     });
   }
@@ -109,7 +110,7 @@ export class CreateRequestPage implements OnInit {
   submitRequest() {
     // TODO
     console.log(this.requestForm);
-    console.log(this.selected);
+    console.log(this.deadline);
     console.log(this.segmentSelected);
   }
 }
