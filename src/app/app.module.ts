@@ -9,6 +9,7 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AppMenuComponent } from './components/app-menu/app-menu.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent, AppMenuComponent],
@@ -18,6 +19,7 @@ import { AppMenuComponent } from './components/app-menu/app-menu.component';
     HttpClientModule,
     IonicModule.forRoot(),
     AppRoutingModule,
+    FormsModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),
