@@ -15,7 +15,7 @@
     <ion-menu-toggle auto-hide="false" *ngFor="let page of pages">
       <ion-item [routerLink]="page.path" routerDirection="root" [class.active-menu]="activePath === page.path"
         class="menu-item ion-justify-content-center ion-align-items-center">
-        <ion-icon color="primary" [name]="page.icon" slot="start"></ion-icon>
+        <ion-icon color="secondary" [name]="page.icon" slot="start"></ion-icon>
         <ion-label>{{ page.name }}</ion-label>
       </ion-item>
     </ion-menu-toggle>
@@ -26,7 +26,7 @@
   <ion-row class="ion-padding ion-justify-content-center ion-align-items-center">
     <ion-col>
       <ion-menu-toggle>
-        <ion-button fill="outline" expand="block" shape="round" size="default">Close</ion-button>
+        <ion-button color="secondary" fill="solid" expand="block" shape="round" size="default">Close</ion-button>
       </ion-menu-toggle>
     </ion-col>
   </ion-row>

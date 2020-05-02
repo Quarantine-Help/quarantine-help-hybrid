@@ -11,7 +11,7 @@ import { AppComponent } from './app.component';
 import { AppMenuComponent } from './components/app-menu/app-menu.component';
 
 @NgModule({
-  declarations: [AppComponent,AppMenuComponent],
+  declarations: [AppComponent, AppMenuComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
