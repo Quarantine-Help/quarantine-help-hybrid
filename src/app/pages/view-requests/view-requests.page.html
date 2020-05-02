@@ -24,4 +24,21 @@
       <ion-label>Closed Requests</ion-label>
     </ion-segment-button>
   </ion-segment>
+  <ng-container *ngFor="let item of allRequests" class="ion-padding-top">
+    <ion-item
+      *ngIf="(isOpenRequests && (item.status=='P' ||  item.status=='T')) || (!isOpenRequests && (item.status=='C' ||  item.status=='F'))"
+      class="ion-padding-top">
+      <ion-row class="ion-justify-content-center ion-align-items-center">
+        <ion-col size="6"> <span *ngIf="item.type=='M'">
+            <ion-icon name="bandage-outline"></ion-icon>
+          </span> <span *ngIf="item.type=='G'"> {{ item.description }} </span> </ion-col>
+        <ion-col size="3">
+          <ion-button shape="round" color="light"> Cancel </ion-button>
+        </ion-col>
+        <ion-col size="3">
+          <ion-button shape="round" color="dark"> Resolve </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+  </ng-container>
 </ion-content>
