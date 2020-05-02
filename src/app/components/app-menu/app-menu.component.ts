@@ -12,6 +12,8 @@ export class AppMenuComponent implements OnInit {
   activePath: string;
   language: Language;
   languages: { name: string; value: Language }[];
+  authAction: { name: string; icon: string; path: string }[];
+  isLoggedIn: boolean;
   constructor(private router: Router) {
     this.router.events.subscribe((event: RouterEvent) => {
       if (event.url) {
@@ -44,13 +46,10 @@ export class AppMenuComponent implements OnInit {
         icon: 'person',
         path: '/profile',
       },
-      {
-        name: 'Logout',
-        icon: 'exit',
-        path: '/exit',
-      },
     ];
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.isLoggedIn = true;
+  }
 }

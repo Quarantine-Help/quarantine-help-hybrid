@@ -26,6 +26,12 @@
         <ion-label>{{ page.name }}</ion-label>
       </ion-item>
     </ion-menu-toggle>
+    <ion-menu-toggle auto-hide="false">
+      <ion-item class="menu-item ion-justify-content-center ion-align-items-center"  routerLink="/login">
+        <ion-icon color="secondary" [name]="isLoggedIn ? 'enter' : 'exit'" slot="start"></ion-icon>
+        <ion-label>{{ isLoggedIn? 'Login':'Logout' }}</ion-label>
+      </ion-item>
+    </ion-menu-toggle>
   </ion-list>
 </ion-content>
 
