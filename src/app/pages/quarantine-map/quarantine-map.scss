@@ -4,10 +4,17 @@
 }
 
 ion-searchbar {
-  --box-shadow: #f5f6f9;
-  --background: #f5f6f9;
+  --box-shadow: transparent;
+  --background: var(--ion-color-light);
 }
 
-ion-header .toolbar {
-  margin: auto;
+.float-search {
+  position: absolute;
+  width: 100%;
+  top: 10vh;
+  z-index: 1;
+}
+
+map-filter {
+  z-index: 2;
 }
