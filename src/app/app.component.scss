@@ -1,0 +1,12 @@
+.split-pane-visible>.split-pane-side {
+  flex-grow: 20;
+}
+
+.split-pane-visible>.split-pane-main {
+  flex-grow: 80;
+}
+
+.split-pane-ios.split-pane-visible>.split-pane-side,
+.split-pane-md.split-pane-visible>.split-pane-side {
+  max-width: 15vw;
+}

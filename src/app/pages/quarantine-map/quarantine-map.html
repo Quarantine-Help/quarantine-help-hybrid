@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header translucent class="hide-lg hide-xl">
   <ion-toolbar fixed color="primary">
     <ion-buttons slot="start">
       <ion-menu-button autoHide="false"></ion-menu-button>
@@ -12,6 +12,21 @@
     <ion-searchbar placeholder="Search" showCancelButton="focus" animated></ion-searchbar>
   </ion-toolbar>
 </ion-header>
+
+<ion-row
+  class="ion-no-padding ion-no-margin ion-align-items-center ion-justify-content-center  hide-md hide-xs hide-sm float-search">
+  <ion-col size-xs="10" size-sm="8" size-md="5" size-lg="5" size-xl="4" class="ion-no-padding">
+    <ion-toolbar color="medium">
+      <ion-buttons slot="primary">
+        <ion-button color="secondary" (click)="toggleFiltering()">
+          <ion-icon slot="icon-only" name="filter" color="dark"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-searchbar placeholder="Search" showCancelButton="focus" animated></ion-searchbar>
+    </ion-toolbar>
+  </ion-col>
+</ion-row>
+
 <map-filter [showFiltering]="showFiltering" (filtersApplied)="onFiltersApplied($event)"></map-filter>
 <!-- This ion-content component nesting alone had caused approx. 1 hours troubleshooting - beware !!-->
 <ion-content>

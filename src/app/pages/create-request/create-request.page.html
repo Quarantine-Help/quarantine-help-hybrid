@@ -1,0 +1,74 @@
+<ion-header translucent class="hide-lg hide-xl">
+  <ion-toolbar fixed color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+      <ion-title>Quarantine Help</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding ion-margin">
+  <ion-row class="ion-justify-content-center top-spacer">
+    <ion-col size-md="6" size-lg="4" size-xs="12">
+      <ion-text class="ion-padding" color="primary">
+        <h2> Create a new request </h2>
+      </ion-text>
+    </ion-col>
+  </ion-row>
+  <ion-segment (ionChange)="segmentChanged($event)" value="{{segmentSelected}}">
+    <ion-segment-button value="Grocery">
+      <ion-icon name="cart-outline"></ion-icon>
+      <ion-label>Grocery</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="Medicine">
+      <ion-icon name="bandage-outline"></ion-icon>
+      <ion-label>Medicine</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <form [formGroup]="requestForm" class="ion-padding-top ion-margin-top">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="8" size-lg="8" size-xs="12">
+        <ion-textarea formControlName="requestMessage" rows="8"
+          placeholder="Describe your {{segmentSelected | lowercase}} needs here.">
+        </ion-textarea>
+      </ion-col>
+    </ion-row>
+    <ng-template #buttonRef>
+      <ion-row class="ion-justify-content-center ion-align-items-center ion-padding-top">
+        <ion-col size-xs="6" size-md="4" size-lg="3">
+          <ion-button class="text-center" size="default" color="secondary" expand="full" fill="clear"
+            (click)="showPicker()"> Add
+            a deadline
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ng-template>
+    <ion-row *ngIf="showDaysHours; else buttonRef"
+      class="text-center ion-justify-content-center ion-align-items-center ion-padding-top">
+      <ion-col size-md="2" size-lg="1"  size-xs="3" offset-xs="1" class="ion-no-margin ion-no-padding">
+        <ion-text color="primary"> Deadline </ion-text>
+      </ion-col>
+      <ion-col  size-md="2" size-lg="1" size-xs="4" class="ion-no-margin ion-no-padding" *ngIf="deadline.days !== '0'">
+        <ion-chip color="secondary" (click)="showDaysHours=false">
+          <ion-label>{{ deadline.days }} days </ion-label>
+          <ion-icon name="close-circle"></ion-icon>
+        </ion-chip>
+      </ion-col>
+      <ion-col  size-md="2" size-lg="2" size-xs="4" class="ion-no-margin ion-no-padding">
+        <ion-chip color="secondary" (click)="showDaysHours=false">
+          <ion-label> {{ deadline.hours }} {{ deadline.hours !== '1'? 'hours': 'hour' }} </ion-label>
+          <ion-icon name="close-circle"></ion-icon>
+        </ion-chip>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>
+<ion-footer>
+  <ion-row class="ion-justify-content-center ion-padding-vertical">
+    <ion-col size-md="4" size-lg="3" size-xs="8">
+      <ion-button (click)="submitRequest()" [disabled]="requestForm.invalid" color="primary" shape="round" expand="full"
+        size="default" fill="outline">
+        Submit
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

@@ -12,7 +12,7 @@ export class HEREMapService {
   constructor(private commonHTTP: CommonHTTPService) {
     this.reverseCodeBaseURL = 'https://reverse.geocoder.ls.hereapi.com/6.2/reversegeocode.json?';
     this.apiKey = 'INxGhspY9TqShx3heSZSBmobOsutPeE9eJaTxfHiiQQ';
-    this.urlSuffix = `&mode=retrieveAddresses&maxresults=1&gen=9&apiKey=${this.apiKey}`;
+    this.urlSuffix = `&mode=retrieveAddresses&maxresults=1&gen=9&apiKey=${this.apiKey}&additionaldata=Country2,true`;
   }
 
   getUserAddress(currentLocation) {

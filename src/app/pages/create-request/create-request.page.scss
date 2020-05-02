@@ -9,27 +9,19 @@
 // xl and above devices
 @media (min-width:1200px) {
   ion-toolbar {
-    height: 15vh;
+    height: 9vh;
   }
 
   ion-img {
-    max-width: 25vw;
+    max-width: 20vw;
     max-height: 12vh;
   }
 
   .top-spacer {
-    padding: 10vh;
-    padding-top: 13vh;
+    padding: 5vh;
   }
 }
 
-.formInvalid {
-  color: #ea6153;
-  text-align: center;
-}
-
-.md {
-  ion-segment-button {
-    --indicator-height: 0.3em;
-  }
+ion-textarea {
+  --background: var(--ion-color-light);
 }

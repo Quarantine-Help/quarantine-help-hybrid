@@ -116,6 +116,6 @@ export class LoginPage implements OnInit, OnDestroy {
 
   registerUser() {
     console.log('go to register page');
-    this.router.navigate(['/map']);
+    this.router.navigate(['/user-reg']);
   }
 }

@@ -1,0 +1,46 @@
+<ion-header translucent>
+  <ion-row class="ion-padding ion-justify-content-center ion-align-items-center">
+    <ion-col size="3" class="ion-padding-end">
+      <ion-img src="assets/icon/favicon.png"></ion-img>
+    </ion-col>
+    <ion-col size="9">
+      <ion-text>
+        <h3>Quarantine Help</h3>
+      </ion-text>
+    </ion-col>
+  </ion-row>
+</ion-header>
+<ion-content>
+  <ion-item class="ion-margin" lines="none">
+    <ion-select interface="popover" slot="end" [(ngModel)]="language">
+      <ion-select-option [value]="lang.value" *ngFor="let lang of languages">
+        {{lang.name}}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-list lines="full">
+    <ion-menu-toggle auto-hide="false" *ngFor="let page of pages">
+      <ion-item [routerLink]="page.path" routerDirection="root" [class.active-menu]="activePath === page.path"
+        class="menu-item ion-justify-content-center ion-align-items-center">
+        <ion-icon color="secondary" [name]="page.icon" slot="start"></ion-icon>
+        <ion-label>{{ page.name }}</ion-label>
+      </ion-item>
+    </ion-menu-toggle>
+    <ion-menu-toggle auto-hide="false">
+      <ion-item class="menu-item ion-justify-content-center ion-align-items-center"  routerLink="/login">
+        <ion-icon color="secondary" [name]="isLoggedIn ? 'enter' : 'exit'" slot="start"></ion-icon>
+        <ion-label>{{ isLoggedIn? 'Login':'Logout' }}</ion-label>
+      </ion-item>
+    </ion-menu-toggle>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-row class="ion-padding ion-justify-content-center ion-align-items-center">
+    <ion-col>
+      <ion-menu-toggle>
+        <ion-button color="secondary" fill="solid" expand="block" shape="round" size="default">Close</ion-button>
+      </ion-menu-toggle>
+    </ion-col>
+  </ion-row>
+</ion-footer>

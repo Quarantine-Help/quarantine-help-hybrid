@@ -4,6 +4,10 @@
     max-width: 50vw;
     max-height: 200px;
   }
+
+  .top-spacer {
+    padding-top: 10vh;
+  }
 }
 
 // xl and above devices
@@ -16,20 +20,15 @@
     max-width: 25vw;
     max-height: 12vh;
   }
-
-  .top-spacer {
-    padding: 10vh;
-    padding-top: 13vh;
-  }
-}
-
-.formInvalid {
-  color: #ea6153;
-  text-align: center;
 }
 
 .md {
   ion-segment-button {
     --indicator-height: 0.3em;
   }
+}
+
+.formInvalid {
+  color: #ea6153;
+  text-align: center;
 }
