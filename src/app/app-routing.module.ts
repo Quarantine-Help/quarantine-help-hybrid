@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'profile', pathMatch: 'full' },
+  { path: '', redirectTo: 'map', pathMatch: 'full' },
   {
     path: 'map',
     loadChildren: () =>
@@ -17,15 +17,24 @@ const routes: Routes = [
   },
   {
     path: 'user-reg',
-    loadChildren: () => import('./pages/user-registration/user-registration.module').then( m => m.UserRegistrationPageModule)
+    loadChildren: () =>
+      import('./pages/user-registration/user-registration.module').then(
+        (m) => m.UserRegistrationPageModule
+      ),
   },
   {
     path: 'profile',
-    loadChildren: () => import('./pages/user-profile/user-profile.module').then( m => m.UserProfilePageModule)
+    loadChildren: () =>
+      import('./pages/user-profile/user-profile.module').then(
+        (m) => m.UserProfilePageModule
+      ),
   },
   {
     path: 'create-request',
-    loadChildren: () => import('./pages/create-request/create-request.module').then( m => m.CreateRequestPageModule)
+    loadChildren: () =>
+      import('./pages/create-request/create-request.module').then(
+        (m) => m.CreateRequestPageModule
+      ),
   },
 ];
 

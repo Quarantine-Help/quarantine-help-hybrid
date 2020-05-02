@@ -11,6 +11,13 @@
   </ion-row>
 </ion-header>
 <ion-content>
+  <ion-item class="ion-margin" lines="none">
+    <ion-select interface="popover" slot="end" [(ngModel)]="language">
+      <ion-select-option [value]="lang.value" *ngFor="let lang of languages">
+        {{lang.name}}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
   <ion-list lines="full">
     <ion-menu-toggle auto-hide="false" *ngFor="let page of pages">
       <ion-item [routerLink]="page.path" routerDirection="root" [class.active-menu]="activePath === page.path"
