@@ -153,7 +153,9 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
           // Get the GPS data
           this.getGPSLocation();
         })
-        .catch((error) => alert(error));
+        .catch((error) => {
+          console.error(error);
+        });
     }
   }
 
@@ -212,7 +214,6 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
       this.quaRegForm.get('address1').setValue(this.userAddress.address);
       this.quaRegForm.get('city').setValue(this.userAddress.city);
       this.quaRegForm.get('country').setValue(this.userAddress.country);
-      this.quaRegForm.get('countryCode').setValue(this.userAddress.countryCode);
     } else {
       this.miscService
         .presentLoadingWithOptions({
@@ -343,7 +344,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
             this.handleLoginErrors(errorMessages, statusCode);
           });
       })
-      .catch((error) => alert(error));
+      .catch((error) => console.error(error));
   }
 
   handleLoginErrors(errorMessages: string[], statusCode) {
