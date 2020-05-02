@@ -25,42 +25,6 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-/* responsive helper classes to hide content */
-//xs devices
-@media (max-width:576px) {
-  .hide-xs {
-    display: none;
-  }
-}
-
-//sm devices
-@media (min-width:576px) and (max-width:768px) {
-  .hide-sm {
-    display: none;
-  }
-}
-
-//md devices
-@media (min-width:768px) and (max-width:992px) {
-  .hide-md {
-    display: none;
-  }
-}
-
-//lg devices
-@media (min-width:992px) and (max-width:1200px) {
-  .hide-lg {
-    display: none;
-  }
-}
-
-// xl devices
-@media (min-width:1200px) {
-  .hide-xl {
-    display: none;
-  }
-}
-
 .toast-service-class {
   align-items: center;
   text-align: center;
