@@ -6,7 +6,9 @@
 
 <ion-content>
   <div class="ion-padding-vertical">
-    <label class="ion-padding"> Need help? </label>
+    <ion-text color="dark">
+      <h5 class="ion-padding-horizontal"> Need help? </h5>
+    </ion-text>
     <ion-row class="ion-justify-content-center ion-padding-vertical">
       <ion-button (click)="createNewReq()" color="primary" shape="round" size="default" fill="outline">
         Create new request
@@ -14,7 +16,9 @@
     </ion-row>
   </div>
   <ion-item>
-    <label> My Requests </label>
+    <ion-text color="dark">
+      <h5> My Requests </h5>
+    </ion-text>
   </ion-item>
   <ion-segment (ionChange)="segmentChanged($event)" value="Open Requests">
     <ion-segment-button value="Open Requests">
@@ -28,17 +32,11 @@
     <ion-item
       *ngIf="(isOpenRequests && (item.status=='P' ||  item.status=='T')) || (!isOpenRequests && (item.status=='C' ||  item.status=='F'))"
       class="ion-padding-top">
-      <ion-row class="ion-justify-content-center ion-align-items-center">
-        <ion-col size="6"> <span *ngIf="item.type=='M'">
-            <ion-icon name="bandage-outline"></ion-icon>
-          </span> <span *ngIf="item.type=='G'"> {{ item.description }} </span> </ion-col>
-        <ion-col size="3">
-          <ion-button shape="round" color="light"> Cancel </ion-button>
-        </ion-col>
-        <ion-col size="3">
-          <ion-button shape="round" color="dark"> Resolve </ion-button>
-        </ion-col>
-      </ion-row>
+      <span slot="start">
+        <ion-icon color="danger" *ngIf="item.type=='M'" name="bandage-outline"></ion-icon> {{ item.description }}
+      </span>
+      <ion-button slot="end" shape="round" color="light"> Cancel </ion-button>
+      <ion-button slot="end" shape="round" color="dark"> Resolve </ion-button>
     </ion-item>
   </ng-container>
 </ion-content>
