@@ -15,4 +15,14 @@
       </h5>
     </ion-text>
   </ion-item>
+  <div class="ion-text-center ion-padding-vertical">
+    <ion-icon *ngIf="isGrocery" class="size" name="cart-outline"></ion-icon>
+    <ion-text *ngIf="isGrocery">
+      <h5> Grocery </h5>
+    </ion-text>
+    <ion-icon *ngIf="!isGrocery" class="size" name="bandage-outline"></ion-icon>
+    <ion-text *ngIf="!isGrocery">
+      <h5> Medicine </h5>
+    </ion-text>
+  </div>
 </ion-content>

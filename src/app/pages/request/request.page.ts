@@ -6,10 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./request.page.scss'],
 })
 export class RequestPage implements OnInit {
-
+isGrocery: boolean;
   constructor() { }
 
   ngOnInit() {
+    this.isGrocery = true;
   }
 
 }
