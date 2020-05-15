@@ -60,6 +60,10 @@ const routes: CustomRoute[] = [
         (m) => m.CreateRequestPageModule
       ),
   },
+  {
+    path: 'request',
+    loadChildren: () => import('./pages/request/request.module').then( m => m.RequestPageModule)
+  },
   { path: '**', redirectTo: 'map' },
 ];
 
