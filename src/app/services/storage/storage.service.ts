@@ -9,12 +9,17 @@ const { Storage } = Plugins;
 export class StorageService {
   constructor() {}
 
-  // JSON set
+  /**
+   * Saves the stringified JSON value in the key provided  *
+   * @param {string} key
+   * @param {string} data - Stringified JSON object.
+   * @memberof StorageService
+   */
   async setObject(key: string, data: string) {
     try {
       await Storage.set({
         key,
-        value: data,
+        value: btoa(escape(data)),
       });
     } catch (error) {
       console.error('Error writing to storage :', error);
@@ -30,7 +35,7 @@ export class StorageService {
       console.error('Error writing to storage :', error);
     }
     try {
-      keyObject = JSON.parse(retrivedString.value);
+      keyObject = JSON.parse(unescape(atob(retrivedString.value)));
     } catch (error) {
       console.error('Error parsing JSON data :', error);
     }
@@ -39,10 +44,12 @@ export class StorageService {
   }
 
   async getKeyItem(key) {
+    let encodedValue;
     let value;
     try {
-      value = await Storage.get({ key });
-      console.log('Got item: ', { value });
+      encodedValue = await Storage.get({ key });
+      value = unescape(atob(encodedValue));
+      console.log('Got item: ', { value: encodedValue });
     } catch (error) {
       console.error('Error parsing JSON data :', error);
     }
