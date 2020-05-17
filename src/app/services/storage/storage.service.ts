@@ -26,9 +26,10 @@ export class StorageService {
     }
   }
 
-  // JSON get
+  // get JSON object stored in the key
   async getObject(key) {
-    let retrivedString, keyObject;
+    let retrivedString,
+      keyObject = {};
     try {
       retrivedString = await Storage.get({ key });
     } catch (error) {
@@ -37,9 +38,11 @@ export class StorageService {
     try {
       keyObject = JSON.parse(unescape(atob(retrivedString.value)));
     } catch (error) {
-      console.error('Error parsing JSON data :', error);
+      console.error(
+        'Error parsing JSON data. Empty/Corrupted storage :',
+        error
+      );
     }
-    console.log(keyObject);
     return keyObject;
   }
 
