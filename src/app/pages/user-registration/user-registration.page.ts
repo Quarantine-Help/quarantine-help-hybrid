@@ -322,7 +322,6 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
         this.userRegAni = onLoadSuccess;
         this.userRegAni.present();
 
-        console.log('userData', userData);
         // call the register API
         this.authService
           .registerUser(userData)
