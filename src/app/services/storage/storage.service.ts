@@ -11,9 +11,8 @@ export class StorageService {
 
   /**
    * Saves the stringified JSON value in the key provided  *
-   * @param {string} key
-   * @param {string} data - Stringified JSON object.
-   * @memberof StorageService
+   * @param string key - Key used to store the JSON object
+   * @param string data - Stringified JSON object.
    */
   async setObject(key: string, data: string) {
     try {
