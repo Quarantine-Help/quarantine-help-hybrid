@@ -67,3 +67,9 @@ export interface UserRegData {
   crisis: number;
   phone: string;
 }
+
+export interface UserDataObservableType {
+  email: string;
+  token: string;
+  type: UserType;
+}
