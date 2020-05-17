@@ -1,9 +1,19 @@
 import { Injectable } from '@angular/core';
+import { Observable, BehaviorSubject } from 'rxjs';
+
 import { environment } from '../../../environments/environment';
+import {
+  LoginUserCred,
+  LoginResponse,
+  UserRegData,
+  UserDataObservableType,
+} from '../../models/auth';
+import { UserType } from '../../models/core-api';
 import { CommonHTTPService } from '../common-http/common-http.service';
+import { StorageService } from 'src/app/services/storage/storage.service';
+import { filter } from 'rxjs/operators';
 
-import { LoginUserCred, UserRegData } from '../../models/auth';
-
+const AUTH_TOKEN_STORAGE_KEY = 'authToken';
 @Injectable({
   providedIn: 'root',
 })
@@ -11,22 +21,62 @@ export class AuthService {
   private baseURL: string;
   private loginURL: string;
   private registerURL: string;
-  constructor(private commonHTTP: CommonHTTPService) {
-    const suffix = `auth`;
-    this.baseURL = `${environment.DJANGO_API_ENDPOINT}/v${environment.DJANGO_API_VERSION}/${suffix}`;
+  user: Observable<UserDataObservableType>;
+  private authState = new BehaviorSubject(null);
+  constructor(
+    private commonHTTP: CommonHTTPService,
+    private storageService: StorageService
+  ) {
+    const APISuffix = `auth`;
+    this.baseURL = `${environment.DJANGO_API_ENDPOINT}/v${environment.DJANGO_API_VERSION}/${APISuffix}`;
     this.loginURL = `${this.baseURL}/login/`;
     this.registerURL = `${this.baseURL}/register/`;
+
+    this.loadAuthData();
+    this.user = this.authState.asObservable();
   }
 
-  // TODO : implement login thing
-  // https://www.youtube.com/watch?v=kSElNfI3cC0
-  // https://www.youtube.com/watch?v=GQDrfe2Xlvk
+  loadAuthData() {
+    this.storageService
+      .getObject(AUTH_TOKEN_STORAGE_KEY)
+      .then((userData: UserDataObservableType | null | undefined) => {
+        if (
+          userData &&
+          userData.email !== undefined &&
+          userData.token !== undefined
+        ) {
+          this.authState.next(userData);
+        }
+      });
+  }
 
   loginUser(userCred: LoginUserCred) {
-    return this.commonHTTP.httpPost(this.loginURL, userCred);
+    return this.commonHTTP
+      .httpPost(this.loginURL, userCred)
+      .then((data: LoginResponse) => {
+        const userData: {
+          email: string;
+          token: string;
+          type: UserType;
+        } = { email: data.body.email, token: data.body.token, type: 'HL' };
+        this.authState.next(userData);
+        this.storageService.setObject(
+          AUTH_TOKEN_STORAGE_KEY,
+          JSON.stringify(userData)
+        );
+        return Promise.resolve(userData);
+      });
   }
 
   registerUser(userData: UserRegData) {
     return this.commonHTTP.httpPost(this.registerURL, userData);
+  }
+
+  logOutUser() {
+    this.authState.next(null);
+    return this.storageService.setObject(
+      AUTH_TOKEN_STORAGE_KEY,
+      JSON.stringify({})
+    );
   }
 }
