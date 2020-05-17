@@ -1,15 +1,24 @@
 import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import {
+  PreloadAllModules,
+  RouterModule,
+  Routes,
+  Route,
+} from '@angular/router';
 
-const routes: Routes = [
+import { AuthGuard } from './guards/auth.guard';
+import { UserType } from './models/core-api';
+
+interface CustomRouteData {
+  expectedRoles: UserType[];
+}
+interface CustomRoute extends Route {
+  data?: CustomRouteData;
+  children?: CustomRoute[];
+}
+
+const routes: CustomRoute[] = [
   { path: '', redirectTo: 'map', pathMatch: 'full' },
-  {
-    path: 'map',
-    loadChildren: () =>
-      import('./pages/quarantine-map/quarantine-map.module').then(
-        (m) => m.QuarantineMapPageModule
-      ),
-  },
   {
     path: 'login',
     loadChildren: () =>
@@ -23,7 +32,18 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'map',
+    loadChildren: () =>
+      import('./pages/quarantine-map/quarantine-map.module').then(
+        (m) => m.QuarantineMapPageModule
+      ),
+  },
+  {
     path: 'profile',
+    canActivate: [AuthGuard],
+    data: {
+      expectedRoles: ['HL', 'AF', 'AU', 'TP'],
+    },
     loadChildren: () =>
       import('./pages/user-profile/user-profile.module').then(
         (m) => m.UserProfilePageModule
@@ -31,11 +51,16 @@ const routes: Routes = [
   },
   {
     path: 'create-request',
+    canActivate: [AuthGuard],
+    data: {
+      expectedRoles: ['AF'],
+    },
     loadChildren: () =>
       import('./pages/create-request/create-request.module').then(
         (m) => m.CreateRequestPageModule
       ),
   },
+  { path: '**', redirectTo: 'map' },
 ];
 
 @NgModule({

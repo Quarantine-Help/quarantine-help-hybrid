@@ -19,7 +19,7 @@
     </ion-select>
   </ion-item>
   <ion-list lines="full">
-    <ion-menu-toggle auto-hide="false" *ngFor="let page of pages">
+    <ion-menu-toggle auto-hide="false" *ngFor="let page of permittedPages">
       <ion-item [routerLink]="page.path" routerDirection="root" [class.active-menu]="activePath === page.path"
         class="menu-item ion-justify-content-center ion-align-items-center">
         <ion-icon color="secondary" [name]="page.icon" slot="start"></ion-icon>
@@ -27,9 +27,9 @@
       </ion-item>
     </ion-menu-toggle>
     <ion-menu-toggle auto-hide="false">
-      <ion-item class="menu-item ion-justify-content-center ion-align-items-center"  routerLink="/login">
-        <ion-icon color="secondary" [name]="isLoggedIn ? 'enter' : 'exit'" slot="start"></ion-icon>
-        <ion-label>{{ isLoggedIn? 'Login':'Logout' }}</ion-label>
+      <ion-item button="true" class="menu-item ion-justify-content-center ion-align-items-center" (click)="authAction()">
+        <ion-icon color="secondary" [name]="isLoggedIn ? 'exit':'enter'" slot="start"></ion-icon>
+        <ion-label>{{ isLoggedIn? 'Logout':'Login' }}</ion-label>
       </ion-item>
     </ion-menu-toggle>
   </ion-list>
