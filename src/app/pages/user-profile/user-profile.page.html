@@ -220,7 +220,7 @@
         shape="round" expand="full" size="default" fill="solid" *ngIf="isVolunteer; else showQuaSubmit"> Save
       </ion-button>
       <ng-template #showQuaSubmit>
-        <ion-button [disabled]="(quaRegForm.pristine || quaRegForm.invalid)" (click)="saveUser()" color="primary"
+        <ion-button [disabled]="(quaRegForm.pristine || quaRegForm.invalid)" (click)="saveQuaUser()" color="primary"
           shape="round" expand="full" size="default" fill="solid"> Save </ion-button>
       </ng-template>
     </ion-col>
