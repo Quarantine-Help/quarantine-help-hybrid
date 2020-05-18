@@ -39,6 +39,7 @@ export class MiscService {
     });
     await alert.present();
   }
+
   presentToastWithOptions(options?) {
     return this.toastController.create({
       message: 'Click to Close',
