@@ -8,7 +8,6 @@ import { HTTP_TIMEOUT } from 'src/app/constants/network';
 })
 export class CommonHTTPService {
   constructor(private http: HttpClient) {}
-
   /**
    * @description method which calls the HTTP GET request
    * @param url url of the http GET resource
@@ -16,7 +15,10 @@ export class CommonHTTPService {
    */
   httpGet(url) {
     // console.log('Starting HTTP GET call to ', url);
-    const options: { observe: 'response' } = { observe: 'response' };
+
+    const options: { observe: 'response' } = {
+      observe: 'response',
+    };
     return new Promise((resolve, reject) => {
       this.http
         .get(encodeURI(url), options)

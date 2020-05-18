@@ -11,24 +11,24 @@ import {
 import { UserType } from '../../models/core-api';
 import { CommonHTTPService } from '../common-http/common-http.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
-import { filter } from 'rxjs/operators';
 
 const AUTH_TOKEN_STORAGE_KEY = 'authToken';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  authAPISuffix: string;
   private baseURL: string;
   private loginURL: string;
   private registerURL: string;
   user: Observable<UserDataObservableType>;
   private authState = new BehaviorSubject(null);
   constructor(
-    private commonHTTP: CommonHTTPService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private commonHTTP: CommonHTTPService
   ) {
-    const APISuffix = `auth`;
-    this.baseURL = `${environment.DJANGO_API_ENDPOINT}/v${environment.DJANGO_API_VERSION}/${APISuffix}`;
+    this.authAPISuffix = `auth`;
+    this.baseURL = `${environment.DJANGO_API_ENDPOINT}/v${environment.DJANGO_API_VERSION}/${this.authAPISuffix}`;
     this.loginURL = `${this.baseURL}/login/`;
     this.registerURL = `${this.baseURL}/register/`;
 
