@@ -54,11 +54,16 @@ export class AuthService {
     return this.commonHTTP
       .httpPost(this.loginURL, userCred)
       .then((data: LoginResponse) => {
+        console.log(data);
         const userData: {
           email: string;
           token: string;
           type: UserType;
-        } = { email: data.body.email, token: data.body.token, type: 'HL' };
+        } = {
+          email: data.body.email,
+          token: data.body.token,
+          type: data.body.participantType,
+        };
         this.authState.next(userData);
         this.storageService.setObject(
           AUTH_TOKEN_STORAGE_KEY,
