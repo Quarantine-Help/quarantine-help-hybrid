@@ -3,6 +3,7 @@ import { AlertController } from '@ionic/angular';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { MenuController } from '@ionic/angular';
 
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { MiscService } from 'src/app/services/misc/misc.service';
@@ -27,7 +28,8 @@ export class LoginPage implements OnInit, OnDestroy {
     private authService: AuthService,
     public alertController: AlertController,
     private miscService: MiscService,
-    private router: Router
+    private router: Router,
+    private menu: MenuController
   ) {
     this.pageClean = true;
     this.showPasswordText = false;
@@ -45,6 +47,10 @@ export class LoginPage implements OnInit, OnDestroy {
     });
   }
 
+  ionViewWillEnter() {
+    this.menu.swipeGesture(false);
+  }
+
   ngOnInit() {
     // TODO - remove on actual release
     this.pageClean = false;
@@ -54,6 +60,11 @@ export class LoginPage implements OnInit, OnDestroy {
     this.loginSubs = this.loginForm.valueChanges.subscribe((change) => {
       this.pageClean = false;
     });
+  }
+
+  ionViewDidLeave() {
+    console.log('ionViewDidLeave');
+    this.menu.swipeGesture(true);
   }
 
   ngOnDestroy() {
