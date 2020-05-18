@@ -31,11 +31,9 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     | boolean
     | UrlTree {
     const expectedRoles: string[] = next.data.expectedRoles;
-    console.log('expectedRoles', expectedRoles);
     return this.authService.user.pipe(
       take(1),
       map((user) => {
-        console.log('user', user);
         if (user && user.email !== undefined && user.token !== undefined) {
           if (expectedRoles.includes(user.type)) {
             return true;
