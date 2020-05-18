@@ -1,8 +1,26 @@
+export type UserType =
+  | 'HL' // Helper - Volunteer
+  | 'AF' // Affected Participant - Quarantined
+  | 'AU' // Authorities
+  | 'TP'; // Third party
+
+interface Position {
+  longitude: string;
+  latitude: string;
+}
+
+interface User {
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
+interface Headers {
+  normalizedNames?: any;
+  lazyUpdate?: any;
+}
 export interface NearbyParticipantsResponse {
-  headers: {
-    normalizedNames: any;
-    lazyUpdate?: any;
-  };
+  headers: Headers;
   status: number;
   statusText: string;
   url: string;
@@ -34,17 +52,6 @@ export interface NearbyParticipant {
   requests: ParticipantRequest[];
 }
 
-interface Position {
-  longitude: string;
-  latitude: string;
-}
-
-interface User {
-  firstName: string;
-  lastName: string;
-  email: string;
-}
-
 export interface ParticipantRequest {
   id: number;
   type: string;
@@ -56,8 +63,27 @@ export interface ParticipantRequest {
   createdAt: string;
 }
 
-export type UserType =
-  | 'HL' // Helper - Volunteer
-  | 'AF' // Affected Participant - Quarantined
-  | 'AU' // Authorities
-  | 'TP'; // Third party
+export interface UserProfileResponseBody {
+  headers: Headers;
+  status: number;
+  statusText: string;
+  url: string;
+  ok: boolean;
+  type: number;
+  body: UserProfileData;
+}
+
+export interface UserProfileData {
+  id?: number;
+  user: User;
+  position?: Position;
+  type?: string;
+  firstLineOfAddress?: string;
+  secondLineOfAddress?: string;
+  country?: string;
+  placeId?: string;
+  postCode?: string;
+  city?: string;
+  phone: string;
+  crisis?: number;
+}
