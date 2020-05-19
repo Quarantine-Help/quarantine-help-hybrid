@@ -17,6 +17,7 @@ interface LoginRespBody {
   token: string;
   participantId: number;
   email: string;
+  participantType: UserType;
 }
 
 export interface LoginUserCred {
@@ -66,4 +67,10 @@ export interface UserRegData {
   country: string;
   crisis: number;
   phone: string;
+}
+
+export interface UserDataObservableType {
+  email: string;
+  token: string;
+  type: UserType;
 }

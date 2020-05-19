@@ -3,11 +3,12 @@ import { AlertController } from '@ionic/angular';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { MenuController } from '@ionic/angular';
 
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { StorageService } from 'src/app/services/storage/storage.service';
 import { MiscService } from 'src/app/services/misc/misc.service';
 import { LoginUserCred, LoginResponse } from '../../models/auth';
+import { UserType } from 'src/app/models/core-api';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +29,7 @@ export class LoginPage implements OnInit, OnDestroy {
     public alertController: AlertController,
     private miscService: MiscService,
     private router: Router,
-    private storageService: StorageService
+    private menu: MenuController
   ) {
     this.pageClean = true;
     this.showPasswordText = false;
@@ -46,6 +47,10 @@ export class LoginPage implements OnInit, OnDestroy {
     });
   }
 
+  ionViewWillEnter() {
+    this.menu.swipeGesture(false);
+  }
+
   ngOnInit() {
     // TODO - remove on actual release
     this.pageClean = false;
@@ -55,6 +60,11 @@ export class LoginPage implements OnInit, OnDestroy {
     this.loginSubs = this.loginForm.valueChanges.subscribe((change) => {
       this.pageClean = false;
     });
+  }
+
+  ionViewDidLeave() {
+    console.log('ionViewDidLeave');
+    this.menu.swipeGesture(true);
   }
 
   ngOnDestroy() {
@@ -75,13 +85,9 @@ export class LoginPage implements OnInit, OnDestroy {
         const userCred: LoginUserCred = this.loginForm.value;
         this.authService
           .loginUser(userCred)
-          .then((data: LoginResponse) => {
-            this.storageService.setObject(
-              'authToken',
-              JSON.stringify(data.body.token)
-            );
+          .then(({ type }) => {
             this.loginAni.dismiss();
-            this.router.navigate(['/map']);
+            this.navigateUser(type);
           })
           .catch((errorObj) => {
             this.loginAni.dismiss();
@@ -100,6 +106,25 @@ export class LoginPage implements OnInit, OnDestroy {
       .catch((error) => alert(error));
   }
 
+  navigateUser(type: UserType) {
+    switch (type) {
+      case 'AF':
+        this.router.navigateByUrl('/map');
+        break;
+      case 'HL':
+        this.router.navigateByUrl('/profile');
+        break;
+      // case 'AU':
+      //   this.router.navigateByUrl('/map');
+      //   break;
+      // case 'TP':
+      //   this.router.navigateByUrl('/map');
+      //   break;
+      default:
+        this.router.navigateByUrl('/map');
+        break;
+    }
+  }
   togglePasswordVisibility() {
     this.passwordIcon = this.passwordIcon === 'eye-off' ? 'eye' : 'eye-off';
     if (this.passwordIcon === 'eye-off') {
@@ -111,11 +136,11 @@ export class LoginPage implements OnInit, OnDestroy {
 
   handleLoginErrors(errorMessages: string[], statusCode) {
     console.log(...errorMessages, statusCode);
-    this.miscService.presentAlert({ message: errorMessages.join('. ') });
+    this.miscService.presentAlert({ message: errorMessages.join('. ')});
   }
 
   registerUser() {
     console.log('go to register page');
-    this.router.navigate(['/user-reg']);
+    this.router.navigateByUrl('/user-reg');
   }
 }

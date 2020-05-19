@@ -15,7 +15,8 @@
         </ion-text>
       </ion-col>
       <ion-col size-md="2" offset-md="2" size-lg="2" offset-lg="2">
-        <ion-button expand="block" fill="clear" *ngIf="isEditable; else showEditRef" color="danger" (click)="onCancel()">
+        <ion-button expand="block" fill="clear" *ngIf="isEditable; else showEditRef" color="danger"
+          (click)="onCancel()">
           <ion-icon name="caret-back-outline" slot="start"></ion-icon> Cancel
         </ion-button>
         <ng-template #showEditRef>
@@ -88,12 +89,6 @@
               Number exceeded maximum length.
             </div>
           </ion-item>
-        </ion-col>
-      </ion-row>
-      <ion-row class="ion-justify-content-center ion-padding-vertical">
-        <ion-col size-md="4" size-lg="3" size-xs="8">
-          <ion-button [disabled]="(volRegForm.pristine || volRegForm.invalid)" (click)="saveVolUser()" color="primary"
-            shape="round" expand="full" size="default" *ngIf="isEditable" fill="solid"> Save </ion-button>
         </ion-col>
       </ion-row>
     </form>
@@ -214,13 +209,20 @@
             </ion-item>
           </ion-col>
         </ion-row>
-        <ion-row class="ion-justify-content-center ion-padding-vertical">
-          <ion-col size-md="4" size-lg="3" size-xs="8">
-            <ion-button [disabled]="(quaRegForm.pristine || quaRegForm.invalid)" (click)="saveUser()" color="primary"
-              shape="round" expand="full" size="default" *ngIf="isEditable" fill="outline"> Save </ion-button>
-          </ion-col>
-        </ion-row>
       </form>
     </ng-template>
   </ion-grid>
 </ion-content>
+<ion-footer *ngIf="isEditable">
+  <ion-row class="ion-justify-content-center ion-padding-vertical">
+    <ion-col size-md="4" size-lg="2" size-xs="8">
+      <ion-button [disabled]="(volRegForm.pristine || volRegForm.invalid)" (click)="saveVolUser()" color="primary"
+        shape="round" expand="full" size="default" fill="solid" *ngIf="isVolunteer; else showQuaSubmit"> Save
+      </ion-button>
+      <ng-template #showQuaSubmit>
+        <ion-button [disabled]="(quaRegForm.pristine || quaRegForm.invalid)" (click)="saveQuaUser()" color="primary"
+          shape="round" expand="full" size="default" fill="solid"> Save </ion-button>
+      </ng-template>
+    </ion-col>
+  </ion-row>
+</ion-footer>

@@ -10,12 +10,17 @@ import { Crisis } from 'src/app/constants/core-api';
   providedIn: 'root',
 })
 export class CoreAPIService {
-  private baseURL: string;
+  private commonBaseURL: string;
+  private crisisBaseURL: string;
   private affectedParticipantsURL: string;
+  private profileMgtURL: string;
   constructor(private commonHTTP: CommonHTTPService) {
-    const suffix = `crises/${Crisis.COVID19}`;
-    this.baseURL = `${environment.DJANGO_API_ENDPOINT}/v${environment.DJANGO_API_VERSION}/${suffix}`;
-    this.affectedParticipantsURL = `${this.baseURL}/affected-participants`; // Trailing slash issue.
+    const crisisSuffix = `crises/${Crisis.COVID19}`;
+    this.crisisBaseURL = `${environment.DJANGO_API_ENDPOINT}/v${environment.DJANGO_API_VERSION}/${crisisSuffix}`;
+    this.affectedParticipantsURL = `${this.crisisBaseURL}/affected-participants`; // Trailing slash issue.
+
+    this.commonBaseURL = `${environment.DJANGO_API_ENDPOINT}/v${environment.DJANGO_API_VERSION}`;
+    this.profileMgtURL = `${this.commonBaseURL}/me/`; // Trailing slash issue.
   }
 
   getNearbyParticipants(
@@ -31,5 +36,13 @@ export class CoreAPIService {
     }
     const afMapAPIURL = `${this.affectedParticipantsURL}/${apiParams}`;
     return this.commonHTTP.httpGet(afMapAPIURL);
+  }
+
+  getUserProfileData() {
+    return this.commonHTTP.httpGet(this.profileMgtURL);
+  }
+
+  saveUserProfileData(profileData) {
+    return this.commonHTTP.httpPatch(this.profileMgtURL, profileData);
   }
 }

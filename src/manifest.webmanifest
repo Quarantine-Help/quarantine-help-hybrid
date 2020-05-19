@@ -1,7 +1,8 @@
 {
-  "name": "quarantine-help",
-  "short_name": "qh-app",
-  "theme_color": "#1976d2",
+  "name": "Quarantine Help",
+  "short_name": "qHelp",
+  "description": "A wishful project to assist quarantined people in finding help.",
+  "theme_color": "#6787a9",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "./",

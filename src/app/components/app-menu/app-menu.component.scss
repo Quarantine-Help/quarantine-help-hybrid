@@ -1,5 +1,5 @@
 ion-content {
-  height: 75vh;
+  height: 70vh;
 }
 
 ion-label {
@@ -11,15 +11,15 @@ ion-img {
   max-height: 20vmin;
 }
 
-.list-md,
-.list-ios {
-  margin-top: 12vh;
-}
-
 .menu-item {
   padding-left: 1vw;
   margin-top: 2vh;
   margin-bottom: 2vh;
+}
+
+.menu-header {
+  letter-spacing: 0.1em;
+  font-family: monospace;
 }
 
 .ios {
@@ -31,7 +31,7 @@ ion-img {
 }
 
 .active-menu {
-  border-left: 5px solid var(--ion-color-secondary);
+  border-left: 5px solid var(--ion-color-primary);
 
   ion-icon {
     margin-right: 27px;
@@ -40,4 +40,31 @@ ion-img {
 
 .footer-md::before {
   background-image: none;
+}
+
+//lg devices (HD) - height based
+@media (min-height:768px) and (max-height:1080px) {
+
+  .list-md,
+  .list-ios {
+    margin-top: 6vh;
+  }
+}
+
+//xl devices (FHD) - height based
+@media (min-height:1080px) and (max-height:2160px) {
+
+  .list-md,
+  .list-ios {
+    margin-top: 15vh;
+  }
+}
+
+// xxl devices (4K) - height based
+@media (min-height:2160px) {
+
+  .list-md,
+  .list-ios {
+    margin-top: 20vh;
+  }
 }
