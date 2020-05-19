@@ -1,10 +1,10 @@
 <ion-header translucent class="hide-lg hide-xl">
   <ion-row class="ion-padding-start ion-padding-top ion-justify-content-center ion-align-items-center">
     <ion-col size="4" class="ion-padding-end">
-      <ion-img src="assets/icons/icon-2x.png"></ion-img>
+      <ion-img src="assets/icons/icon-2x.png" alt="Quarantine Help Logo"></ion-img>
     </ion-col>
     <ion-col size="8">
-      <ion-text color="primary" class="menu-header">
+      <ion-text color="primary-text" class="menu-header">
         <h3>Quarantine Help</h3>
       </ion-text>
     </ion-col>
@@ -33,7 +33,8 @@
               </ion-item>
               <ion-item lines="inset">
                 <ion-label color="primary" position="floating">Password</ion-label>
-                <ion-input clearOnEdit="false" [type]="passwordIcon === 'eye'? 'password':'text' " formControlName="password" required>
+                <ion-input clearOnEdit="false" [type]="passwordIcon === 'eye'? 'password':'text' "
+                  formControlName="password" required>
                 </ion-input>
                 <ion-icon slot="end" [name]="passwordIcon" (click)="togglePasswordVisibility()" color="primary"
                   class="ion-align-self-center">
@@ -51,15 +52,15 @@
             </ion-list>
             <ion-item lines="none" class="ion-margin-top">
               <ion-button expand="block" type="submit" class="ion-margin-top" shape="round" fill="outline"
-                size="default" color="primary" (click)="loginUser()" [disabled]="(pageClean || !loginForm.valid)">
-                <strong>Login</strong>
+                size="default" (click)="loginUser()" [disabled]="(pageClean || !loginForm.valid)">
+                <ion-text color="primary-text"><strong>Login</strong></ion-text>
               </ion-button>
             </ion-item>
           </ion-col>
         </ion-row>
         <ion-row class="ion-justify-content-center ion-align-items-center">
           <ion-item lines="none">
-            <ion-text color="primary" class="ion-text-center">
+            <ion-text color="primary-text" class="ion-text-center">
               I'm a new user, <strong ion-button (click)="registerUser()">Register</strong>
             </ion-text>
           </ion-item>

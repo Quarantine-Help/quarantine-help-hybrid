@@ -7,8 +7,15 @@
   --ion-color-primary-rgb: 106, 140, 175;
   --ion-color-primary-contrast: #000000;
   --ion-color-primary-contrast-rgb: 0, 0, 0;
-  --ion-color-primary-shade: #5d7b9a;
+  --ion-color-primary-shade: #5a7896;
   --ion-color-primary-tint: #7998b7;
+
+  --ion-color-primary-text: #54789c;
+  --ion-color-primary-text-rgb: 84, 120, 156;
+  --ion-color-primary-text-contrast: #ffffff;
+  --ion-color-primary-text-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-text-shade: #4a6a89;
+  --ion-color-primary-text-tint: #6586a6;
 
   --ion-color-secondary: #75B79E;
   --ion-color-secondary-rgb: 117, 183, 158;
@@ -226,4 +233,18 @@
 @font-face {
   font-family: 'Questrial';
   src: url('../assets/fonts/Questrial-Regular.ttf');
+  font-display: swap;
+}
+
+.ion-color-primary-text {
+  --ion-color-base: var(--ion-color-primary-text);
+  --ion-color-base-rgb: var(--ion-color-primary-text-rgb);
+  --ion-color-contrast: var(--ion-color-primary-text-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-primary-text-contrast-rgb);
+  --ion-color-shade: var(--ion-color-primary-text-shade);
+  --ion-color-tint: var(--ion-color-primary-text-tint);
+}
+
+.alert-backdrop {
+  backdrop-filter: blur(2px);
 }

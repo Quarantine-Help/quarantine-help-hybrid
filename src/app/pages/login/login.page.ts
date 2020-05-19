@@ -136,7 +136,7 @@ export class LoginPage implements OnInit, OnDestroy {
 
   handleLoginErrors(errorMessages: string[], statusCode) {
     console.log(...errorMessages, statusCode);
-    this.miscService.presentAlert({ message: errorMessages.join('. ') });
+    this.miscService.presentAlert({ message: errorMessages.join('. ')});
   }
 
   registerUser() {
