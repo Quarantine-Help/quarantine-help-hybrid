@@ -24,7 +24,7 @@ export class MiscService {
       duration: 5000,
       message: 'Loader will dismiss in 5 seconds...',
       translucent: true,
-      cssClass: 'custom-loading',
+      cssClass: 'alert-backdrop',
       ...options,
     });
   }
@@ -34,6 +34,7 @@ export class MiscService {
       header: 'Error',
       subHeader: 'Login failed !',
       message: 'Unknown error !',
+      cssClass: 'alert-backdrop',
       buttons: ['Try again'],
       ...options,
     });
