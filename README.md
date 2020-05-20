@@ -17,6 +17,7 @@ This repo contains the hybrid app frontend built using the Ionic Framework. The 
 
 - After [installing up nodeJS and Ionic](https://ionicframework.com/docs/installation/cli), you can run `ng serve` for a dev server.
 - Navigate to `http://localhost:8100/`. The app will automatically reload if you change any of the source files.
+- You could also run `ionic serve --prod --ssl` to test an ionic production build locally.
 
 ## Build
 
