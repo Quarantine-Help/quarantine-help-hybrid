@@ -8,6 +8,20 @@ ion-button {
   margin-right: auto;
 }
 
+ion-text{
+  strong{
+    vertical-align: middle;
+  }
+}
+
+ion-icon {
+  vertical-align: middle;
+}
+
+.reg-icon {
+  zoom: 1.5;
+}
+
 .formInvalid {
   color: #ea6153;
   text-align: center;
