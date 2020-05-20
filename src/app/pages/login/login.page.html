@@ -37,7 +37,7 @@
                   formControlName="password" required>
                 </ion-input>
                 <ion-icon slot="end" [name]="passwordIcon" (click)="togglePasswordVisibility()" color="primary"
-                  class="ion-align-self-center">
+                  class="ion-align-self-end">
                 </ion-icon>
               </ion-item>
               <ion-item lines="none" class="formInvalid"
@@ -61,7 +61,11 @@
         <ion-row class="ion-justify-content-center ion-align-items-center">
           <ion-item lines="none">
             <ion-text color="primary-text" class="ion-text-center">
-              I'm a new user, <strong ion-button (click)="registerUser()">Register</strong>
+              I'm a new user, &nbsp;
+            </ion-text>
+            <ion-text color="primary-text" ion-button (click)="registerUser()" class="ion-justify-content-center ion-align-items-center">
+              <strong>Register &nbsp;</strong>
+              <ion-icon name="chevron-forward-circle-outline" class="reg-icon"></ion-icon>
             </ion-text>
           </ion-item>
         </ion-row>
