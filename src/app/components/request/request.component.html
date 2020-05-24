@@ -1,0 +1,22 @@
+<ion-item lines="full" (click)="viewRequest()" button>
+  <ion-grid>
+    <ion-row class="item-background">
+      <ion-col size="2" class="ion-text-center item-background">
+        <div class="space-above">
+          <span> {{ requestData.createdAt | date:'MMM'  }} </span>
+          <h3 class="ion-no-margin"> {{ requestData.createdAt | date:'dd'  }} </h3>
+          <span> {{ requestData.createdAt | date:'yyyy'  }} </span>
+        </div>
+      </ion-col>
+      <ion-col size="8" class="item-background">
+        <div class="ion-padding white">
+          {{ requestData.description  | slice:0:40 }} ...
+        </div>
+        <small> {{ requestData.createdAt | date:'shortTime' }} </small>
+      </ion-col>
+      <ion-col size="2" class="ion-text-center item-background">
+        <ion-icon class="space-above" color="danger" *ngIf="requestData.type=='M'" name="medkit"> </ion-icon>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-item>

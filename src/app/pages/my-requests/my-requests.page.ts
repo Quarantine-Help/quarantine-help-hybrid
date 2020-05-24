@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-view-requests',
-  templateUrl: './view-requests.page.html',
-  styleUrls: ['./view-requests.page.scss'],
+  selector: 'app-my-requests',
+  templateUrl: './my-requests.page.html',
+  styleUrls: ['./my-requests.page.scss'],
 })
-export class ViewRequestsPage implements OnInit {
+export class MyRequestsPage implements OnInit {
   allRequests = [
     {
       id: 14,
@@ -22,7 +22,7 @@ export class ViewRequestsPage implements OnInit {
       id: 15,
       type: 'G',
       deadline: '2020-05-28T22:01:01Z',
-      description: 'Want 1 Kg grapes',
+      description: ' Lorem Ipsum has been the industrys standard dummy text ever since the 1500s text. Lorem Ipsum has been the industrys',
       assignee: null,
       status: 'T',
       assignmentHistory: [],
@@ -46,7 +46,7 @@ export class ViewRequestsPage implements OnInit {
       assignee: null,
       status: 'C',
       assignmentHistory: [],
-      createdAt: '2020-03-31T16:54:16.421078Z',
+      createdAt: '2020-04-31T16:54:16.421078Z',
     },
     {
       id: 18,
@@ -56,7 +56,7 @@ export class ViewRequestsPage implements OnInit {
       assignee: null,
       status: 'P',
       assignmentHistory: [],
-      createdAt: '2020-03-31T16:54:16.421078Z',
+      createdAt: '2020-05-31T16:54:16.421078Z',
     },
     {
       id: 18,
@@ -66,7 +66,7 @@ export class ViewRequestsPage implements OnInit {
       assignee: null,
       status: 'C',
       assignmentHistory: [],
-      createdAt: '2020-03-31T16:54:16.421078Z',
+      createdAt: '2021-03-01T16:54:16.421078Z',
     },
   ];
   isOpenRequests: boolean;
@@ -77,17 +77,26 @@ export class ViewRequestsPage implements OnInit {
   }
 
   createNewReq() {
-    console.log('%cnavigate to create request page', 'color: green');
-    // uncomment this on merging
-    // this.router.navigate(['/create-request']);
+     this.router.navigate(['/create-request']);
   }
 
   segmentChanged(e) {
-    // console.log(e.detail.value);
     if (e.detail.value === 'Open Requests') {
       this.isOpenRequests = true;
     } else if (e.detail.value === 'Closed Requests') {
       this.isOpenRequests = false;
     }
+  }
+
+  viewRequest() {
+    console.log('view request page');
+  }
+
+  resolveRequest() {
+    console.log('resolve request');
+  }
+
+  cancelRequest() {
+    console.log('cancel request');
   }
 }
