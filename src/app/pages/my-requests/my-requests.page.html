@@ -1,10 +1,13 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-img src="assets/header-temp.svg"></ion-img>
+<ion-header translucent class="hide-lg hide-xl">
+  <ion-toolbar fixed color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+      <ion-title>Quarantine Help</ion-title>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
   <div class="ion-padding-vertical">
     <ion-text color="dark">
       <h5 class="ion-padding-horizontal"> Need help? </h5>
@@ -29,14 +32,8 @@
     </ion-segment-button>
   </ion-segment>
   <ng-container *ngFor="let item of allRequests" class="ion-padding-top">
-    <ion-item
-      *ngIf="(isOpenRequests && (item.status=='P' ||  item.status=='T')) || (!isOpenRequests && (item.status=='C' ||  item.status=='F'))"
-      class="ion-padding-top">
-      <span slot="start">
-        <ion-icon color="danger" *ngIf="item.type=='M'" name="bandage-outline"></ion-icon> {{ item.description }}
-      </span>
-      <ion-button slot="end" shape="round" color="light"> Cancel </ion-button>
-      <ion-button slot="end" shape="round" color="dark"> Resolve </ion-button>
-    </ion-item>
+    <app-request [requestData]="item"
+      *ngIf="(isOpenRequests && (item.status=='P' || item.status=='T')) || (!isOpenRequests && (item.status=='C' || item.status=='F'))">
+    </app-request>
   </ng-container>
 </ion-content>

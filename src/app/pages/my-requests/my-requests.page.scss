@@ -22,4 +22,10 @@ div {
   background-color: #efefef;
 }
 
-ion-icon { zoom: 2 }
+ion-icon {
+  zoom: 2;
+}
+
+span.request-row {
+  display: flex;
+}
