@@ -1,0 +1,81 @@
+<ion-header translucent class="hide-lg hide-xl">
+  <ion-toolbar fixed color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+      <ion-title>Quarantine Help</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item class="topbar">
+    <ion-text class="ion-padding-vertical">
+      <h3>
+        <ion-icon *ngIf="isGrocery" name="cart-outline"></ion-icon> Grocery Help
+      </h3>
+    </ion-text>
+  </ion-item>
+
+  <ion-grid>
+    <ion-row class="bottom-border">
+      <ion-col size="4">
+        <ion-icon class="size" name="calendar-outline"></ion-icon>
+        <ion-text>
+          <h5 class="deadline"> Deadline </h5>
+        </ion-text>
+      </ion-col>
+      <ion-col size="4"></ion-col>
+      <ion-col size="4">
+        <ion-text color="danger">
+          <h1> 3:00 pm </h1>
+          <h5> 20-10-2020 </h5>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row class="bottom-border">
+      <ion-col size="4">
+        <ion-text>
+          <h5> Created </h5>
+        </ion-text>
+      </ion-col>
+      <ion-col size="2">
+      </ion-col>
+      <ion-col size="6">
+        <ion-text>
+          <h5>
+            02:00 AM, 2020-03-01
+          </h5>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row class="bottom-border">
+      <ion-col size="4">
+        <ion-text>
+          <h5> Status </h5>
+        </ion-text>
+      </ion-col>
+      <ion-col size="3">
+      </ion-col>
+      <ion-col size="5">
+        <ion-text>
+          <h5>
+            <span class="transit"> In Transit </span>
+            <ion-icon size="large" name="bicycle-outline"></ion-icon>
+          </h5>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-item class="vertical-space">
+      <ion-text class="description ion-padding">
+        Description text
+        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+      </ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-button color="light">Cancel</ion-button>
+      <ion-button color="dark" slot="end">Resolve</ion-button>
+    </ion-item>
+  </ion-grid>
+</ion-content>

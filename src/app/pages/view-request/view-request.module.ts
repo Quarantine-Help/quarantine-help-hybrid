@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { RequestPageRoutingModule } from './request-routing.module';
+import { RequestPageRoutingModule } from './view-request-routing.module';
 
-import { RequestPage } from './request.page';
+import { ViewRequestPage } from './view-request.page';
 
 @NgModule({
   imports: [
@@ -15,6 +15,6 @@ import { RequestPage } from './request.page';
     IonicModule,
     RequestPageRoutingModule
   ],
-  declarations: [RequestPage]
+  declarations: [ViewRequestPage]
 })
 export class RequestPageModule {}
