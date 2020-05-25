@@ -7,11 +7,14 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
   <ion-item class="topbar">
     <ion-text class="ion-padding-vertical">
-      <h3>
-        <ion-icon *ngIf="isGrocery" name="cart-outline"></ion-icon> Grocery Help
+      <h3 size="large" *ngIf="requestedData.type=='G'">
+        <ion-icon name="cart-outline"></ion-icon> Grocery Request
+      </h3>
+      <h3 *ngIf="requestedData.type=='M'">
+        <ion-icon size="large" name="medkit-outline"></ion-icon> Medicine Request
       </h3>
     </ion-text>
   </ion-item>
@@ -27,8 +30,8 @@
       <ion-col size="4"></ion-col>
       <ion-col size="4">
         <ion-text color="danger">
-          <h1> 3:00 pm </h1>
-          <h5> 20-10-2020 </h5>
+          <h1> {{ requestedData.deadline | date:'shortTime' }} </h1>
+          <h5> {{ requestedData.deadline | date }} </h5>
         </ion-text>
       </ion-col>
     </ion-row>
@@ -43,7 +46,8 @@
       <ion-col size="6">
         <ion-text>
           <h5>
-            02:00 AM, 2020-03-01
+            {{ requestedData.createdAt | date:'shortTime' }}
+            , {{ requestedData.createdAt | date }}
           </h5>
         </ion-text>
       </ion-col>
@@ -59,13 +63,19 @@
       <ion-col size="5">
         <ion-text>
           <h5>
-            <span class="transit"> In Transit </span>
+            <span class="transit" [ngSwitch]="requestedData.status">
+              <span *ngSwitchCase="'P'"> Pending </span>
+              <span *ngSwitchCase="'T'"> Transit </span>
+              <span *ngSwitchCase="'F'"> Finished </span>
+              <span *ngSwitchCase="'C'"> Cancelled </span>
+              <span *ngSwitchDefault> Status not available </span>
+            </span>
             <ion-icon size="large" name="bicycle-outline"></ion-icon>
           </h5>
         </ion-text>
       </ion-col>
     </ion-row>
-    <ion-row class="bottom-border">
+    <ion-row class="bottom-border" *ngIf="!isVolunteer">
       <ion-col size="5">
         <ion-text>
           <h5> Assignee Details </h5>
@@ -77,32 +87,32 @@
         <ion-text>
           <h5>
             <strong>
-              <ion-icon name="person-circle-outline"></ion-icon> Johnny Depp
+              <ion-icon name="person-circle-outline"></ion-icon> {{ assigneeDetails.user.firstName }}
+              {{ assigneeDetails.user.lastName }}
             </strong>
             <p>
-              <ion-icon name="call-outline"></ion-icon> 9878767881
+              <ion-icon name="call-outline"></ion-icon> {{ assigneeDetails.phone }}
             </p>
             <p>
-              <ion-icon name="location-outline"></ion-icon> apartment no, xyz street, stockholm, Sweden
+              <ion-icon name="location-outline"></ion-icon>
+              {{ assigneeDetails.firstLineOfAddress }}, {{ assigneeDetails.secondLineOfAddress }},
+              {{ assigneeDetails.city }}, {{ assigneeDetails.country }}
             </p>
             <p>
-              <ion-icon name="locate-outline"></ion-icon> 458959
+              <ion-icon name="locate-outline"></ion-icon> {{ assigneeDetails.postCode }}
             </p>
           </h5>
         </ion-text>
       </ion-col>
     </ion-row>
-    <ion-item class="vertical-space">
+    <ion-item [ngClass]="{ verticalspace : isVolunteer === true }">
       <ion-text class="description ion-padding">
-        Description text
-        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+        {{ requestedData.description }}
       </ion-text>
     </ion-item>
-    <ion-item>
-      <ion-button color="light">Cancel</ion-button>
-      <ion-button color="dark" slot="end">Resolve</ion-button>
+    <ion-item *ngIf="requestedData.status === 'P' || requestedData.status === 'T'">
+      <ion-button (click)="cancelRequest()" color="light">Cancel</ion-button>
+      <ion-button (click)="resolveRequest()" color="dark" slot="end">Resolve</ion-button>
     </ion-item>
   </ion-grid>
 </ion-content>

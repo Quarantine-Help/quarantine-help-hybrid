@@ -16,10 +16,13 @@
 .description {
   font-size: large;
   background-color: #f4f5f5;
+  min-height: 116px;
+  max-height: 200px;
 }
-.vertical-space {
+.verticalspace {
   margin-top: 130px;
 }
-h5 p, h5 strong {
+h5 p,
+h5 strong {
   margin: 3px;
 }
