@@ -61,8 +61,11 @@ const routes: CustomRoute[] = [
       ),
   },
   {
-    path: 'request',
-    loadChildren: () => import('./pages/request/request.module').then( m => m.RequestPageModule)
+    path: 'view-requests',
+    loadChildren: () =>
+      import('./pages/view-request/view-request.module').then(
+        (m) => m.RequestPageModule
+      ),
   },
   { path: '**', redirectTo: 'map' },
 ];
