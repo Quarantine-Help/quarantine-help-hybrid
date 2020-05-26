@@ -12,7 +12,7 @@ export class ViewRequestPage implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    this.isVolunteer = true;
+    this.isVolunteer = false;
     this.requestedData = {
       id: 16,
       type: 'G',
