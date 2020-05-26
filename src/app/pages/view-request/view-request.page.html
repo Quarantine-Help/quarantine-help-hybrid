@@ -30,7 +30,7 @@
       <ion-col size="4"></ion-col>
       <ion-col size="4">
         <ion-text color="danger">
-          <h1> {{ requestedData.deadline | date:'shortTime' }} </h1>
+          <h1> {{ requestedData.deadline | date:'h' }}:{{ requestedData.deadline | date:'mm' }} <small> {{ requestedData.deadline | date:'aa' }} </small> </h1>
           <h5> {{ requestedData.deadline | date }} </h5>
         </ion-text>
       </ion-col>
@@ -65,12 +65,12 @@
           <h5>
             <span class="transit" [ngSwitch]="requestedData.status">
               <span *ngSwitchCase="'P'"> Pending </span>
-              <span *ngSwitchCase="'T'"> Transit </span>
+              <span *ngSwitchCase="'T'"> In Transit </span>
               <span *ngSwitchCase="'F'"> Finished </span>
               <span *ngSwitchCase="'C'"> Cancelled </span>
               <span *ngSwitchDefault> Status not available </span>
             </span>
-            <ion-icon size="large" name="bicycle-outline"></ion-icon>
+            <ion-icon name="bicycle-outline"></ion-icon>
           </h5>
         </ion-text>
       </ion-col>
@@ -110,9 +110,13 @@
         {{ requestedData.description }}
       </ion-text>
     </ion-item>
+  </ion-grid>
+</ion-content>
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
     <ion-item *ngIf="requestedData.status === 'P' || requestedData.status === 'T'">
       <ion-button (click)="cancelRequest()" color="light">Cancel</ion-button>
       <ion-button (click)="resolveRequest()" color="dark" slot="end">Resolve</ion-button>
     </ion-item>
-  </ion-grid>
-</ion-content>
+  </ion-toolbar>
+</ion-footer>
