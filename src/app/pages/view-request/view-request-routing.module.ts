@@ -6,8 +6,8 @@ import { ViewRequestPage } from './view-request.page';
 const routes: Routes = [
   {
     path: '',
-    component: ViewRequestPage
-  }
+    component: ViewRequestPage,
+  },
 ];
 
 @NgModule({
