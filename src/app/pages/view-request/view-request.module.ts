@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { RequestPageRoutingModule } from './view-request-routing.module';
+import { ViewRequestPageRoutingModule } from './view-request-routing.module';
 
 import { ViewRequestPage } from './view-request.page';
 
@@ -13,8 +13,8 @@ import { ViewRequestPage } from './view-request.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    RequestPageRoutingModule
+    ViewRequestPageRoutingModule
   ],
   declarations: [ViewRequestPage]
 })
-export class RequestPageModule {}
+export class ViewRequestPageModule {}

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
 import { CallNumberService } from 'src/app/services/call-number/call-number.service';
 @Component({
   selector: 'app-viewrequest',
@@ -9,9 +11,17 @@ export class ViewRequestPage implements OnInit {
   isVolunteer: boolean; // flag for checking if the user is volunteer or quarantined
   requestedData: any;
   assigneeDetails: any;
-  constructor(private callNumberService: CallNumberService) {}
+  requestId: string;
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private callNumberService: CallNumberService
+  ) {
+    this.activatedRoute.params.subscribe((params) => console.log(params));
+  }
 
   ngOnInit() {
+    this.requestId = this.activatedRoute.snapshot.paramMap.get('id');
+
     this.isVolunteer = false;
     this.requestedData = {
       id: 16,

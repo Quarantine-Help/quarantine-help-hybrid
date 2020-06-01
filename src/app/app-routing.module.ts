@@ -61,7 +61,22 @@ const routes: CustomRoute[] = [
       ),
   },
   {
+    path: 'view-request/:id',
+    canActivate: [AuthGuard],
+    data: {
+      expectedRoles: ['HL', 'AF', 'AU', 'TP'],
+    },
+    loadChildren: () =>
+      import('./pages/view-request/view-request.module').then(
+        (m) => m.ViewRequestPageModule
+      ),
+  },
+  {
     path: 'my-requests',
+    canActivate: [AuthGuard],
+    data: {
+      expectedRoles: ['HL', 'AF', 'AU', 'TP'],
+    },
     loadChildren: () =>
       import('./pages/my-requests/my-requests.module').then(
         (m) => m.MyRequestsPageModule
