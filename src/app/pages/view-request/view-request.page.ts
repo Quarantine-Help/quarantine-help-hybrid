@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { CallNumberService } from 'src/app/services/call-number/call-number.service';
 @Component({
   selector: 'app-viewrequest',
   templateUrl: './view-request.page.html',
@@ -9,7 +9,7 @@ export class ViewRequestPage implements OnInit {
   isVolunteer: boolean; // flag for checking if the user is volunteer or quarantined
   requestedData: any;
   assigneeDetails: any;
-  constructor() {}
+  constructor(private callNumberService: CallNumberService) {}
 
   ngOnInit() {
     this.isVolunteer = false;
@@ -53,6 +53,13 @@ export class ViewRequestPage implements OnInit {
       createdAt: '2020-04-04T10:43:18.521097Z',
     };
     this.assigneeDetails = this.requestedData.assignee;
+  }
+
+  callAssignee(phoneNo) {
+    this.callNumberService
+      .callNumber(phoneNo)
+      .then((res) => console.log('Launched dialer!', res))
+      .catch((err) => console.log('Error launching dialer', err));
   }
 
   resolveRequest() {
