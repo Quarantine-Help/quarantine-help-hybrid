@@ -22,7 +22,8 @@ export class MyRequestsPage implements OnInit {
       id: 15,
       type: 'G',
       deadline: '2020-05-28T22:01:01Z',
-      description: ' Lorem Ipsum has been the industrys standard dummy text ever since the 1500s text. Lorem Ipsum has been the industrys',
+      description:
+        ' Lorem Ipsum has been the industrys standard dummy text ever since the 1500s text. Lorem Ipsum has been the industrys',
       assignee: null,
       status: 'T',
       assignmentHistory: [],
@@ -77,7 +78,11 @@ export class MyRequestsPage implements OnInit {
   }
 
   createNewReq() {
-     this.router.navigate(['/create-request']);
+    this.router.navigateByUrl('/create-request');
+  }
+
+  onRequestOpened(requestData) {
+    this.router.navigateByUrl(`/view-request/:${requestData.id}`);
   }
 
   segmentChanged(e) {
@@ -86,17 +91,5 @@ export class MyRequestsPage implements OnInit {
     } else if (e.detail.value === 'Closed Requests') {
       this.isOpenRequests = false;
     }
-  }
-
-  viewRequest() {
-    console.log('view request page');
-  }
-
-  resolveRequest() {
-    console.log('resolve request');
-  }
-
-  cancelRequest() {
-    console.log('cancel request');
   }
 }

@@ -52,6 +52,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         name: 'My Requests',
         icon: 'help-buoy-outline',
         path: '/my-requests',
+        expectedRoles: ['HL', 'AF', 'AU', 'TP'], // must correspond to the routes in routing module
       },
       {
         name: 'Create Request',

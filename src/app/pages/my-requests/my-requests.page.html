@@ -32,7 +32,7 @@
     </ion-segment-button>
   </ion-segment>
   <ng-container *ngFor="let item of allRequests" class="ion-padding-top">
-    <app-request [requestData]="item"
+    <app-request [requestData]="item" (requestOpened)="onRequestOpened($event)"
       *ngIf="(isOpenRequests && (item.status=='P' || item.status=='T')) || (!isOpenRequests && (item.status=='C' || item.status=='F'))">
     </app-request>
   </ng-container>
