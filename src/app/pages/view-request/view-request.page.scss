@@ -1,22 +1,27 @@
-ion-icon[name='calendar-outline'] {
-  font-size: 64px;
+ion-icon {
+  &[name='calendar-outline'] {
+    font-size: 64px;
+  }
+
+  &[name='bicycle-outline'] {
+    font-size: 32px;
+  }
+
+  vertical-align: middle;
 }
+
 hr {
   border-bottom: solid 1px #d7dae5;
 }
-.description {
+
+.request-desc {
   font-size: large;
   line-height: 4vh;
   min-height: 116px;
   max-height: 200px;
 }
+
 h5 {
   margin: 0px;
   padding: 0px;
-}
-ion-icon[name='bicycle-outline'] {
-  font-size: 32px;
-}
-ion-icon {
-  vertical-align: middle;
 }

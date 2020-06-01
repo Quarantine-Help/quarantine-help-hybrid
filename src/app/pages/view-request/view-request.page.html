@@ -81,22 +81,23 @@
         </ion-text>
       </ion-col>
       <ion-col offset="1" size="6">
-        <ion-text>
-          <h5>
-            <strong>
-              <ion-icon name="person-circle-outline"></ion-icon> {{ assigneeDetails.user.firstName }}
-              {{ assigneeDetails.user.lastName }}
-            </strong>
-            <p>
-              <ion-icon name="call-outline"></ion-icon> {{ assigneeDetails.phone }}
-            </p>
-          </h5>
-        </ion-text>
+        <ion-row class="ion-justify-content-start ion-align-items-center ion-padding-bottom">
+          <ion-icon name="person-circle-outline"></ion-icon>&nbsp;&nbsp;
+          <ion-text>
+            <h5><strong>{{ assigneeDetails.user.firstName }} {{ assigneeDetails.user.lastName }}</strong></h5>
+          </ion-text>
+        </ion-row>
+        <ion-row class="ion-justify-content-start ion-align-items-center" (click)="callAssignee(assigneeDetails.phone)">
+          <ion-icon name="call-outline"></ion-icon>&nbsp;&nbsp;
+          <ion-text>
+            <h5>{{ assigneeDetails.phone }}</h5>
+          </ion-text>
+        </ion-row>
       </ion-col>
     </ion-row>
     <hr *ngIf="!isVolunteer">
     <ion-item color="light" lines="none">
-      <ion-text class="description ion-padding">
+      <ion-text class="request-desc ion-padding">
         {{ requestedData.description }}
       </ion-text>
     </ion-item>
