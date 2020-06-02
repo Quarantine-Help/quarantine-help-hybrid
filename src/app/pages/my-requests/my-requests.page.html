@@ -8,16 +8,20 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <div class="ion-padding-vertical">
-    <ion-text color="dark">
-      <h5 class="ion-padding-horizontal"> Need help? </h5>
-    </ion-text>
+  <ion-item class="ion-padding-vertical" lines="none" color="light">
+    <ion-grid>
+    <ion-row>
+      <ion-text color="dark">
+        <h2 class="ion-padding-horizontal"> Need help? </h2>
+      </ion-text>
+    </ion-row>
     <ion-row class="ion-justify-content-center ion-padding-vertical">
-      <ion-button (click)="createNewReq()" color="primary" shape="round" size="default" fill="outline">
+      <ion-button (click)="createNewReq()" color="secondary" fill="solid" shape="round" size="default">
         Create new request
       </ion-button>
     </ion-row>
-  </div>
+  </ion-grid>
+  </ion-item>
   <ion-item>
     <ion-text color="dark">
       <h5> My Requests </h5>
