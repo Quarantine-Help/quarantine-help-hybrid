@@ -20,7 +20,7 @@ export class MyRequestsPage implements OnInit {
     },
     {
       id: 15,
-      type: 'G',
+      type: 'M',
       deadline: '2020-05-28T22:01:01Z',
       description:
         ' Lorem Ipsum has been the industrys standard dummy text ever since the 1500s text. Lorem Ipsum has been the industrys',
