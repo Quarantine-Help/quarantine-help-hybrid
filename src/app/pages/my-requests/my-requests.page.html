@@ -10,21 +10,21 @@
 <ion-content class="ion-padding">
   <ion-item class="ion-padding-vertical" lines="none" color="light">
     <ion-grid>
-    <ion-row>
-      <ion-text color="dark">
-        <h2 class="ion-padding-horizontal"> Need help? </h2>
-      </ion-text>
-    </ion-row>
-    <ion-row class="ion-justify-content-center ion-padding-vertical">
-      <ion-button (click)="createNewReq()" color="secondary" fill="solid" shape="round" size="default">
-        Create new request
-      </ion-button>
-    </ion-row>
-  </ion-grid>
+      <ion-row>
+        <ion-text color="dark">
+          <h2 class="ion-padding-horizontal"> Need help? </h2>
+        </ion-text>
+      </ion-row>
+      <ion-row class="ion-justify-content-center ion-padding-vertical">
+        <ion-button (click)="createNewReq()" color="secondary" fill="solid" shape="round" size="default">
+          Create new request
+        </ion-button>
+      </ion-row>
+    </ion-grid>
   </ion-item>
-  <ion-item>
+  <ion-item lines="none">
     <ion-text color="dark">
-      <h5> My Requests </h5>
+      <h5> <strong> My Requests </strong></h5>
     </ion-text>
   </ion-item>
   <ion-segment (ionChange)="segmentChanged($event)" value="Open Requests">
