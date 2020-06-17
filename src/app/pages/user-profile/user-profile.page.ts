@@ -7,6 +7,7 @@ import {
   UserProfileData,
   UserProfileResponseBody,
 } from 'src/app/models/core-api';
+import { countryList } from 'src/app/constants/core-api';
 
 interface UserProfile {
   firstName: string;
@@ -30,6 +31,8 @@ export class UserProfilePage implements OnInit {
   isEditable: boolean;
   loadingProfileData: HTMLIonLoadingElement;
   userProfileDetails: UserProfile;
+  result: { name: string; isoAlphaTwoCode: string }[];
+  displayCountrySearch: boolean;
 
   constructor(
     private miscService: MiscService,
@@ -206,6 +209,32 @@ export class UserProfilePage implements OnInit {
     this.isEditable = false;
     this.volRegForm.markAsPristine(); // for checking status of form in further edit and cancel
     this.removeCleanFields();
+  }
+
+  filterCountries(e) {
+    console.log('value in search field' + e.detail.value);
+    const valueSearchbox = e.detail.value;
+    this.result = countryList.filter((country) =>
+      country.name.toLowerCase().includes(valueSearchbox.toLowerCase())
+    );
+    console.log(this.result);
+  }
+
+  selectedCountry(item) {
+    console.log('*******');
+    this.quaRegForm.patchValue({
+      country: item.name,
+    });
+    this.result = [];
+    this.displayCountrySearch = false;
+    console.log(item, 'selectedCountry complete', this.result);
+  }
+
+  showCountrySearch() {
+    if (this.displayCountrySearch) {
+      this.result = [];
+    }
+    this.displayCountrySearch = !this.displayCountrySearch;
   }
 
   // TODO: Refactor to use Form dirty
