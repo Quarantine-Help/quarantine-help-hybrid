@@ -33,6 +33,8 @@ export class UserProfilePage implements OnInit {
   userProfileDetails: UserProfile;
   result: { name: string; isoAlphaTwoCode: string }[];
   displayCountrySearch: boolean;
+  isoAlphaTwoCode: string;
+  filterCountryName: { name: string; isoAlphaTwoCode: string }[];
 
   constructor(
     private miscService: MiscService,
@@ -127,6 +129,13 @@ export class UserProfilePage implements OnInit {
   }
 
   syncDownProfileData(apiResult?: UserProfileData) {
+    // find country name with the country code
+    this.filterCountryName = countryList.filter((country) =>
+      country.isoAlphaTwoCode
+        .toLowerCase()
+        .includes(apiResult.country.toLowerCase())
+    );
+
     // use data fetched from API if available
     if (apiResult) {
       this.userProfileDetails = {
@@ -134,7 +143,7 @@ export class UserProfilePage implements OnInit {
         lastName: apiResult.user.lastName,
         address: `${apiResult.firstLineOfAddress}, ${apiResult.secondLineOfAddress}`,
         city: apiResult.city,
-        country: apiResult.country,
+        country: this.filterCountryName[0].name,
         emailid: apiResult.user.email,
         phoneNumber: apiResult.phone,
       };
@@ -212,22 +221,20 @@ export class UserProfilePage implements OnInit {
   }
 
   filterCountries(e) {
-    console.log('value in search field' + e.detail.value);
     const valueSearchbox = e.detail.value;
     this.result = countryList.filter((country) =>
       country.name.toLowerCase().includes(valueSearchbox.toLowerCase())
     );
-    console.log(this.result);
   }
 
   selectedCountry(item) {
-    console.log('*******');
+    this.quaRegForm.markAsDirty();
+    this.isoAlphaTwoCode = item.isoAlphaTwoCode;
     this.quaRegForm.patchValue({
       country: item.name,
     });
     this.result = [];
     this.displayCountrySearch = false;
-    console.log(item, 'selectedCountry complete', this.result);
   }
 
   showCountrySearch() {
@@ -298,11 +305,7 @@ export class UserProfilePage implements OnInit {
           this.quaRegForm.get('city').value !== this.userProfileDetails.city
             ? this.quaRegForm.get('city').value
             : null,
-        country:
-          this.quaRegForm.get('country').value !==
-          this.userProfileDetails.country
-            ? this.quaRegForm.get('country').value
-            : null,
+        country: this.isoAlphaTwoCode,
       };
       this.syncUpProfileData(quaUserDetails);
     }
