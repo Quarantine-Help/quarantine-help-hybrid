@@ -7,7 +7,7 @@ import {
   UserProfileData,
   UserProfileResponseBody,
 } from 'src/app/models/core-api';
-import { countryList } from 'src/app/constants/core-api';
+import { countryList } from 'src/app/constants/countries';
 
 interface UserProfile {
   firstName: string;
@@ -129,15 +129,14 @@ export class UserProfilePage implements OnInit {
   }
 
   syncDownProfileData(apiResult?: UserProfileData) {
-    // find country name with the country code
-    this.filterCountryName = countryList.filter((country) =>
-      country.isoAlphaTwoCode
-        .toLowerCase()
-        .includes(apiResult.country.toLowerCase())
-    );
-
     // use data fetched from API if available
     if (apiResult) {
+      // find country name with the country code
+      this.filterCountryName = countryList.filter((country) =>
+        country.isoAlphaTwoCode
+          .toLowerCase()
+          .includes(apiResult.country.toLowerCase())
+      );
       this.userProfileDetails = {
         firstName: apiResult.user.firstName,
         lastName: apiResult.user.lastName,
@@ -206,6 +205,7 @@ export class UserProfilePage implements OnInit {
         message: `Your changes are not saved. Are you sure you want to discard the changes? `,
       });
     }
+    this.result = [];
   }
 
   saveQuaUser() {
@@ -344,7 +344,6 @@ export class UserProfilePage implements OnInit {
                 this.loadingProfileData = undefined;
               });
             }
-            console.log('PatchUserProfile Success', result);
             this.miscService.presentAlert({
               header: 'Success 😊',
               message: 'The Profile details have been updated successfully.',
@@ -355,7 +354,6 @@ export class UserProfilePage implements OnInit {
           })
           .catch((errorObj) => {
             this.loadingProfileData.dismiss();
-            console.log(errorObj);
             const { error, status: statusCode } = errorObj;
             const errorMessages: string[] = [];
             for (const key in error) {
