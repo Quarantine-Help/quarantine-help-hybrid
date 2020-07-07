@@ -31,7 +31,7 @@ export class UserProfilePage implements OnInit {
   isEditable: boolean;
   loadingProfileData: HTMLIonLoadingElement;
   userProfileDetails: UserProfile;
-  result: { name: string; isoAlphaTwoCode: string }[];
+  searchResult: { name: string; isoAlphaTwoCode: string }[];
   displayCountrySearch: boolean;
   isoAlphaTwoCode: string;
   filterCountryName: { name: string; isoAlphaTwoCode: string }[];
@@ -84,6 +84,7 @@ export class UserProfilePage implements OnInit {
     // TODO: get the user type from backend
     this.isVolunteer = false;
     this.isEditable = false;
+    this.searchResult = [];
     this.getProfileData();
   }
 
@@ -205,7 +206,7 @@ export class UserProfilePage implements OnInit {
         message: `Your changes are not saved. Are you sure you want to discard the changes? `,
       });
     }
-    this.result = [];
+    this.searchResult.splice(0);
   }
 
   saveQuaUser() {
@@ -222,24 +223,24 @@ export class UserProfilePage implements OnInit {
 
   filterCountries(e) {
     const valueSearchbox = e.detail.value;
-    this.result = countryList.filter((country) =>
+    this.searchResult = countryList.filter((country) =>
       country.name.toLowerCase().includes(valueSearchbox.toLowerCase())
     );
   }
 
-  selectedCountry(item) {
+  setSelectedCountry(item) {
     this.quaRegForm.markAsDirty();
     this.isoAlphaTwoCode = item.isoAlphaTwoCode;
     this.quaRegForm.patchValue({
       country: item.name,
     });
-    this.result = [];
+    this.searchResult.splice(0);
     this.displayCountrySearch = false;
   }
 
   showCountrySearch() {
     if (this.displayCountrySearch) {
-      this.result = [];
+      this.searchResult.splice(0);
     }
     this.displayCountrySearch = !this.displayCountrySearch;
   }

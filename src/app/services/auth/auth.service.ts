@@ -54,7 +54,6 @@ export class AuthService {
     return this.commonHTTP
       .httpPost(this.loginURL, userCred)
       .then((data: LoginResponse) => {
-        console.log(data);
         const userData: {
           email: string;
           token: string;
