@@ -155,21 +155,23 @@
             </ion-item>
           </ion-col>
         </ion-row>
-        <ion-row class="ion-justify-content-center">
+        <ion-row class="ion-justify-content-center"  lines="none">
           <ion-col size-md="4" size-lg="4" size-xs="12">
             <ion-item (click)="showCountrySearch()">
               <ion-label color="medium" position="floating"> Country </ion-label>
               <ion-input readonly="true" formControlName="country" required> </ion-input>
             </ion-item>
-            <ion-item *ngIf="displayCountrySearch && isEditable">
+            <ion-item *ngIf="displayCountrySearch && isEditable" lines="none">
               <ion-searchbar (ionChange)="filterCountries($event)"></ion-searchbar>
               <ion-button expand="full" fill="none" (click)="showCountrySearch()">
                 <ion-text color="danger">Exit</ion-text>
                 <ion-icon color="danger" name="close"></ion-icon>
               </ion-button>
             </ion-item>
-            <ion-item class="ion-padding-horizontal search-list" (click)="selectedCountry(item)"
-              *ngFor="let item of result"> {{ item.name }} </ion-item>
+            <ion-list *ngIf="searchResult.length > 0" lines="none" class="ion-padding-top ion-padding-bottom">
+              <ion-item  lines="inset" class="ion-padding-horizontal search-list" (click)="setSelectedCountry(item)"
+                *ngFor="let item of searchResult | slice:0:8"> {{ item.name }} </ion-item>
+            </ion-list>
             <ion-item lines="none" class="formInvalid"
               *ngIf="(quaRegForm.get('country').invalid && (quaRegForm.get('country').dirty || quaRegForm.get('country').touched))">
               <div *ngIf="quaRegForm.get('country').errors.required">
