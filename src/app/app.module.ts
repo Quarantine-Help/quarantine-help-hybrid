@@ -5,6 +5,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouteReuseStrategy } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { CallNumber } from '@ionic-native/call-number/ngx';
 
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -32,6 +33,7 @@ import { TokenInterceptor } from './services/interceptors/token.interceptor';
       useClass: TokenInterceptor,
       multi: true,
     },
+    [CallNumber]
   ],
   bootstrap: [AppComponent],
 })

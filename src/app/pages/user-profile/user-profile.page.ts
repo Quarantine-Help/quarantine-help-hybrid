@@ -7,6 +7,7 @@ import {
   UserProfileData,
   UserProfileResponseBody,
 } from 'src/app/models/core-api';
+import { countryList } from 'src/app/constants/countries';
 
 interface UserProfile {
   firstName: string;
@@ -30,6 +31,10 @@ export class UserProfilePage implements OnInit {
   isEditable: boolean;
   loadingProfileData: HTMLIonLoadingElement;
   userProfileDetails: UserProfile;
+  searchResult: { name: string; isoAlphaTwoCode: string }[];
+  displayCountrySearch: boolean;
+  isoAlphaTwoCode: string;
+  filterCountryName: { name: string; isoAlphaTwoCode: string }[];
 
   constructor(
     private miscService: MiscService,
@@ -79,6 +84,7 @@ export class UserProfilePage implements OnInit {
     // TODO: get the user type from backend
     this.isVolunteer = false;
     this.isEditable = false;
+    this.searchResult = [];
     this.getProfileData();
   }
 
@@ -126,12 +132,18 @@ export class UserProfilePage implements OnInit {
   syncDownProfileData(apiResult?: UserProfileData) {
     // use data fetched from API if available
     if (apiResult) {
+      // find country name with the country code
+      this.filterCountryName = countryList.filter((country) =>
+        country.isoAlphaTwoCode
+          .toLowerCase()
+          .includes(apiResult.country.toLowerCase())
+      );
       this.userProfileDetails = {
         firstName: apiResult.user.firstName,
         lastName: apiResult.user.lastName,
         address: `${apiResult.firstLineOfAddress}, ${apiResult.secondLineOfAddress}`,
         city: apiResult.city,
-        country: apiResult.country,
+        country: this.filterCountryName[0].name,
         emailid: apiResult.user.email,
         phoneNumber: apiResult.phone,
       };
@@ -194,6 +206,7 @@ export class UserProfilePage implements OnInit {
         message: `Your changes are not saved. Are you sure you want to discard the changes? `,
       });
     }
+    this.searchResult.splice(0);
   }
 
   saveQuaUser() {
@@ -206,6 +219,30 @@ export class UserProfilePage implements OnInit {
     this.isEditable = false;
     this.volRegForm.markAsPristine(); // for checking status of form in further edit and cancel
     this.removeCleanFields();
+  }
+
+  filterCountries(e) {
+    const valueSearchbox = e.detail.value;
+    this.searchResult = countryList.filter((country) =>
+      country.name.toLowerCase().includes(valueSearchbox.toLowerCase())
+    );
+  }
+
+  setSelectedCountry(item) {
+    this.quaRegForm.markAsDirty();
+    this.isoAlphaTwoCode = item.isoAlphaTwoCode;
+    this.quaRegForm.patchValue({
+      country: item.name,
+    });
+    this.searchResult.splice(0);
+    this.displayCountrySearch = false;
+  }
+
+  showCountrySearch() {
+    if (this.displayCountrySearch) {
+      this.searchResult.splice(0);
+    }
+    this.displayCountrySearch = !this.displayCountrySearch;
   }
 
   // TODO: Refactor to use Form dirty
@@ -269,11 +306,7 @@ export class UserProfilePage implements OnInit {
           this.quaRegForm.get('city').value !== this.userProfileDetails.city
             ? this.quaRegForm.get('city').value
             : null,
-        country:
-          this.quaRegForm.get('country').value !==
-          this.userProfileDetails.country
-            ? this.quaRegForm.get('country').value
-            : null,
+        country: this.isoAlphaTwoCode,
       };
       this.syncUpProfileData(quaUserDetails);
     }
@@ -312,7 +345,6 @@ export class UserProfilePage implements OnInit {
                 this.loadingProfileData = undefined;
               });
             }
-            console.log('PatchUserProfile Success', result);
             this.miscService.presentAlert({
               header: 'Success 😊',
               message: 'The Profile details have been updated successfully.',
@@ -323,7 +355,6 @@ export class UserProfilePage implements OnInit {
           })
           .catch((errorObj) => {
             this.loadingProfileData.dismiss();
-            console.log(errorObj);
             const { error, status: statusCode } = errorObj;
             const errorMessages: string[] = [];
             for (const key in error) {

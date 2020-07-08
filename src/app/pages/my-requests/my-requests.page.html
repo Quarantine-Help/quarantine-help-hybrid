@@ -1,0 +1,43 @@
+<ion-header translucent class="hide-lg hide-xl">
+  <ion-toolbar fixed color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+      <ion-title>Quarantine Help</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-item class="ion-padding-vertical" lines="none" color="light">
+    <ion-grid>
+      <ion-row>
+        <ion-text color="dark">
+          <h2 class="ion-padding-horizontal"> Need help? </h2>
+        </ion-text>
+      </ion-row>
+      <ion-row class="ion-justify-content-center ion-padding-vertical">
+        <ion-button (click)="createNewReq()" color="secondary" fill="solid" shape="round" size="default">
+          Create new request
+        </ion-button>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+  <ion-item lines="none">
+    <ion-text color="dark">
+      <h5> <strong> My Requests </strong></h5>
+    </ion-text>
+  </ion-item>
+  <ion-segment (ionChange)="segmentChanged($event)" value="Open Requests">
+    <ion-segment-button value="Open Requests">
+      <ion-label>Open Requests</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="Closed Requests">
+      <ion-label>Closed Requests</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <ng-container *ngFor="let item of allRequests" class="ion-padding-top">
+    <app-request [requestData]="item" (requestOpened)="onRequestOpened($event)"
+      *ngIf="(isOpenRequests && (item.status=='P' || item.status=='T')) || (!isOpenRequests && (item.status=='C' || item.status=='F'))">
+    </app-request>
+  </ng-container>
+</ion-content>

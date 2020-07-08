@@ -1,7 +1,7 @@
 # QuarantineHelp
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/16dd5e6b09dc22885e35/maintainability)](https://codeclimate.com/github/Quarantined-Help/quarantined-hybrid-app/maintainability)
-[![Depfu](https://badges.depfu.com/badges/8bf41f1c7aea414b96f712e8d77f86be/count.svg)](https://depfu.com/github/Quarantined-Help/quarantined-hybrid-app?project_id=11656)
+[![Maintainability](https://api.codeclimate.com/v1/badges/0184dd0103afb39b9b36/maintainability)](https://codeclimate.com/github/Quarantine-Help/quarantine-help-hybrid/maintainability)
+[![Depfu](https://badges.depfu.com/badges/8bf41f1c7aea414b96f712e8d77f86be/count.svg)](https://depfu.com/github/Quarantine-Help/quarantine-help-hybrid?project_id=11656)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Netlify Status](https://img.shields.io/netlify/c3bf37cb-7592-4f95-8e89-c2636bfd9bf0?label=netlify%20live)](https://app.netlify.com/sites/qhmobile/deploys)
 [![Netlify Status](https://img.shields.io/netlify/5b4633d8-6473-4c15-bed7-acf6b442adf1?label=netlify%20dev)](https://app.netlify.com/sites/qhmobiledev/deploys)

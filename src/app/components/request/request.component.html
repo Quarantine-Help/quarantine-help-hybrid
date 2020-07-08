@@ -1,0 +1,24 @@
+<ion-item lines="none" class="ion-margin-top ion-no-padding ion-activatable ripple-parent"
+  (click)="viewRequest(requestData.id)" color="light">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="2" class="ion-text-center">
+        <div>
+          <span> {{ requestData.createdAt | date:'MMM' }} </span>
+          <h1 class="ion-no-margin"> {{ requestData.createdAt | date:'dd' }} </h1>
+          <span> {{ requestData.createdAt | date:'yyyy' }} </span>
+        </div>
+      </ion-col>
+      <ion-col size="10">
+        <ion-icon color="danger" *ngIf="requestData.type=='M'" name="medkit"> </ion-icon>
+        <div class="description">
+          <ion-text>
+            {{ requestData.description | slice:0:50 }} ...
+          </ion-text>
+        </div>
+        <small> {{ requestData.createdAt | date:'shortTime' }} </small>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-ripple-effect></ion-ripple-effect>
+</ion-item>

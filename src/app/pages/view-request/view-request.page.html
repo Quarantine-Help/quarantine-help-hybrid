@@ -1,0 +1,116 @@
+<ion-header translucent class="hide-lg hide-xl">
+  <ion-toolbar fixed color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+      <ion-title>Quarantine Help</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-item lines="none" color="light">
+    <ion-text class="ion-padding-vertical">
+      <h3 *ngIf="requestedData.type=='G'">
+        <ion-icon size="large" name="cart-outline"></ion-icon> Grocery Request
+      </h3>
+      <h3 *ngIf="requestedData.type=='M'">
+        <ion-icon size="large" name="medkit-outline"></ion-icon> Medicine Request
+      </h3>
+    </ion-text>
+  </ion-item>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="4">
+        <ion-icon class="ion-no-margin" color="primary" name="calendar-outline"></ion-icon>
+        <ion-text>
+          <h5 class="deadline"> Deadline </h5>
+        </ion-text>
+      </ion-col>
+      <ion-col size="8">
+        <ion-text color="danger" class="ion-text-end">
+          <h1> {{ requestedData.deadline | date:'h' }}:{{ requestedData.deadline | date:'mm' }} <small>
+              {{ requestedData.deadline | date:'aa' }} </small> </h1>
+          <h5> {{ requestedData.deadline | date }} </h5>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <hr>
+    <ion-row>
+      <ion-col size="4">
+        <ion-text>
+          <h5> Created </h5>
+        </ion-text>
+      </ion-col>
+      <ion-col size="8">
+        <ion-text class="ion-text-end">
+          <h5>
+            {{ requestedData.createdAt | date:'shortTime' }}
+            , {{ requestedData.createdAt | date }}
+          </h5>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <hr>
+    <ion-row>
+      <ion-col size="4">
+        <ion-text>
+          <h5> Status </h5>
+        </ion-text>
+      </ion-col>
+      <ion-col size="8">
+        <ion-text class="ion-text-end">
+          <h5>
+            <span [ngSwitch]="requestedData.status">
+              <span *ngSwitchCase="'P'"> Pending </span>
+              <span *ngSwitchCase="'T'"> In Transit </span>
+              <span *ngSwitchCase="'F'"> Finished </span>
+              <span *ngSwitchCase="'C'"> Cancelled </span>
+              <span *ngSwitchDefault> Status not available </span>
+            </span> &nbsp;
+            <ion-icon name="bicycle-outline"></ion-icon>
+          </h5>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <hr *ngIf="!isVolunteer">
+    <ion-row class="ion-margin-bottom" *ngIf="!isVolunteer">
+      <ion-col size="5">
+        <ion-text>
+          <h5> Assignee Details </h5>
+        </ion-text>
+      </ion-col>
+      <ion-col offset="1" size="6">
+        <ion-row class="ion-justify-content-start ion-align-items-center ion-padding-bottom">
+          <ion-icon name="person-circle-outline"></ion-icon>&nbsp;&nbsp;
+          <ion-text>
+            <h5><strong>{{ assigneeDetails.user.firstName }} {{ assigneeDetails.user.lastName }}</strong></h5>
+          </ion-text>
+        </ion-row>
+        <ion-row class="ion-justify-content-start ion-align-items-center" (click)="callAssignee(assigneeDetails.phone)">
+          <ion-icon name="call-outline"></ion-icon>&nbsp;&nbsp;
+          <ion-text>
+            <h5>{{ assigneeDetails.phone }}</h5>
+          </ion-text>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <hr *ngIf="!isVolunteer">
+    <ion-item color="light" lines="none">
+      <ion-text class="request-desc ion-padding">
+        {{ requestedData.description }}
+      </ion-text>
+    </ion-item>
+  </ion-grid>
+</ion-content>
+<ion-footer class="ion-no-border ion-padding-horizontal"
+  *ngIf="requestedData.status === 'P' || requestedData.status === 'T'">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancelRequest()" color="primary">Cancel</ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="resolveRequest()" color="primary" fill="solid" size="default">Resolve</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
