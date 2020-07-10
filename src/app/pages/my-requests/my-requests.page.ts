@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MiscService } from 'src/app/services/misc/misc.service';
+import { CoreAPIService } from 'src/app/services/core-api/core-api.service';
 
 @Component({
   selector: 'app-my-requests',
@@ -7,74 +9,20 @@ import { Router } from '@angular/router';
   styleUrls: ['./my-requests.page.scss'],
 })
 export class MyRequestsPage implements OnInit {
-  allRequests = [
-    {
-      id: 14,
-      type: 'G',
-      deadline: '2020-05-28T22:01:01Z',
-      description: 'Want 3 Kg banana',
-      assignee: null,
-      status: 'P',
-      assignmentHistory: [],
-      createdAt: '2020-03-31T16:54:16.421078Z',
-    },
-    {
-      id: 15,
-      type: 'M',
-      deadline: '2020-05-28T22:01:01Z',
-      description:
-        ' Lorem Ipsum has been the industrys standard dummy text ever since the 1500s text. Lorem Ipsum has been the industrys',
-      assignee: null,
-      status: 'T',
-      assignmentHistory: [],
-      createdAt: '2020-03-31T16:54:16.421078Z',
-    },
-    {
-      id: 16,
-      type: 'G',
-      deadline: '2020-05-28T22:01:01Z',
-      description: 'Want 3 Kg orange',
-      assignee: null,
-      status: 'F',
-      assignmentHistory: [],
-      createdAt: '2020-03-31T16:54:16.421078Z',
-    },
-    {
-      id: 17,
-      type: 'G',
-      deadline: '2020-05-28T22:01:01Z',
-      description: 'Want 3 Kg mango',
-      assignee: null,
-      status: 'C',
-      assignmentHistory: [],
-      createdAt: '2020-04-31T16:54:16.421078Z',
-    },
-    {
-      id: 18,
-      type: 'G',
-      deadline: '2020-05-28T22:01:01Z',
-      description: 'Want 1 Kg apple',
-      assignee: null,
-      status: 'P',
-      assignmentHistory: [],
-      createdAt: '2020-05-31T16:54:16.421078Z',
-    },
-    {
-      id: 18,
-      type: 'M',
-      deadline: '2020-05-28T22:01:01Z',
-      description: 'Medicine',
-      assignee: null,
-      status: 'C',
-      assignmentHistory: [],
-      createdAt: '2021-03-01T16:54:16.421078Z',
-    },
-  ];
+  loadingData: HTMLIonLoadingElement;
   isOpenRequests: boolean;
-  constructor(private router: Router) {}
+  allRequests: any;
+  userType: string; // AF/HL
+  constructor(
+    private router: Router,
+    private miscService: MiscService,
+    private coreAPIService: CoreAPIService
+  ) {}
 
   ngOnInit() {
     this.isOpenRequests = true;
+    this.getRequests();
+    this.userType = 'AF';
   }
 
   createNewReq() {
@@ -91,5 +39,54 @@ export class MyRequestsPage implements OnInit {
     } else if (e.detail.value === 'Closed Requests') {
       this.isOpenRequests = false;
     }
+  }
+
+  getAfOrHlRequest() {
+    if (this.userType === 'AF') {
+      return this.coreAPIService.getRequestsAF();
+    } else if (this.userType === 'HL') {
+      return this.coreAPIService.getRequestsHL();
+    }
+  }
+
+  getRequests() {
+    this.miscService
+      .presentLoadingWithOptions({
+        duration: 0,
+        message: `Fetching requests`,
+      })
+      .then((onLoadSuccess) => {
+        this.loadingData = onLoadSuccess;
+        this.loadingData.present();
+        this.getAfOrHlRequest()
+          .then((result: any) => {
+            // Dismiss & destroy loading controller on
+            if (this.loadingData !== undefined) {
+              this.loadingData.dismiss().then(() => {
+                this.loadingData = undefined;
+              });
+            }
+            this.allRequests = result.body.results;
+          })
+          .catch((errorObj) => {
+            this.loadingData.dismiss();
+            const { error, status: statusCode } = errorObj;
+            const errorMessages: string[] = [];
+            for (const key in error) {
+              if (error.hasOwnProperty(key) && typeof key !== 'function') {
+                console.error(error[key][0]);
+                errorMessages.push(error[key][0]);
+              }
+            }
+            // show the errors as alert
+            this.handleErrors(errorMessages, statusCode);
+          })
+          .catch((error) => alert(error));
+      });
+  }
+
+  handleErrors(errorMessages: string[], statusCode) {
+    console.log(...errorMessages, statusCode);
+    this.miscService.presentAlert({ message: errorMessages.join('. ') });
   }
 }
