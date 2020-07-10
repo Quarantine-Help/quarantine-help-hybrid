@@ -14,6 +14,8 @@ export class CoreAPIService {
   private crisisBaseURL: string;
   private affectedParticipantsURL: string;
   private profileMgtURL: string;
+  private afRequestsURL: string;
+  private HLRequestURL: string;
   constructor(private commonHTTP: CommonHTTPService) {
     const crisisSuffix = `crises/${Crisis.COVID19}`;
     this.crisisBaseURL = `${environment.DJANGO_API_ENDPOINT}/v${environment.DJANGO_API_VERSION}/${crisisSuffix}`;
@@ -21,6 +23,8 @@ export class CoreAPIService {
 
     this.commonBaseURL = `${environment.DJANGO_API_ENDPOINT}/v${environment.DJANGO_API_VERSION}`;
     this.profileMgtURL = `${this.commonBaseURL}/me/`; // Trailing slash issue.
+    this.afRequestsURL = `${environment.DJANGO_API_ENDPOINT}/v1/me/requests`;
+    this.HLRequestURL = `${environment.DJANGO_API_ENDPOINT}/v1/me/assigned-requests/`;
   }
 
   getNearbyParticipants(
@@ -44,5 +48,13 @@ export class CoreAPIService {
 
   saveUserProfileData(profileData) {
     return this.commonHTTP.httpPatch(this.profileMgtURL, profileData);
+  }
+
+  getRequestsAF() {
+    return this.commonHTTP.httpGet(this.afRequestsURL);
+  }
+
+  getRequestsHL() {
+    return this.commonHTTP.httpGet(this.HLRequestURL);
   }
 }
