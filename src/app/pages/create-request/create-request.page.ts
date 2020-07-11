@@ -2,9 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { PickerController } from '@ionic/angular';
 import { PickerOptions } from '@ionic/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { CoreAPIService } from 'src/app/services/core-api/core-api.service';
+import { MiscService } from 'src/app/services/misc/misc.service';
 
 @Component({
   selector: 'app-create-request',
+
   templateUrl: './create-request.page.html',
   styleUrls: ['./create-request.page.scss'],
 })
@@ -13,8 +16,16 @@ export class CreateRequestPage implements OnInit {
   deadline: { days: string; hours: string };
   showDaysHours: boolean;
   segmentSelected: any;
+  selectedType: any;
+  loadingData: HTMLIonLoadingElement;
+  now: Date;
+  deadlineISO: string;
 
-  constructor(private pickerCtrl: PickerController) {
+  constructor(
+    private pickerCtrl: PickerController,
+    private coreAPIService: CoreAPIService,
+    private miscService: MiscService
+  ) {
     this.requestForm = new FormGroup({
       requestMessage: new FormControl('', [Validators.required]),
     });
@@ -110,7 +121,61 @@ export class CreateRequestPage implements OnInit {
   submitRequest() {
     // TODO
     console.log(this.requestForm);
-    console.log(this.deadline);
-    console.log(this.segmentSelected);
+    if (this.segmentSelected === 'Medicine') {
+      this.selectedType = 'M';
+    } else if (this.segmentSelected === 'Grocery') {
+      this.selectedType = 'G';
+    }
+    const reqUserDetails = {
+      type: this.selectedType,
+      deadline: '2020-05-29T00:01:01Z',
+      description: this.requestForm.value.requestMessage,
+    };
+
+    this.miscService
+      .presentLoadingWithOptions({
+        duration: 0,
+        message: `Sending Request`,
+      })
+      .then((onLoadSuccess) => {
+        this.loadingData = onLoadSuccess;
+        this.loadingData.present();
+        this.coreAPIService
+          .saveRequests(reqUserDetails)
+          .then(() => {
+            // Dismiss & destroy loading controller on
+            if (this.loadingData !== undefined) {
+              this.loadingData.dismiss().then(() => {
+                this.loadingData = undefined;
+              });
+            }
+            this.miscService.presentAlert({
+              header: 'Success 😊',
+              message: 'Your request sent successfully.',
+              subHeader: null,
+              buttons: ['Ok'],
+            });
+            this.requestForm.reset();
+          })
+          .catch((errorObj) => {
+            this.loadingData.dismiss();
+            const { error, status: statusCode } = errorObj;
+            const errorMessages: string[] = [];
+            for (const key in error) {
+              if (error.hasOwnProperty(key) && typeof key !== 'function') {
+                console.error(error[key][0]);
+                errorMessages.push(error[key][0]);
+              }
+            }
+            // show the errors as alert
+            this.handleErrors(errorMessages, statusCode);
+          });
+      })
+      .catch((error) => alert(error));
+  }
+
+  handleErrors(errorMessages: string[], statusCode) {
+    console.log(...errorMessages, statusCode);
+    this.miscService.presentAlert({ message: errorMessages.join('. ') });
   }
 }
