@@ -126,9 +126,18 @@ export class CreateRequestPage implements OnInit {
     } else if (this.segmentSelected === 'Grocery') {
       this.selectedType = 'G';
     }
+    this.now = new Date();
+    this.now.setUTCDate(
+      this.now.getUTCDate() + parseInt(this.deadline.days, 10)
+    );
+    this.now.setUTCHours(
+      this.now.getUTCHours() + parseInt(this.deadline.hours, 10)
+    );
+    this.deadlineISO = this.now.toISOString();
+    console.log(this.deadlineISO);
     const reqUserDetails = {
       type: this.selectedType,
-      deadline: '2020-05-29T00:01:01Z',
+      deadline: this.deadlineISO,
       description: this.requestForm.value.requestMessage,
     };
 
