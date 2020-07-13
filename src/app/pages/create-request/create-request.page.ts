@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { PickerController } from '@ionic/angular';
 import { PickerOptions } from '@ionic/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
@@ -24,7 +25,8 @@ export class CreateRequestPage implements OnInit {
   constructor(
     private pickerCtrl: PickerController,
     private coreAPIService: CoreAPIService,
-    private miscService: MiscService
+    private miscService: MiscService,
+    private router: Router
   ) {
     this.requestForm = new FormGroup({
       requestMessage: new FormControl('', [Validators.required]),
@@ -162,7 +164,15 @@ export class CreateRequestPage implements OnInit {
               header: 'Success 😊',
               message: 'Your request sent successfully.',
               subHeader: null,
-              buttons: ['Ok'],
+              buttons: [
+                {
+                  text: 'OK',
+                  handler: () => {
+                    console.log('Confirm Ok');
+                    this.router.navigateByUrl('/my-requests');
+                  },
+                },
+              ],
             });
             this.requestForm.reset();
           })
