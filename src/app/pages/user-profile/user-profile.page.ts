@@ -337,7 +337,7 @@ export class UserProfilePage implements OnInit {
         this.loadingProfileData = onLoadSuccess;
         this.loadingProfileData.present();
         this.coreAPIService
-          .saveUserProfileData(profilePatchData)
+          .updateUserProfileData(profilePatchData)
           .then((result: UserProfileResponseBody) => {
             // Dismiss & destroy loading controller on
             if (this.loadingProfileData !== undefined) {
