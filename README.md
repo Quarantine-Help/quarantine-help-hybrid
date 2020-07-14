@@ -23,6 +23,10 @@ This repo contains the hybrid app frontend built using the Ionic Framework. The 
 
 Run `ionic build` to build the project. The build artifacts will be stored in the `www/` directory. Use the `--prod` flag for a production build.
 
+## Generate icons & splash images
+
+Run `cordova-res android --skip-config --copy` after installing `cordova-res` by running `npm install -g cordova-res`.
+
 #### Copy your Web Assets
 
 When you are ready to run your app natively on a device or in a simulator, copy your built web assets using `npx cap copy`.
