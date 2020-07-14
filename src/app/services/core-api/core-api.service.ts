@@ -13,7 +13,7 @@ export class CoreAPIService {
   private commonBaseURL: string;
   private crisisBaseURL: string;
   private affectedParticipantsURL: string;
-  private profileMgtURL: string;
+  private userProfileMgtURL: string;
   private afRequestsMgtURL: string;
   private hlAssignedRequestsMgtURL: string;
   constructor(private commonHTTP: CommonHTTPService) {
@@ -22,8 +22,8 @@ export class CoreAPIService {
     this.affectedParticipantsURL = `${this.crisisBaseURL}/affected-participants`; // Trailing slash issue.
 
     this.commonBaseURL = `${environment.DJANGO_API_ENDPOINT}/v${environment.DJANGO_API_VERSION}`;
-    this.profileMgtURL = `${this.commonBaseURL}/me/`; // Trailing slash issue.
-    this.afRequestsMgtURL = `${environment.DJANGO_API_ENDPOINT}/v1/me/requests`;
+    this.userProfileMgtURL = `${this.commonBaseURL}/me/`; // Trailing slash issue.
+    this.afRequestsMgtURL = `${environment.DJANGO_API_ENDPOINT}/v1/me/requests/`;
     this.hlAssignedRequestsMgtURL = `${environment.DJANGO_API_ENDPOINT}/v1/me/assigned-requests/`;
   }
 
@@ -43,22 +43,22 @@ export class CoreAPIService {
   }
 
   getUserProfileData() {
-    return this.commonHTTP.httpGet(this.profileMgtURL);
+    return this.commonHTTP.httpGet(this.userProfileMgtURL);
   }
 
-  saveUserProfileData(profileData) {
-    return this.commonHTTP.httpPatch(this.profileMgtURL, profileData);
+  updateUserProfileData(profileData) {
+    return this.commonHTTP.httpPatch(this.userProfileMgtURL, profileData);
   }
 
-  getRequestsAF() {
+  createAFRequest(requestData) {
+    return this.commonHTTP.httpPost(this.afRequestsMgtURL, requestData);
+  }
+
+  getAFUserRequests() {
     return this.commonHTTP.httpGet(this.afRequestsMgtURL);
   }
 
-  getRequestsHL() {
+  getHLAssignedRequests() {
     return this.commonHTTP.httpGet(this.hlAssignedRequestsMgtURL);
-  }
-
-  saveRequests(requestData) {
-    return this.commonHTTP.httpPost(this.afRequestsMgtURL, requestData);
   }
 }

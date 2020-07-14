@@ -152,7 +152,7 @@ export class CreateRequestPage implements OnInit {
         this.loadingData = onLoadSuccess;
         this.loadingData.present();
         this.coreAPIService
-          .saveRequests(reqUserDetails)
+          .createAFRequest(reqUserDetails)
           .then(() => {
             // Dismiss & destroy loading controller on
             if (this.loadingData !== undefined) {

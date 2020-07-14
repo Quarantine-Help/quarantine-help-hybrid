@@ -43,9 +43,9 @@ export class MyRequestsPage implements OnInit {
 
   getAfOrHlRequest() {
     if (this.userType === 'AF') {
-      return this.coreAPIService.getRequestsAF();
+      return this.coreAPIService.getAFUserRequests();
     } else if (this.userType === 'HL') {
-      return this.coreAPIService.getRequestsHL();
+      return this.coreAPIService.getHLAssignedRequests();
     }
   }
 
