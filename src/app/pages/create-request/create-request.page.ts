@@ -19,7 +19,6 @@ export class CreateRequestPage implements OnInit {
   segmentSelected: any;
   selectedType: any;
   loadingData: HTMLIonLoadingElement;
-  now: Date;
   deadlineISO: string;
 
   constructor(
@@ -120,26 +119,23 @@ export class CreateRequestPage implements OnInit {
     });
   }
 
+  calculateDeadline(days, hours): string {
+    const currentTime: Date = new Date();
+    currentTime.setUTCDate(currentTime.getUTCDate() + parseInt(days, 10));
+    currentTime.setUTCHours(currentTime.getUTCHours() + parseInt(hours, 10));
+    return currentTime.toISOString();
+  }
+
   submitRequest() {
-    // TODO
-    console.log(this.requestForm);
     if (this.segmentSelected === 'Medicine') {
       this.selectedType = 'M';
     } else if (this.segmentSelected === 'Grocery') {
       this.selectedType = 'G';
     }
-    this.now = new Date();
-    this.now.setUTCDate(
-      this.now.getUTCDate() + parseInt(this.deadline.days, 10)
-    );
-    this.now.setUTCHours(
-      this.now.getUTCHours() + parseInt(this.deadline.hours, 10)
-    );
-    this.deadlineISO = this.now.toISOString();
-    console.log(this.deadlineISO);
+
     const reqUserDetails = {
       type: this.selectedType,
-      deadline: this.deadlineISO,
+      deadline: this.calculateDeadline(this.deadline.days, this.deadline.hours),
       description: this.requestForm.value.requestMessage,
     };
 
