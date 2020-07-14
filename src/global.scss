@@ -55,6 +55,13 @@ ion-searchbar {
   line-height: 1.5em;
 }
 
+.request-modal-wrapper {
+  --width: 80vw;
+  --height: 50vh;
+  color: red;
+}
+
+
 /* responsive helper classes to hide content */
 //xs devices
 @media (max-width:576px) {
