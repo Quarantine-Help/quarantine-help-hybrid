@@ -22,7 +22,9 @@ export class MyRequestsPage implements OnInit {
   ngOnInit() {
     this.isOpenRequests = true;
     this.getRequests();
-    this.userType = 'AF';
+
+    // TODO: Get the userType from user observable.
+    this.userType = 'HL';
   }
 
   createNewReq() {
