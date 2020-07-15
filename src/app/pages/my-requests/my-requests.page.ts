@@ -22,7 +22,6 @@ export class MyRequestsPage implements OnInit {
   ngOnInit() {
     this.isOpenRequests = true;
     this.getRequests();
-
     // TODO: Get the userType from user observable.
     this.userType = 'HL';
   }
@@ -32,7 +31,8 @@ export class MyRequestsPage implements OnInit {
   }
 
   onRequestOpened(requestData) {
-    this.router.navigateByUrl(`/view-request/:${requestData.id}`);
+    console.log(requestData);
+    this.router.navigateByUrl(`/view-request/${requestData.id}`);
   }
 
   segmentChanged(e) {

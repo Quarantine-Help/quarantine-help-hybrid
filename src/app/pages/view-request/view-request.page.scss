@@ -11,7 +11,7 @@ ion-icon {
 }
 
 hr {
-  border-bottom: solid 1px #d7dae5;
+  border-bottom: solid 1px var(--ion-color-light-shade);
 }
 
 .request-desc {
@@ -25,3 +25,10 @@ h5 {
   margin: 0px;
   padding: 0px;
 }
+
+ion-icon {
+  vertical-align: middle;
+  &.medium-icon {
+  zoom: 1.5;
+  }
+  }

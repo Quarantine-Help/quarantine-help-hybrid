@@ -62,13 +62,21 @@
         <ion-text class="ion-text-end">
           <h5>
             <span [ngSwitch]="requestedData.status">
-              <span *ngSwitchCase="'P'"> Pending </span>
-              <span *ngSwitchCase="'T'"> In Transit </span>
-              <span *ngSwitchCase="'F'"> Finished </span>
-              <span *ngSwitchCase="'C'"> Cancelled </span>
-              <span *ngSwitchDefault> Status not available </span>
-            </span> &nbsp;
-            <ion-icon name="bicycle-outline"></ion-icon>
+              <span *ngSwitchCase="'P'"> Pending
+                <ion-icon class="medium-icon" name="stopwatch" color="warning"></ion-icon>
+              </span>
+              <span *ngSwitchCase="'T'"> In Transit
+                <ion-icon class="medium-icon" name="bicycle"></ion-icon>
+              </span>
+              <span *ngSwitchCase="'F'"> Finished
+                <ion-icon class="medium-icon" name="checkmark-circle" color="success"></ion-icon>
+              </span>
+              <span *ngSwitchCase="'C'"> Cancelled
+                <ion-icon class="medium-icon" name="close-circle-outline" color="danger"></ion-icon>
+              </span>
+              <span *ngSwitchDefault> Unknown
+                <ion-icon class="medium-icon" name="bug-outline" color="danger"></ion-icon></span>
+            </span>
           </h5>
         </ion-text>
       </ion-col>

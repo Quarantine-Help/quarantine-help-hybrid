@@ -20,7 +20,6 @@ export class RequestComponent implements OnInit {
   }
 
   viewRequest(requestId) {
-    console.log('navigate to request view page', requestId);
     this.requestOpened.emit({
       id: requestId,
     });

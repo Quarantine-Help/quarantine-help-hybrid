@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MiscService } from 'src/app/services/misc/misc.service';
+import { CoreAPIService } from 'src/app/services/core-api/core-api.service';
 
 import { CallNumberService } from 'src/app/services/call-number/call-number.service';
 @Component({
@@ -8,59 +10,59 @@ import { CallNumberService } from 'src/app/services/call-number/call-number.serv
   styleUrls: ['./view-request.page.scss'],
 })
 export class ViewRequestPage implements OnInit {
+  loadingData: HTMLIonLoadingElement;
   isVolunteer: boolean; // flag for checking if the user is volunteer or quarantined
   requestedData: any;
   assigneeDetails: any;
   requestId: string;
   constructor(
     private activatedRoute: ActivatedRoute,
-    private callNumberService: CallNumberService
-  ) {
-    this.activatedRoute.params.subscribe((params) => console.log(params));
-  }
+    private callNumberService: CallNumberService,
+    private miscService: MiscService,
+    private coreAPIService: CoreAPIService
+  ) {}
 
   ngOnInit() {
     this.requestId = this.activatedRoute.snapshot.paramMap.get('id');
-
+    this.getRequest();
     this.isVolunteer = false;
     this.requestedData = {
-      id: 16,
+      id: 1,
       type: 'G',
       deadline: '2020-05-29T00:01:01Z',
-      description:
-        'Description text want 3 kg of banana Lorem Ipsum has been the industrys standard Lorem Ipsum has been the industrys standard',
+      description: '',
       assignee: {
         id: 4,
         user: {
-          firstName: 'Johnny',
-          lastName: 'Depp',
-          email: 'johnny@test.com',
+          firstName: '',
+          lastName: '',
+          email: '',
         },
         position: {
-          longitude: '16.466003417968743',
-          latitude: '63.78531111116974',
+          longitude: '',
+          latitude: '',
         },
-        type: 'HL',
-        firstLineOfAddress: 'apartment no',
-        secondLineOfAddress: 'xyz street',
-        country: 'DE',
-        placeId: 'asdfa',
-        postCode: '12345',
-        city: 'Berlin',
-        phone: '+46761189399',
+        type: '',
+        firstLineOfAddress: '',
+        secondLineOfAddress: '',
+        country: '',
+        placeId: '',
+        postCode: '',
+        city: '',
+        phone: '',
         crisis: 1,
       },
-      status: 'T',
+      status: '',
       assignmentHistory: [
         {
-          status: 'A',
+          status: '',
           id: 7,
-          createdAt: '2020-04-04T11:17:37.784674Z',
+          createdAt: '2000-01-01T11:17:37.784674Z',
           didComplete: false,
           assigneeId: 4,
         },
       ],
-      createdAt: '2020-04-04T10:43:18.521097Z',
+      createdAt: '2000-01-01T10:43:18.521097Z',
     };
     this.assigneeDetails = this.requestedData.assignee;
   }
@@ -78,5 +80,49 @@ export class ViewRequestPage implements OnInit {
 
   cancelRequest() {
     console.log('cancel request');
+  }
+
+  getRequest() {
+    this.miscService
+      .presentLoadingWithOptions({
+        duration: 0,
+        message: `Fetching request`,
+      })
+      .then((onLoadSuccess) => {
+        this.loadingData = onLoadSuccess;
+        this.loadingData.present();
+        this.coreAPIService
+          .getEachHLAssignedRequest(this.requestId)
+          .then((result: any) => {
+            console.log(result.body);
+            // Dismiss & destroy loading controller on
+            if (this.loadingData !== undefined) {
+              this.loadingData.dismiss().then(() => {
+                this.loadingData = undefined;
+              });
+            }
+            this.requestedData = result.body;
+            this.assigneeDetails = this.requestedData.assignee;
+          })
+          .catch((errorObj) => {
+            this.loadingData.dismiss();
+            const { error, status: statusCode } = errorObj;
+            const errorMessages: string[] = [];
+            for (const key in error) {
+              if (error.hasOwnProperty(key) && typeof key !== 'function') {
+                console.error(error[key][0]);
+                errorMessages.push(error[key][0]);
+              }
+            }
+            // show the errors as alert
+            this.handleErrors(errorMessages, statusCode);
+          })
+          .catch((error) => alert(error));
+      });
+  }
+
+  handleErrors(errorMessages: string[], statusCode) {
+    console.log(...errorMessages, statusCode);
+    this.miscService.presentAlert({ message: errorMessages.join('. ') });
   }
 }

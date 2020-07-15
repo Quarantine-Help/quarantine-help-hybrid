@@ -61,4 +61,8 @@ export class CoreAPIService {
   getHLAssignedRequests() {
     return this.commonHTTP.httpGet(this.hlAssignedRequestsMgtURL);
   }
+
+  getEachHLAssignedRequest(requestId) {
+    return this.commonHTTP.httpGet(`${this.hlAssignedRequestsMgtURL}${requestId}/`);
+  }
 }
