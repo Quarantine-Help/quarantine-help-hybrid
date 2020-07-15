@@ -1,0 +1,46 @@
+hr {
+  border-bottom: solid 6px var(--ion-color-light-shade);
+  width: 90%;
+}
+
+ion-grid.no-scroll {
+  max-height: 35vh;
+}
+
+ion-grid.scroll {
+  overflow-y: auto;
+}
+
+ion-icon {
+  vertical-align: middle;
+
+  &.large-icon {
+    zoom: 3.5;
+  }
+
+  &.medium-icon {
+    zoom: 1.5;
+  }
+
+}
+
+.description-box {
+  font-size: medium;
+  line-height: 4vh;
+  min-height: 50px;
+  max-height: 200px;
+  background-color: var(--ion-color-light);
+}
+
+.description {
+  min-height: 100%;
+  padding: 5px;
+  border-radius: 5px;
+  line-height: 1.3;
+}
+
+.row-btn-full{
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}

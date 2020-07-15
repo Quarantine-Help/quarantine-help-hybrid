@@ -5,20 +5,25 @@ import {
   ElementRef,
   OnInit,
 } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ModalController } from '@ionic/angular';
 
-import { environment } from '../../../environments/environment';
+import { RequestInfoModalComponent } from 'src/app/components/request-info-modal/request-info-modal.component';
 import { GeoLocationService } from 'src/app/services/geo-location/geo-location.service';
 import { MiscService } from 'src/app/services/misc/misc.service';
 import { CoreAPIService } from 'src/app/services/core-api/core-api.service';
+import { environment } from '../../../environments/environment';
 
-import { GeolocationPosition, LatLng } from '../../models/geo';
+import { RequestView } from 'src/app/models/ui';
+import { LatLng } from '../../models/geo';
 import {
   NearbyParticipantsResponse,
   NearbyParticipant,
-  ParticipantRequest,
 } from '../../models/core-api';
-import { RequestTypes, SearchFilters, Categories } from 'src/app/models/here-map';
+import {
+  RequestTypes,
+  SearchFilters,
+  Categories,
+} from 'src/app/models/here-map';
 
 declare var H: any;
 
@@ -52,7 +57,8 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
   constructor(
     private geoLocationService: GeoLocationService,
     private miscService: MiscService,
-    private coreAPIService: CoreAPIService
+    private coreAPIService: CoreAPIService,
+    private modalController: ModalController
   ) {
     this.filters = {
       distance: 5,
@@ -325,6 +331,20 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
         markerIcon = { icon: this.medicalIcon };
       }
 
+      const markerData: RequestView = {
+        id: participant.id,
+        crisisId: participant.crisis,
+        user: participant.user,
+        address: {
+          firstLineOfAddress: participant.firstLineOfAddress,
+          secondLineOfAddress: participant.secondLineOfAddress,
+        },
+        phone: participant.phone,
+        isGroceryRequest,
+        isMedicineRequest,
+        requests: participant.requests,
+      };
+
       // Create markers for the participants request
       this.createMarker(
         {
@@ -332,10 +352,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
           lng: parseFloat(participant.position.longitude),
         },
         markerIcon,
-        {
-          title: 'Help',
-          desc: 'Just kidding',
-        }
+        markerData
       );
     });
     this.markerGroup.addObjects(this.markers);
@@ -347,24 +364,39 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
     });
   }
 
-  createMarker(
-    coordinates: LatLng,
-    markerIcon,
-    info: { title: string; desc: string }
-  ) {
+  // Create markers for each participant request and attach handlers to show Request cards onClick
+  createMarker(coordinates: LatLng, markerIcon, markerData: RequestView) {
     const marker = new H.map.Marker(coordinates, markerIcon);
-    marker.setData(`<b>${info.title}</b><br>${info.desc}`);
     marker.addEventListener(
       'tap',
       (event) => {
-        const bubble = new H.ui.InfoBubble(this.getLatLngFromScreen(event), {
-          content: event.target.data,
-        });
-        this.HEREMapUI.addBubble(bubble);
+        this.showRequestCard(
+          event.currentPointer,
+          this.getLatLngFromScreen(event.currentPointer),
+          markerData
+        );
       },
       false
     );
     this.markers.push(marker);
+  }
+
+  async showRequestCard(
+    { viewportX, viewportY },
+    coordinates: LatLng,
+    markerData: RequestView
+  ) {
+    const modal = await this.modalController.create({
+      component: RequestInfoModalComponent,
+      componentProps: {
+        viewportX,
+        viewportY,
+        coordinates,
+        markerData,
+      },
+      cssClass: 'request-modal-wrapper',
+    });
+    return await modal.present();
   }
 
   /**
@@ -372,11 +404,8 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
    * @param event The MapEvent object from the event handler
    * @returns An object containing numerical values 'lat' and 'lng'
    */
-  getLatLngFromScreen(event): LatLng {
-    const coordinates = this.HEREMapObj.screenToGeo(
-      event.currentPointer.viewportX,
-      event.currentPointer.viewportY
-    );
+  getLatLngFromScreen({ viewportX, viewportY }): LatLng {
+    const coordinates = this.HEREMapObj.screenToGeo(viewportX, viewportY);
     // TODO - check precision of coordinates with backend team
     return {
       lat: Math.abs(coordinates.lat.toFixed(4)),
