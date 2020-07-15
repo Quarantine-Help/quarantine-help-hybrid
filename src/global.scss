@@ -57,10 +57,17 @@ ion-searchbar {
 
 .request-modal-wrapper {
   --width: 80vw;
-  --height: 50vh;
+  --height: 80vh;
   color: red;
 }
 
+.font-medium {
+  font-size: medium;
+}
+
+.no-ripple {
+  --ripple-color: transparent;
+}
 
 /* responsive helper classes to hide content */
 //xs devices
