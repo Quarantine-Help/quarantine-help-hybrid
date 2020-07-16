@@ -31,7 +31,6 @@ export class MyRequestsPage implements OnInit {
   }
 
   onRequestOpened(requestData) {
-    console.log(requestData);
     this.router.navigateByUrl(`/view-request/${requestData.id}`);
   }
 

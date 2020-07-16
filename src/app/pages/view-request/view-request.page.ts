@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
 import { MiscService } from 'src/app/services/misc/misc.service';
 import { CoreAPIService } from 'src/app/services/core-api/core-api.service';
-
 import { CallNumberService } from 'src/app/services/call-number/call-number.service';
 @Component({
   selector: 'app-viewrequest',
@@ -25,7 +25,7 @@ export class ViewRequestPage implements OnInit {
   ngOnInit() {
     this.requestId = this.activatedRoute.snapshot.paramMap.get('id');
     this.getRequest();
-    this.isVolunteer = false;
+    this.isVolunteer = true;
     this.requestedData = {
       id: 1,
       type: 'G',
