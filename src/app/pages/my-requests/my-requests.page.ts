@@ -23,7 +23,7 @@ export class MyRequestsPage implements OnInit {
     this.isOpenRequests = true;
     this.getRequests();
     // TODO: Get the userType from user observable.
-    this.userType = 'AF';
+    this.userType = 'HL';
   }
 
   createNewReq() {
@@ -31,9 +31,8 @@ export class MyRequestsPage implements OnInit {
   }
 
   onRequestOpened(requestData) {
-    // this.router.navigateByUrl(`/view-request/${requestData.id}`);
     const afRequestData: NavigationExtras = {
-      state: { someKeyName: requestData },
+      state: requestData,
     };
     this.router.navigate(['view-request'], afRequestData);
   }
