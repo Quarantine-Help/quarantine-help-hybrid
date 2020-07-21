@@ -61,7 +61,7 @@ const routes: CustomRoute[] = [
       ),
   },
   {
-    path: 'view-request/:id',
+    path: 'view-request',
     canActivate: [AuthGuard],
     data: {
       expectedRoles: ['HL', 'AF', 'AU', 'TP'],

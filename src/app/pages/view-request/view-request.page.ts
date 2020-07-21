@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { MiscService } from 'src/app/services/misc/misc.service';
 import { CoreAPIService } from 'src/app/services/core-api/core-api.service';
@@ -15,7 +15,9 @@ export class ViewRequestPage implements OnInit {
   requestedData: any;
   assigneeDetails: any;
   requestId: string;
+  requestDetails: any;
   constructor(
+    private router: Router,
     private activatedRoute: ActivatedRoute,
     private callNumberService: CallNumberService,
     private miscService: MiscService,
@@ -23,9 +25,11 @@ export class ViewRequestPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.requestId = this.activatedRoute.snapshot.paramMap.get('id');
-    this.getRequest();
-    this.isVolunteer = true;
+    const navigation = this.router.getCurrentNavigation();
+    this.requestDetails = navigation.extras.state.someKeyName;
+    // this.requestId = this.activatedRoute.snapshot.paramMap.get('id');
+    this.requestId = this.requestDetails.id;
+    this.isVolunteer = false;
     this.requestedData = {
       id: 1,
       type: 'G',
@@ -65,6 +69,13 @@ export class ViewRequestPage implements OnInit {
       createdAt: '2000-01-01T10:43:18.521097Z',
     };
     this.assigneeDetails = this.requestedData.assignee;
+
+    if (this.isVolunteer) {
+      this.getRequest();
+    } else {
+      this.requestedData = this.requestDetails;
+      this.assigneeDetails = this.requestDetails.assignee;
+    }
   }
 
   callAssignee(phoneNo) {

@@ -81,8 +81,8 @@
         </ion-text>
       </ion-col>
     </ion-row>
-    <hr *ngIf="!isVolunteer">
-    <ion-row class="ion-margin-bottom" *ngIf="!isVolunteer">
+    <hr *ngIf="!isVolunteer && assigneeDetails !== null">
+    <ion-row class="ion-margin-bottom" *ngIf="!isVolunteer && assigneeDetails !== null">
       <ion-col size="5">
         <ion-text>
           <h5> Assignee Details </h5>
