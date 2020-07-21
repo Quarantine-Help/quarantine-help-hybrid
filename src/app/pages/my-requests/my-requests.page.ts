@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import { MiscService } from 'src/app/services/misc/misc.service';
 import { CoreAPIService } from 'src/app/services/core-api/core-api.service';
 
@@ -23,7 +23,7 @@ export class MyRequestsPage implements OnInit {
     this.isOpenRequests = true;
     this.getRequests();
     // TODO: Get the userType from user observable.
-    this.userType = 'HL';
+    this.userType = 'AF';
   }
 
   createNewReq() {
@@ -31,7 +31,11 @@ export class MyRequestsPage implements OnInit {
   }
 
   onRequestOpened(requestData) {
-    this.router.navigateByUrl(`/view-request/${requestData.id}`);
+    // this.router.navigateByUrl(`/view-request/${requestData.id}`);
+    const afRequestData: NavigationExtras = {
+      state: { someKeyName: requestData },
+    };
+    this.router.navigate(['view-request'], afRequestData);
   }
 
   segmentChanged(e) {
