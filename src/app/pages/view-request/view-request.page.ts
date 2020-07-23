@@ -34,6 +34,27 @@ export class ViewRequestPage implements OnInit {
 
   resolveRequest() {
     console.log('resolve request');
+    this.miscService.presentAlert({
+      header: 'Warning',
+      subHeader: 'Are you sure? ',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('cancel');
+          },
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            console.log('yes');
+          },
+        },
+      ],
+      message: `Are you sure you want to Resolve the Request? `,
+    });
   }
 
   removeRequest() {
