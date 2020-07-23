@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { CallNumberService } from 'src/app/services/call-number/call-number.service';
+import { MiscService } from 'src/app/services/misc/misc.service';
+
 @Component({
   selector: 'app-viewrequest',
   templateUrl: './view-request.page.html',
@@ -13,7 +15,8 @@ export class ViewRequestPage implements OnInit {
   requestData: any;
   constructor(
     private router: Router,
-    private callNumberService: CallNumberService
+    private callNumberService: CallNumberService,
+    private miscService: MiscService
   ) {}
 
   ngOnInit() {
@@ -33,7 +36,28 @@ export class ViewRequestPage implements OnInit {
     console.log('resolve request');
   }
 
-  cancelRequest() {
-    console.log('cancel request');
+  removeRequest() {
+    console.log('remove request');
+    this.miscService.presentAlert({
+      header: 'Warning',
+      subHeader: 'Are you sure? ',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('cancel');
+          },
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            console.log('yes');
+          },
+        },
+      ],
+      message: `Are you sure you want to Remove the Request? `,
+    });
   }
 }

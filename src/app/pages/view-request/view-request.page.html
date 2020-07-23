@@ -116,7 +116,7 @@
   *ngIf="requestData.status === 'P' || requestData.status === 'T'">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="cancelRequest()" color="primary">Cancel</ion-button>
+      <ion-button (click)="removeRequest()" color="primary"> Remove </ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
       <ion-button (click)="resolveRequest()" color="primary" fill="solid" size="default">Resolve</ion-button>
