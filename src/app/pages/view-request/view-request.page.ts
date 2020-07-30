@@ -10,20 +10,16 @@ import { CallNumberService } from 'src/app/services/call-number/call-number.serv
 export class ViewRequestPage implements OnInit {
   loadingData: HTMLIonLoadingElement;
   isVolunteer: boolean; // flag for checking if the user is volunteer or quarantined
-  requestedData: any;
-  assigneeDetails: any;
-  requestDetails: any;
+  requestData: any;
   constructor(
     private router: Router,
     private callNumberService: CallNumberService
   ) {}
 
   ngOnInit() {
-    const navigation = this.router.getCurrentNavigation();
-    this.requestDetails = navigation.extras.state;
     this.isVolunteer = true;
-    this.requestedData = this.requestDetails;
-    this.assigneeDetails = this.requestDetails.assignee;
+    const navigation = this.router.getCurrentNavigation();
+    this.requestData = navigation.extras.state;
   }
 
   callAssignee(phoneNo) {
