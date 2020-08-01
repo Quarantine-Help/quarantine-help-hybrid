@@ -98,4 +98,28 @@ export class CommonHTTPService {
       }, HTTP_TIMEOUT);
     });
   }
+
+  httpDelete(url) {
+    return new Promise((resolve, reject) => {
+      const headerOptions = new HttpHeaders();
+      headerOptions.append('Content-Type', 'application/json');
+      const options: { headers: HttpHeaders; observe: 'response' } = {
+        headers: headerOptions,
+        observe: 'response',
+      };
+      this.http
+        .delete(encodeURI(url), options)
+        .toPromise()
+        .then((resp) => {
+          resolve(resp);
+        })
+        .catch((err) => {
+          console.error('http PATCH Error:', JSON.stringify(err));
+          reject(err);
+        });
+      setTimeout(() => {
+        reject('Timeout Exceeded');
+      }, HTTP_TIMEOUT);
+    });
+  }
 }
