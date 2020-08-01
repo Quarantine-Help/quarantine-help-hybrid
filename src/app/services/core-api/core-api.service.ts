@@ -72,4 +72,10 @@ export class CoreAPIService {
       `${this.hlExploreAssignRequestsURL}/${participantId}/requests/${requestId}/assign/`
     );
   }
+
+  unassignRequest(requestId) {
+    return this.commonHTTP.httpDelete(
+      `${this.hlAssignedRequestsMgtURL}${requestId}`
+    );
+  }
 }
