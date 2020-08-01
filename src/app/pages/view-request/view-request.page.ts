@@ -62,7 +62,6 @@ export class ViewRequestPage implements OnInit {
   }
 
   removeRequest() {
-    console.log('remove request');
     this.miscService.presentAlert({
       header: 'Warning',
       subHeader: 'Are you sure? ',
@@ -71,23 +70,54 @@ export class ViewRequestPage implements OnInit {
           text: 'No',
           role: 'cancel',
           cssClass: 'secondary',
-          handler: () => {
-            console.log('cancel');
-          },
+          handler: () => {},
         },
         {
           text: 'Yes',
           handler: () => {
-            console.log('yes');
-            this.coreAPIService
-              .unassignRequest(this.requestId)
-              .then((result: any) => {
-                console.log(result);
+            this.miscService
+              .presentLoadingWithOptions({
+                duration: 0,
+                message: `Removing request`,
+              })
+              .then((onLoadSuccess) => {
+                this.loadingData = onLoadSuccess;
+                this.loadingData.present();
+                this.coreAPIService
+                  .unassignRequest(this.requestId)
+                  .then((result: any) => {
+                    if (this.loadingData !== undefined) {
+                      this.loadingData.dismiss().then(() => {
+                        this.loadingData = undefined;
+                      });
+                    }
+                  })
+                  .catch((errorObj) => {
+                    this.loadingData.dismiss();
+                    const { error, status: statusCode } = errorObj;
+                    const errorMessages: string[] = [];
+                    for (const key in error) {
+                      if (
+                        error.hasOwnProperty(key) &&
+                        typeof key !== 'function'
+                      ) {
+                        console.error(error[key][0]);
+                        errorMessages.push(error[key][0]);
+                      }
+                    }
+                    // show the errors as alert
+                    this.handleErrors(errorMessages, statusCode);
+                  });
               });
           },
         },
       ],
       message: `Are you sure you want to Remove the Request? `,
     });
+  }
+
+  handleErrors(errorMessages: string[], statusCode) {
+    console.log(...errorMessages, statusCode);
+    this.miscService.presentAlert({ message: errorMessages.join('. ') });
   }
 }
