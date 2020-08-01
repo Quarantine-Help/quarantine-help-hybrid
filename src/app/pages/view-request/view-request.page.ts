@@ -91,6 +91,20 @@ export class ViewRequestPage implements OnInit {
                         this.loadingData = undefined;
                       });
                     }
+                    this.miscService.presentAlert({
+                      header: 'Success!!!',
+                      subHeader: 'Request Removed.',
+                      buttons: [
+                        {
+                          text: 'Ok',
+                          cssClass: 'secondary',
+                          handler: () => {
+                            console.log('navigate');
+                          },
+                        }
+                      ],
+                      message: `Request removed successfully. Click Ok to continue`,
+                    });
                   })
                   .catch((errorObj) => {
                     this.loadingData.dismiss();
