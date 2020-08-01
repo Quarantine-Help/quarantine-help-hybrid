@@ -99,7 +99,7 @@ export class ViewRequestPage implements OnInit {
                           text: 'Ok',
                           cssClass: 'secondary',
                           handler: () => {
-                            console.log('navigate');
+                            this.router.navigateByUrl('/my-requests');
                           },
                         }
                       ],
