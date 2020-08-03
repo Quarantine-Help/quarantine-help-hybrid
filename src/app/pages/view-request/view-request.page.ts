@@ -37,7 +37,6 @@ export class ViewRequestPage implements OnInit {
   }
 
   resolveRequest() {
-    console.log('resolve request');
     this.miscService.presentAlert({
       header: 'Warning',
       subHeader: 'Are you sure? ',
@@ -46,9 +45,7 @@ export class ViewRequestPage implements OnInit {
           text: 'No',
           role: 'cancel',
           cssClass: 'secondary',
-          handler: () => {
-            console.log('cancel');
-          },
+          handler: () => {},
         },
         {
           text: 'Yes',
@@ -67,12 +64,41 @@ export class ViewRequestPage implements OnInit {
                 this.coreAPIService
                   .resolveARequest(this.requestId, status)
                   .then((result: any) => {
-                    console.log(result);
                     if (this.loadingData !== undefined) {
                       this.loadingData.dismiss().then(() => {
                         this.loadingData = undefined;
                       });
                     }
+                    this.miscService.presentAlert({
+                      header: 'Success!!!',
+                      subHeader: 'Request Resolved.',
+                      buttons: [
+                        {
+                          text: 'Ok',
+                          cssClass: 'secondary',
+                          handler: () => {
+                            this.router.navigateByUrl('/my-requests');
+                          },
+                        },
+                      ],
+                      message: `Request Resolved successfully. Click Ok to continue`,
+                    });
+                  })
+                  .catch((errorObj) => {
+                    this.loadingData.dismiss();
+                    const { error, status: statusCode } = errorObj;
+                    const errorMessages: string[] = [];
+                    for (const key in error) {
+                      if (
+                        error.hasOwnProperty(key) &&
+                        typeof key !== 'function'
+                      ) {
+                        console.error(error[key][0]);
+                        errorMessages.push(error[key][0]);
+                      }
+                    }
+                    // show the errors as alert
+                    this.handleErrors(errorMessages, statusCode);
                   });
               });
           },
