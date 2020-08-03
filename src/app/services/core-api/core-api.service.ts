@@ -78,4 +78,11 @@ export class CoreAPIService {
       `${this.hlAssignedRequestsMgtURL}${requestId}`
     );
   }
+
+  resolveARequest(requestId, status) {
+    return this.commonHTTP.httpPatch(
+      `${this.hlAssignedRequestsMgtURL}${requestId}/`,
+      status
+    );
+  }
 }

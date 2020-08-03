@@ -114,7 +114,7 @@ export class CommonHTTPService {
           resolve(resp);
         })
         .catch((err) => {
-          console.error('http PATCH Error:', JSON.stringify(err));
+          console.error('http Delete Error:', JSON.stringify(err));
           reject(err);
         });
       setTimeout(() => {
