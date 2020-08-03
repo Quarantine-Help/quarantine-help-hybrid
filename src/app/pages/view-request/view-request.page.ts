@@ -54,6 +54,14 @@ export class ViewRequestPage implements OnInit {
           text: 'Yes',
           handler: () => {
             console.log('yes');
+            const status = {
+              status: 'F',
+            };
+            this.coreAPIService
+              .resolveARequest(this.requestId, status)
+              .then((result: any) => {
+                console.log(result);
+              });
           },
         },
       ],
@@ -101,7 +109,7 @@ export class ViewRequestPage implements OnInit {
                           handler: () => {
                             this.router.navigateByUrl('/my-requests');
                           },
-                        }
+                        },
                       ],
                       message: `Request removed successfully. Click Ok to continue`,
                     });
