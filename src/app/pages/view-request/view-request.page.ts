@@ -53,14 +53,27 @@ export class ViewRequestPage implements OnInit {
         {
           text: 'Yes',
           handler: () => {
-            console.log('yes');
-            const status = {
-              status: 'F',
-            };
-            this.coreAPIService
-              .resolveARequest(this.requestId, status)
-              .then((result: any) => {
-                console.log(result);
+            this.miscService
+              .presentLoadingWithOptions({
+                duration: 0,
+                message: `Resolving request`,
+              })
+              .then((onLoadSuccess) => {
+                this.loadingData = onLoadSuccess;
+                this.loadingData.present();
+                const status = {
+                  status: 'F',
+                };
+                this.coreAPIService
+                  .resolveARequest(this.requestId, status)
+                  .then((result: any) => {
+                    console.log(result);
+                    if (this.loadingData !== undefined) {
+                      this.loadingData.dismiss().then(() => {
+                        this.loadingData = undefined;
+                      });
+                    }
+                  });
               });
           },
         },
