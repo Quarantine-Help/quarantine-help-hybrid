@@ -113,7 +113,7 @@
   </ion-grid>
 </ion-content>
 <ion-footer class="ion-no-border ion-padding-horizontal"
-  *ngIf="requestData.status === 'P' || requestData.status === 'T'">
+  *ngIf="isVolunteer && (requestData.status === 'P' || requestData.status === 'T')">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button (click)="removeRequest()" color="primary"> Remove </ion-button>
