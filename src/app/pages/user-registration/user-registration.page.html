@@ -9,7 +9,7 @@
 
 <ion-content class="ion-padding ion-margin">
   <ion-grid class="ion-padding top-spacer">
-    <ion-segment [(ngModel)]="userSegment">
+    <ion-segment [(ngModel)]="userType">
       <ion-segment-button value="AF">
         <ion-label>I'm Quarantined</ion-label>
       </ion-segment-button>
@@ -17,6 +17,7 @@
         <ion-label>I Volunteer</ion-label>
       </ion-segment-button>
     </ion-segment>
+
     <form [formGroup]="regForm">
       <ion-row class="ion-justify-content-center">
         <ion-col size-md="2" size-lg="2">
@@ -31,6 +32,7 @@
             </div>
           </ion-item>
         </ion-col>
+
         <ion-col size-md="2" size-lg="2">
           <ion-item>
             <ion-label color="medium" position="floating">Last Name</ion-label>
@@ -44,6 +46,7 @@
           </ion-item>
         </ion-col>
       </ion-row>
+
       <ion-row class="ion-justify-content-center">
         <ion-col size-md="4" size-lg="4" size-xs="12">
           <ion-item>
@@ -61,6 +64,7 @@
           </ion-item>
         </ion-col>
       </ion-row>
+
       <ion-row class="ion-justify-content-center">
         <ion-col size-md="4" size-lg="4" size-xs="12">
           <ion-item>
@@ -78,6 +82,7 @@
           </ion-item>
         </ion-col>
       </ion-row>
+
       <ion-row class="ion-justify-content-center">
         <ion-col size-md="4" size-lg="4" size-xs="12">
           <ion-item>
@@ -92,6 +97,7 @@
           </ion-item>
         </ion-col>
       </ion-row>
+
       <ion-row class="ion-justify-content-center">
         <ion-col size-md="4" size-lg="4" size-xs="12">
           <ion-item>
@@ -109,6 +115,7 @@
           </ion-item>
         </ion-col>
       </ion-row>
+
       <ion-row class="ion-justify-content-center">
         <ion-col size-md="4" size-lg="4" size-xs="12">
           <ion-item>
@@ -126,6 +133,7 @@
           </ion-item>
         </ion-col>
       </ion-row>
+
       <ion-row class="ion-justify-content-center">
         <ion-col size-md="4" size-lg="4" size-xs="12">
           <ion-item>
@@ -143,6 +151,7 @@
           </ion-item>
         </ion-col>
       </ion-row>
+
       <ion-row class="ion-justify-content-center">
         <ion-col size-md="4" size-lg="4" size-xs="12">
           <ion-item>
@@ -163,6 +172,7 @@
           </ion-item>
         </ion-col>
       </ion-row>
+
       <ion-row class="ion-justify-content-center">
         <ion-col size-md="4" size-lg="4" size-xs="12">
           <ion-item>
@@ -184,6 +194,7 @@
           </ion-item>
         </ion-col>
       </ion-row>
+
       <ion-row class="ion-justify-content-center ion-padding-vertical">
         <ion-col size-md="4" size-lg="3" size-xs="8">
           <ion-button color="primary" shape="round" expand="full" size="default" fill="outline"

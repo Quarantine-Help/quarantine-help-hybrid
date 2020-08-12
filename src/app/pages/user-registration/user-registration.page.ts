@@ -3,6 +3,7 @@ import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
+import { UserType } from 'src/app/models/core-api';
 import { GeoLocationService } from 'src/app/services/geo-location/geo-location.service';
 import { MiscService } from 'src/app/services/misc/misc.service';
 import { HEREMapService } from 'src/app/services/HERE-map/here-map.service';
@@ -12,7 +13,6 @@ import { ReverseGeoResult } from 'src/app/models/here-map';
 import { UserRegData, UserRegResponse } from 'src/app/models/auth';
 import { Crisis } from 'src/app/constants/core-api';
 
-type userSegments = 'HL' | 'AF';
 interface UserAddress {
   address: string;
   city: string;
@@ -27,17 +27,17 @@ interface UserAddress {
   styleUrls: ['./user-registration.page.scss'],
 })
 export class UserRegistrationPage implements OnInit, OnDestroy {
-  userSegment: userSegments;
+  userType: UserType;
   regForm: FormGroup;
   regFormSubs: Subscription;
   regFormClean: boolean; // Flag to check if no changes were made.
   showPasswordText: boolean; // To toggle password visibility
   passwordIcon: 'eye' | 'eye-off' = 'eye';
+  currentLocation: LatLng = undefined;
+  userAddress: UserAddress;
   toastElement: Promise<void>;
   loadingAniGPSData: HTMLIonLoadingElement;
   loadingAniGetAddr: HTMLIonLoadingElement;
-  currentLocation: LatLng = undefined;
-  userAddress: UserAddress;
   userRegAni: HTMLIonLoadingElement;
 
   constructor(
@@ -84,7 +84,8 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.showPasswordText = false;
-    this.userSegment = 'HL';
+    // TODO: get user type
+    this.userType = 'HL';
     this.userAddress = undefined;
     this.regFormSubs = this.regForm.valueChanges.subscribe((change) => {
       this.regFormClean = false;
@@ -260,9 +261,8 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
       latitude: this.currentLocation.lat as any,
       longitude: this.currentLocation.lng as any,
     };
-    userData.type = this.userSegment;
+    userData.type = this.userType;
     userData.placeId = this.userAddress.placeId;
-    // TODO : Generate 2 char short-code from user Input/make it a select dropdown ?
     userData.country = this.userAddress.countryCode;
 
     // start the loading animation
