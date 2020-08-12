@@ -82,6 +82,13 @@ const routes: CustomRoute[] = [
         (m) => m.MyRequestsPageModule
       ),
   },
+  {
+    path: 'onboarding',
+    loadChildren: () =>
+      import('./pages/onboarding/onboarding.module').then(
+        (m) => m.OnboardingPageModule
+      ),
+  },
   { path: '**', redirectTo: 'map' },
 ];
 
