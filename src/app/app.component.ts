@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 
 import { StorageService } from './services/storage/storage.service';
 const { StatusBar, SplashScreen } = Plugins;
+const HAS_ONBOARDED_STORAGE_KEY = 'hasOnboarded';
 
 @Component({
   selector: 'app-root',
@@ -26,11 +27,12 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.storageService.getKeyItem('hasOnboarded').then(({ value }) => {
-        this.hasUserOnboarded = value === 'true';
-        console.log(this.hasUserOnboarded);
-        this.resumeNavigation();
-      });
+      this.storageService
+        .getObject(HAS_ONBOARDED_STORAGE_KEY)
+        .then(({ hasOnboarded }) => {
+          this.hasUserOnboarded = hasOnboarded;
+          this.resumeNavigation();
+        });
       if (this.platform.is('hybrid')) {
         StatusBar.setBackgroundColor({ color: 'white' });
         StatusBar.setStyle({ style: StatusBarStyle.Light });

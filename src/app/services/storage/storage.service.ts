@@ -28,19 +28,19 @@ export class StorageService {
   // get JSON object stored in the key
   async getObject(key) {
     let retrivedString,
-      keyObject = {};
+      keyObject: any = {};
     try {
       retrivedString = await Storage.get({ key });
+      try {
+        keyObject = JSON.parse(unescape(atob(retrivedString.value)));
+      } catch (error) {
+        console.error(
+          `Error parsing JSON data for key ${key}. Empty/Corrupted storage :`,
+          error
+        );
+      }
     } catch (error) {
-      console.error('Error writing to storage :', error);
-    }
-    try {
-      keyObject = JSON.parse(unescape(atob(retrivedString.value)));
-    } catch (error) {
-      console.error(
-        'Error parsing JSON data. Empty/Corrupted storage :',
-        error
-      );
+      console.error('Error reading from storage :', error);
     }
     return keyObject;
   }
@@ -75,22 +75,6 @@ export class StorageService {
       console.log('Removed key: ', { key });
     } catch (error) {
       console.error('Error parsing JSON data :', error);
-    }
-  }
-
-  /**
-   * Saves the string value in the key provided  *
-   * @param string key - Key used to store the JSON object
-   * @param string value - string value to be stored in the key.
-   */
-  async setKey(key: string, value: string) {
-    try {
-      await Storage.set({
-        key,
-        value: btoa(escape(value)),
-      });
-    } catch (error) {
-      console.error('Error writing to storage :', error);
     }
   }
 }

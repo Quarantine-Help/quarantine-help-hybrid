@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IonSlides } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { StorageService } from 'src/app/services/storage/storage.service';
+const HAS_ONBOARDED_STORAGE_KEY = 'hasOnboarded';
 
 @Component({
   selector: 'app-onboarding',
@@ -22,9 +23,14 @@ export class OnboardingPage implements OnInit {
   ngOnInit() {}
 
   onBoardingComplete() {
-    this.storageService.setKey('hasOnboarded', 'true').then(() => {
-      this.router.navigateByUrl('/map');
-    });
+    this.storageService
+      .setObject(
+        HAS_ONBOARDED_STORAGE_KEY,
+        JSON.stringify({ hasOnboarded: 'true' })
+      )
+      .then(() => {
+        this.router.navigateByUrl('/map');
+      });
   }
 
   slidesDidLoad(slides: IonSlides) {
