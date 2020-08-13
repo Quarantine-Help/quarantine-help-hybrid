@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IonSlides } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { StorageService } from 'src/app/services/storage/storage.service';
 
 @Component({
   selector: 'app-onboarding',
@@ -10,17 +12,26 @@ export class OnboardingPage implements OnInit {
   slideOptions = {
     initialSlide: 0,
     speed: 400,
+    autoplay: {
+      delay: 5000,
+    },
   };
 
-  constructor() {}
+  constructor(private router: Router, private storageService: StorageService) {}
 
   ngOnInit() {}
 
   onBoardingComplete() {
-    console.log('onBoardingComplete');
+    this.storageService.setKey('hasOnboarded', 'true').then(() => {
+      this.router.navigateByUrl('/map');
+    });
   }
 
   slidesDidLoad(slides: IonSlides) {
     slides.startAutoplay();
+  }
+
+  slidesEnd(slides: IonSlides) {
+    slides.stopAutoplay();
   }
 }

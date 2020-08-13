@@ -77,4 +77,20 @@ export class StorageService {
       console.error('Error parsing JSON data :', error);
     }
   }
+
+  /**
+   * Saves the string value in the key provided  *
+   * @param string key - Key used to store the JSON object
+   * @param string value - string value to be stored in the key.
+   */
+  async setKey(key: string, value: string) {
+    try {
+      await Storage.set({
+        key,
+        value: btoa(escape(value)),
+      });
+    } catch (error) {
+      console.error('Error writing to storage :', error);
+    }
+  }
 }
