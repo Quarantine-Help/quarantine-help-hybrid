@@ -18,7 +18,7 @@ interface CustomRoute extends Route {
 }
 
 const routes: CustomRoute[] = [
-  { path: '', redirectTo: 'map', pathMatch: 'full' },
+  { path: '', redirectTo: 'onboarding', pathMatch: 'full' },
   {
     path: 'login',
     loadChildren: () =>
