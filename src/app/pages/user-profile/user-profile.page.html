@@ -123,24 +123,6 @@
       <ion-row class="ion-justify-content-center">
         <ion-col size-md="4" size-lg="4" size-xs="12">
           <ion-item>
-            <ion-label color="medium" position="floating">Email address </ion-label>
-            <ion-input [readonly]="!isEditable" formControlName="email" required type="email"></ion-input>
-          </ion-item>
-          <ion-item lines="none" class="formInvalid"
-            *ngIf="(profileForm.get('email').invalid && (profileForm.get('email').dirty || profileForm.get('email').touched))">
-            <div *ngIf="profileForm.get('email').errors.required">
-              Email address is required.
-            </div>
-            <div *ngIf="profileForm.get('email').errors.email">
-              Please enter a valid email.
-            </div>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-
-      <ion-row class="ion-justify-content-center">
-        <ion-col size-md="4" size-lg="4" size-xs="12">
-          <ion-item>
             <ion-label color="medium" position="floating">Phone Number </ion-label>
             <ion-input [readonly]="!isEditable" formControlName="phoneNumber" required type="tel"></ion-input>
           </ion-item>
