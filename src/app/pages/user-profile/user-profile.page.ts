@@ -15,6 +15,7 @@ interface UserProfile {
   address: string;
   city: string;
   country: string;
+  postCode: string;
   phoneNumber: string;
 }
 
@@ -49,6 +50,7 @@ export class UserProfilePage implements OnInit {
         Validators.required,
         Validators.minLength(2),
       ]),
+      postCode: new FormControl('', [Validators.required]),
       phoneNumber: new FormControl('', [
         Validators.minLength(8),
         Validators.maxLength(16),
@@ -119,6 +121,7 @@ export class UserProfilePage implements OnInit {
         address: apiResult.firstLineOfAddress,
         city: apiResult.city,
         country: this.filterCountryName[0].name,
+        postCode: apiResult.postCode,
         phoneNumber: apiResult.phone,
       };
     }
@@ -129,6 +132,7 @@ export class UserProfilePage implements OnInit {
       .setValue(this.userProfileDetails.firstName);
     this.profileForm.get('lastName').setValue(this.userProfileDetails.lastName);
     this.profileForm.get('address').setValue(this.userProfileDetails.address);
+    this.profileForm.get('postCode').setValue(this.userProfileDetails.postCode);
     this.profileForm
       .get('phoneNumber')
       .setValue(this.userProfileDetails.phoneNumber);
@@ -211,6 +215,11 @@ export class UserProfilePage implements OnInit {
             ? this.profileForm.get('lastName').value
             : null,
       },
+      postCode:
+        this.profileForm.get('postCode').value !==
+        this.userProfileDetails.postCode
+          ? this.profileForm.get('postCode').value
+          : null,
       phone:
         this.profileForm.get('phoneNumber').value !==
         this.userProfileDetails.phoneNumber
