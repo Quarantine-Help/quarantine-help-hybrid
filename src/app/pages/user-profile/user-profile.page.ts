@@ -26,7 +26,6 @@ interface UserProfile {
 })
 export class UserProfilePage implements OnInit {
   profileForm: FormGroup;
-  isVolunteer: boolean; // flag for current user type
   isEditable: boolean;
   loadingProfileData: HTMLIonLoadingElement;
   userProfileDetails: UserProfile;
@@ -65,8 +64,6 @@ export class UserProfilePage implements OnInit {
   }
 
   ngOnInit() {
-    // TODO: get the user type from backend
-    this.isVolunteer = false;
     this.isEditable = false;
     this.searchResult = [];
     this.getProfileData();
@@ -125,7 +122,7 @@ export class UserProfilePage implements OnInit {
       this.userProfileDetails = {
         firstName: apiResult.user.firstName,
         lastName: apiResult.user.lastName,
-        address: `${apiResult.firstLineOfAddress}, ${apiResult.secondLineOfAddress}`,
+        address: apiResult.firstLineOfAddress,
         city: apiResult.city,
         country: this.filterCountryName[0].name,
         emailid: apiResult.user.email,

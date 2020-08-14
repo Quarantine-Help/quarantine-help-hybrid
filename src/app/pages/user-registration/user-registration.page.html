@@ -50,33 +50,15 @@
       <ion-row class="ion-justify-content-center">
         <ion-col size-md="4" size-lg="4" size-xs="12">
           <ion-item>
-            <ion-label color="medium" position="floating"> Address Line 1 </ion-label>
+            <ion-label color="medium" position="floating"> Address Line </ion-label>
             <ion-input required formControlName="address1"></ion-input>
           </ion-item>
           <ion-item lines="none" class="formInvalid"
             *ngIf="(regForm.get('address1').invalid && (regForm.get('address1').dirty || regForm.get('address1').touched))">
             <div *ngIf="regForm.get('address1').errors.required">
-              Address Line 1 is required.
+              Address Line is required.
             </div>
             <div *ngIf="regForm.get('address1').errors.minlength">
-              Please enter minimum 2 characters.
-            </div>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-
-      <ion-row class="ion-justify-content-center">
-        <ion-col size-md="4" size-lg="4" size-xs="12">
-          <ion-item>
-            <ion-label color="medium" position="floating"> Address Line 2</ion-label>
-            <ion-input required formControlName="address2"></ion-input>
-          </ion-item>
-          <ion-item lines="none" class="formInvalid"
-            *ngIf="(regForm.get('address2').invalid && (regForm.get('address2').dirty || regForm.get('address2').touched))">
-            <div *ngIf="regForm.get('address2').errors.required">
-              Address Line 2 is required.
-            </div>
-            <div *ngIf="regForm.get('address2').errors.minlength">
               Please enter minimum 2 characters.
             </div>
           </ion-item>
