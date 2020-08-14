@@ -15,7 +15,6 @@ interface UserProfile {
   address: string;
   city: string;
   country: string;
-  emailid: string;
   phoneNumber: string;
 }
 
@@ -49,11 +48,6 @@ export class UserProfilePage implements OnInit {
       country: new FormControl('', [
         Validators.required,
         Validators.minLength(2),
-      ]),
-      email: new FormControl('', [
-        Validators.required,
-        Validators.minLength(4),
-        Validators.email,
       ]),
       phoneNumber: new FormControl('', [
         Validators.minLength(8),
@@ -125,7 +119,6 @@ export class UserProfilePage implements OnInit {
         address: apiResult.firstLineOfAddress,
         city: apiResult.city,
         country: this.filterCountryName[0].name,
-        emailid: apiResult.user.email,
         phoneNumber: apiResult.phone,
       };
     }
@@ -136,7 +129,6 @@ export class UserProfilePage implements OnInit {
       .setValue(this.userProfileDetails.firstName);
     this.profileForm.get('lastName').setValue(this.userProfileDetails.lastName);
     this.profileForm.get('address').setValue(this.userProfileDetails.address);
-    this.profileForm.get('email').setValue(this.userProfileDetails.emailid);
     this.profileForm
       .get('phoneNumber')
       .setValue(this.userProfileDetails.phoneNumber);
@@ -217,11 +209,6 @@ export class UserProfilePage implements OnInit {
           this.profileForm.get('lastName').value !==
           this.userProfileDetails.lastName
             ? this.profileForm.get('lastName').value
-            : null,
-        email:
-          this.profileForm.get('email').value !==
-          this.userProfileDetails.emailid
-            ? this.profileForm.get('email').value
             : null,
       },
       phone:
