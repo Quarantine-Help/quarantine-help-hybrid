@@ -123,6 +123,21 @@
       <ion-row class="ion-justify-content-center">
         <ion-col size-md="4" size-lg="4" size-xs="12">
           <ion-item>
+            <ion-label color="medium" position="floating"> Post code </ion-label>
+            <ion-input [readonly]="!isEditable" formControlName="postCode" required type="text"></ion-input>
+          </ion-item>
+          <ion-item lines="none" class="formInvalid"
+            *ngIf="(profileForm.get('postCode').invalid && (profileForm.get('postCode').dirty || profileForm.get('postCode').touched))">
+            <div *ngIf="profileForm.get('postCode').errors.required">
+              Post code address is required.
+            </div>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-md="4" size-lg="4" size-xs="12">
+          <ion-item>
             <ion-label color="medium" position="floating">Phone Number </ion-label>
             <ion-input [readonly]="!isEditable" formControlName="phoneNumber" required type="tel"></ion-input>
           </ion-item>
