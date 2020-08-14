@@ -54,10 +54,6 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
         Validators.required,
         Validators.minLength(2),
       ]),
-      address2: new FormControl('', [
-        Validators.required,
-        Validators.minLength(2),
-      ]),
       city: new FormControl('', [Validators.required, Validators.minLength(2)]),
       postCode: new FormControl('', [Validators.required]),
       country: new FormControl('', [
@@ -242,7 +238,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
       country: undefined,
       position: undefined,
       firstLineOfAddress: undefined,
-      secondLineOfAddress: '',
+      secondLineOfAddress: undefined,
       crisis: Crisis.COVID19,
     };
 
@@ -255,7 +251,6 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
     userData.city = this.regForm.get('city').value;
     userData.postCode = this.regForm.get('postCode').value;
     userData.firstLineOfAddress = this.regForm.get('address1').value;
-    userData.secondLineOfAddress = this.regForm.get('address2').value;
     userData.phone = this.regForm.get('phoneNumber').value;
     userData.position = {
       latitude: this.currentLocation.lat as any,
