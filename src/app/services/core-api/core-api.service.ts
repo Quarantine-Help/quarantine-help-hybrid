@@ -16,15 +16,17 @@ export class CoreAPIService {
   private userProfileMgtURL: string;
   private afRequestsMgtURL: string;
   private hlAssignedRequestsMgtURL: string;
+  private hlExploreAssignRequestsURL: string;
   constructor(private commonHTTP: CommonHTTPService) {
     const crisisSuffix = `crises/${Crisis.COVID19}`;
-    this.crisisBaseURL = `${environment.DJANGO_API_ENDPOINT}/v${environment.DJANGO_API_VERSION}/${crisisSuffix}`;
-    this.affectedParticipantsURL = `${this.crisisBaseURL}/affected-participants`; // Trailing slash issue.
-
     this.commonBaseURL = `${environment.DJANGO_API_ENDPOINT}/v${environment.DJANGO_API_VERSION}`;
+    this.crisisBaseURL = `${this.commonBaseURL}/${crisisSuffix}`;
+
+    this.affectedParticipantsURL = `${this.crisisBaseURL}/affected-participants`; // Trailing slash issue.
+    this.hlExploreAssignRequestsURL = `${this.crisisBaseURL}/affected-participants`;
     this.userProfileMgtURL = `${this.commonBaseURL}/me/`; // Trailing slash issue.
-    this.afRequestsMgtURL = `${environment.DJANGO_API_ENDPOINT}/v1/me/requests/`;
-    this.hlAssignedRequestsMgtURL = `${environment.DJANGO_API_ENDPOINT}/v1/me/assigned-requests/`;
+    this.afRequestsMgtURL = `${this.commonBaseURL}/me/requests/`;
+    this.hlAssignedRequestsMgtURL = `${this.commonBaseURL}/me/assigned-requests/`;
   }
 
   getNearbyParticipants(
@@ -60,5 +62,14 @@ export class CoreAPIService {
 
   getHLAssignedRequests() {
     return this.commonHTTP.httpGet(this.hlAssignedRequestsMgtURL);
+  }
+
+  assignAFRequestsAsHL(participantId: number, requestId: number) {
+    console.log(
+      `${this.hlExploreAssignRequestsURL}/${participantId}/requests/${requestId}/assign/`
+    );
+    return this.commonHTTP.httpPost(
+      `${this.hlExploreAssignRequestsURL}/${participantId}/requests/${requestId}/assign/`
+    );
   }
 }
