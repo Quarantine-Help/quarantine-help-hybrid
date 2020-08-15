@@ -3,10 +3,11 @@ ion-slides {
 }
 
 ion-slide {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
   img {
-    margin-top: 12vh;
     max-height: 50%;
     max-width: 80%;
     pointer-events: none;
@@ -14,7 +15,6 @@ ion-slide {
 
   p {
     line-height: 1.5;
-    margin-top: 5vh;
     margin-left: 5vw;
     margin-right: 5vw;
     color: var(--ion-color-step-600, #60646b);
