@@ -25,13 +25,13 @@
       <h4>Pending Requests</h4>
     </ion-text>
     <ion-badge slot="end" color="tertiary">
-      <ion-text class="font-medium">3</ion-text>
+      <ion-text class="font-medium">{{this.pendingRequestCount}}</ion-text>
     </ion-badge>
   </ion-item>
 </ion-grid>
 
 <ion-grid class="ion-no-margin scroll">
-  <ion-card class="ion-margin" *ngFor="let request of markerData.requests">
+  <ion-card class="ion-margin" *ngFor="let request of markerData.requests; let requestNo = index">
     <ion-card-header>
       <ion-card-title>
         <ion-item lines="none" class="ion-no-padding ion-no-margin no-ripple">
@@ -44,7 +44,9 @@
           <span *ngIf="request.type=='M'">
             <ion-icon class="medium-icon" slot="start" name="medkit-outline" color="danger"></ion-icon>
           </span>
-          <ion-checkbox color="success" slot="end" checked="true"></ion-checkbox>
+          <ion-checkbox color="success" slot="end" checked="false" [disabled]="request.status !== 'P'"
+            (ionChange)="onCheckBoxEvent($event.detail.checked, requestNo, request.id)">
+          </ion-checkbox>
         </ion-item>
       </ion-card-title>
     </ion-card-header>
@@ -102,7 +104,7 @@
   </ion-card>
 </ion-grid>
 <ion-row class="ion-justify-content-center ion-text-center" color="primary">
-  <ion-button expand="full" fill="solid" class="row-btn-full">
-    Accept 3 our of 5 requests
+  <ion-button expand="full" fill="solid" class="row-btn-full" (click)="acceptSelectedRequests()" [disabled]="selectedRequests.length === 0">
+    Accept {{selectedRequests.length}} of {{pendingRequestCount}} pending requests
   </ion-button>
 </ion-row>
