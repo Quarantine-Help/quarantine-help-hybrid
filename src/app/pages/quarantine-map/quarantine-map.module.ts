@@ -25,6 +25,6 @@ import { RequestInfoModalComponent } from '../../components/request-info-modal/r
     MapFilterComponent,
     RequestInfoModalComponent,
   ],
-  entryComponents: [RequestInfoModalComponent],
+  entryComponents: [],
 })
 export class QuarantineMapPageModule {}

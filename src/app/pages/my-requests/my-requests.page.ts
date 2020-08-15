@@ -74,23 +74,26 @@ export class MyRequestsPage implements OnInit {
           })
           .catch((errorObj) => {
             this.loadingData.dismiss();
-            const { error, status: statusCode } = errorObj;
-            const errorMessages: string[] = [];
-            for (const key in error) {
-              if (error.hasOwnProperty(key) && typeof key !== 'function') {
-                console.error(error[key][0]);
-                errorMessages.push(error[key][0]);
-              }
-            }
-            // show the errors as alert
-            this.handleErrors(errorMessages, statusCode);
+            this.handleErrors(errorObj);
           })
           .catch((error) => alert(error));
       });
   }
 
-  handleErrors(errorMessages: string[], statusCode) {
+  handleErrors(errorObj) {
+    const { error, status: statusCode } = errorObj;
+    const errorMessages: string[] = [];
+    for (const key in error) {
+      if (error.hasOwnProperty(key) && typeof key !== 'function') {
+        console.error(error[key]);
+        errorMessages.push(error[key]);
+      }
+    }
     console.log(...errorMessages, statusCode);
-    this.miscService.presentAlert({ message: errorMessages.join('. ') });
+    this.miscService.presentAlert({
+      message: errorMessages.join('. '),
+      subHeader: null,
+      buttons: ['Ok'],
+    });
   }
 }

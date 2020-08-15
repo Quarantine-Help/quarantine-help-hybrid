@@ -42,7 +42,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
               header: 'Sorry, page disabled',
               subHeader: null,
               message:
-                'You need to be registered as a different type of user in order to access this page.',
+                'You need to be registered as a different type of user in order to access the page.',
               buttons: ['Ok'],
             });
             return false;
