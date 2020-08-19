@@ -51,14 +51,18 @@
         <ion-col size-md="4" size-lg="4" size-xs="12">
           <ion-item>
             <ion-label color="medium" position="floating"> Address Line </ion-label>
-            <ion-input required formControlName="address1"></ion-input>
+            <ion-input (keyup)="findAddress()" required formControlName="address"></ion-input>
           </ion-item>
+          <ion-list *ngIf="displayAddressSearch" lines="none" class="ion-padding-top ion-padding-bottom">
+            <ion-item lines="inset" (click)="setSelectedAddress(item)" class="ion-padding-horizontal search-list" 
+              *ngFor="let item of searchResult"> {{ item.title }} </ion-item>
+          </ion-list>
           <ion-item lines="none" class="formInvalid"
-            *ngIf="(regForm.get('address1').invalid && (regForm.get('address1').dirty || regForm.get('address1').touched))">
-            <div *ngIf="regForm.get('address1').errors.required">
+            *ngIf="(regForm.get('address').invalid && (regForm.get('address').dirty || regForm.get('address').touched))">
+            <div *ngIf="regForm.get('address').errors.required">
               Address Line is required.
             </div>
-            <div *ngIf="regForm.get('address1').errors.minlength">
+            <div *ngIf="regForm.get('address').errors.minlength">
               Please enter minimum 2 characters.
             </div>
           </ion-item>

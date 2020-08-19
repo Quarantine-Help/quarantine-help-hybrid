@@ -40,6 +40,8 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   loadingAniGetAddr: HTMLIonLoadingElement;
   userRegAni: HTMLIonLoadingElement;
   authSubs: Subscription;
+  searchResult: {};
+  displayAddressSearch: boolean;
 
   constructor(
     private geoLocationService: GeoLocationService,
@@ -51,7 +53,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
     this.regForm = new FormGroup({
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
-      address1: new FormControl('', [
+      address: new FormControl('', [
         Validators.required,
         Validators.minLength(2),
       ]),
@@ -133,6 +135,95 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
     }
   }
 
+  findAddress() {
+    this.displayAddressSearch = true;
+    const searchWord = this.regForm.value.address;
+    const addressList = [
+      {
+        title: 'abc street, 13407 Berlin, Deutschland',
+        id: 'here:af:street:aWPDqlIclm3Hv9St4C8qtA',
+        resultType: 'street',
+        address: {
+          label: 'abc street, 13407 Berlin, Deutschland',
+        },
+        position: {
+          lat: 52.5651,
+          lng: 13.36372,
+        },
+        distance: 5541,
+        mapView: {
+          west: 13.35903,
+          south: 52.55807,
+          east: 13.37263,
+          north: 52.57426,
+        },
+        highlights: {
+          title: [
+            {
+              start: 0,
+              end: 3,
+            },
+          ],
+          address: {
+            label: [
+              {
+                start: 0,
+                end: 3,
+              },
+            ],
+          },
+        },
+      },
+      {
+        title: 'xyz street, 16321 Bernau bei Berlin, Deutschland',
+        id: 'here:af:street:Ew.151oNaltuxcjz5GX0vD',
+        resultType: 'street',
+        address: {
+          label: 'xyz no 54, 16321 Bernau bei Berlin, Deutschland',
+        },
+        position: {
+          lat: 52.67748,
+          lng: 13.56681,
+        },
+        distance: 20879,
+        mapView: {
+          west: 13.56507,
+          south: 52.6773,
+          east: 13.56854,
+          north: 52.67776,
+        },
+        highlights: {
+          title: [
+            {
+              start: 0,
+              end: 3,
+            },
+          ],
+          address: {
+            label: [
+              {
+                start: 0,
+                end: 3,
+              },
+            ],
+          },
+        },
+      },
+    ];
+    console.log('searchWord ', searchWord);
+    this.searchResult = addressList.filter((address) =>
+      address.title.toLowerCase().includes(searchWord.toLowerCase())
+    );
+    console.log(this.searchResult);
+  }
+
+  setSelectedAddress(item) {
+    this.regForm.patchValue({
+      address: item.title,
+    });
+    this.displayAddressSearch = false;
+  }
+
   getGPSLocation() {
     // If GPS data already exists, use it.
     if (this.currentLocation) {
@@ -185,7 +276,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   getUserAddress() {
     // call reverse-geo code iff the user address does not exist
     if (this.userAddress) {
-      this.regForm.get('address1').setValue(this.userAddress.address);
+      this.regForm.get('address').setValue(this.userAddress.address);
       this.regForm.get('city').setValue(this.userAddress.city);
       this.regForm.get('country').setValue(this.userAddress.country);
     } else {
@@ -217,7 +308,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
                 placeId: geoDataObj.LocationId,
               };
               // set the values to the form
-              this.regForm.get('address1').setValue(this.userAddress.address);
+              this.regForm.get('address').setValue(this.userAddress.address);
               this.regForm.get('city').setValue(this.userAddress.city);
               this.regForm.get('country').setValue(this.userAddress.country);
               this.regForm.get('postCode').setValue(this.userAddress.postCode);
@@ -258,7 +349,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
     };
     userData.city = this.regForm.get('city').value;
     userData.postCode = this.regForm.get('postCode').value;
-    userData.firstLineOfAddress = this.regForm.get('address1').value;
+    userData.firstLineOfAddress = this.regForm.get('address').value;
     userData.phone = this.regForm.get('phoneNumber').value;
     userData.position = {
       latitude: this.currentLocation.lat as any,
