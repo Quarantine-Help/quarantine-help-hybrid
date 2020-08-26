@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { LatLng } from '../../models/geo';
 import { ReverseGeoResult } from 'src/app/models/here-map';
 import { UserRegData, UserRegResponse } from 'src/app/models/auth';
-import { Crisis } from 'src/app/constants/core-api';
+import { Crisis, defaultUserType } from 'src/app/constants/core-api';
 
 interface UserAddress {
   address: string;
@@ -39,6 +39,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   loadingAniGPSData: HTMLIonLoadingElement;
   loadingAniGetAddr: HTMLIonLoadingElement;
   userRegAni: HTMLIonLoadingElement;
+  authSubs: Subscription;
 
   constructor(
     private geoLocationService: GeoLocationService,
@@ -79,9 +80,15 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.authSubs = this.authService.user.subscribe((user) => {
+      if (user && user.email !== undefined && user.token !== undefined) {
+        this.userType = user.type;
+      } else {
+        this.userType = defaultUserType;
+      }
+    });
+
     this.showPasswordText = false;
-    // TODO: get user type
-    this.userType = 'HL';
     this.userAddress = undefined;
     this.regFormSubs = this.regForm.valueChanges.subscribe((change) => {
       this.regFormClean = false;
@@ -114,6 +121,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.regFormSubs.unsubscribe();
+    this.authSubs.unsubscribe();
   }
 
   togglePasswordVisibility() {

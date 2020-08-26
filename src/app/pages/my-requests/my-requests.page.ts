@@ -1,29 +1,46 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
+import { Subscription } from 'rxjs';
+
 import { MiscService } from 'src/app/services/misc/misc.service';
 import { CoreAPIService } from 'src/app/services/core-api/core-api.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { UserType } from 'src/app/models/core-api';
+import { defaultUserType } from 'src/app/constants/core-api';
 
 @Component({
   selector: 'app-my-requests',
   templateUrl: './my-requests.page.html',
   styleUrls: ['./my-requests.page.scss'],
 })
-export class MyRequestsPage implements OnInit {
+export class MyRequestsPage implements OnInit, OnDestroy {
   loadingData: HTMLIonLoadingElement;
   isOpenRequests: boolean;
   allRequests: any;
-  userType: string; // AF/HL
+  userType: UserType;
+  authSubs: Subscription;
   constructor(
     private router: Router,
     private miscService: MiscService,
-    private coreAPIService: CoreAPIService
+    private coreAPIService: CoreAPIService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
     this.isOpenRequests = true;
     this.getRequests();
-    // TODO: Get the userType from user observable.
-    this.userType = 'HL';
+
+    this.authSubs = this.authService.user.subscribe((user) => {
+      if (user && user.email !== undefined && user.token !== undefined) {
+        this.userType = user.type;
+      } else {
+        this.userType = defaultUserType;
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.authSubs.unsubscribe();
   }
 
   createNewReq() {
