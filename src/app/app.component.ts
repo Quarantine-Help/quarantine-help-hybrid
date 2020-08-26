@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Plugins, StatusBarStyle } from '@capacitor/core';
+import { Router } from '@angular/router';
 
+import { StorageService } from './services/storage/storage.service';
 const { StatusBar, SplashScreen } = Plugins;
+const HAS_ONBOARDED_STORAGE_KEY = 'hasOnboarded';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +13,12 @@ const { StatusBar, SplashScreen } = Plugins;
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor(private platform: Platform) {
+  hasUserOnboarded: boolean;
+  constructor(
+    private platform: Platform,
+    private storageService: StorageService,
+    private router: Router
+  ) {
     SplashScreen.show({
       autoHide: true,
     });
@@ -19,11 +27,27 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
+      this.storageService
+        .getObject(HAS_ONBOARDED_STORAGE_KEY)
+        .then(({ hasOnboarded }) => {
+          this.hasUserOnboarded = hasOnboarded;
+          this.resumeNavigation();
+        });
       if (this.platform.is('hybrid')) {
         StatusBar.setBackgroundColor({ color: 'white' });
         StatusBar.setStyle({ style: StatusBarStyle.Light });
         SplashScreen.hide();
       }
     });
+  }
+
+  resumeNavigation() {
+    if (this.hasUserOnboarded) {
+      console.log('to map');
+      this.router.navigateByUrl('/map');
+    } else {
+      console.log('to onboard');
+      this.router.navigateByUrl('/onboarding');
+    }
   }
 }

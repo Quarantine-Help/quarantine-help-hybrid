@@ -1,0 +1,110 @@
+<ion-grid class="ion-no-margin no-scroll">
+  <ion-item lines="none">
+    <ion-text color="primary">
+      <h1>{{markerData.user.firstName}} {{markerData.user.lastName}} </h1>
+    </ion-text>
+  </ion-item>
+  <hr>
+  <ion-item lines="none">
+    <ion-icon name="location" slot="start"></ion-icon>
+    <ion-text color="primary">
+      <h6>{{markerData.address.firstLineOfAddress}} {{markerData.address.secondLineOfAddress}}
+      </h6>
+    </ion-text>
+  </ion-item>
+  <ion-item lines="none">
+    <ion-icon name="call" slot="start"></ion-icon>
+    <ion-text color="primary">
+      <h6>{{markerData.phone}}</h6>
+    </ion-text>
+    <ion-icon name="medkit-outline" color="danger" slot="end"></ion-icon>
+    <ion-icon name="fast-food-outline" color="success" slot="end"></ion-icon>
+  </ion-item>
+  <ion-item lines="none">
+    <ion-text color="primary">
+      <h4>Pending Requests</h4>
+    </ion-text>
+    <ion-badge slot="end" color="tertiary">
+      <ion-text class="font-medium">{{this.pendingRequestCount}}</ion-text>
+    </ion-badge>
+  </ion-item>
+</ion-grid>
+
+<ion-grid class="ion-no-margin scroll">
+  <ion-card class="ion-margin" *ngFor="let request of markerData.requests; let requestNo = index">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-item lines="none" class="ion-no-padding ion-no-margin no-ripple">
+          <ion-text slot="start">
+            <h3>{{ request.type ==='G' ? 'Grocery' : 'Medicines' }}</h3>
+          </ion-text>
+          <span *ngIf="request.type=='G'">
+            <ion-icon class="medium-icon" slot="start" name="cart-outline" color="success"></ion-icon>
+          </span>
+          <span *ngIf="request.type=='M'">
+            <ion-icon class="medium-icon" slot="start" name="medkit-outline" color="danger"></ion-icon>
+          </span>
+          <ion-checkbox color="success" slot="end" checked="false" [disabled]="request.status !== 'P'"
+            (ionChange)="onCheckBoxEvent($event.detail.checked, requestNo, request.id)">
+          </ion-checkbox>
+        </ion-item>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-row class="ion-justify-content-center ion-align-items-center">
+        <ion-col size="5">
+          <ion-icon name="calendar" class="large-icon" color="primary"></ion-icon>
+          <ion-text>Deadline</ion-text>
+        </ion-col>
+        <ion-col offset="1" size="6" class="ion-text-end">
+          <h1>{{request.deadline | date:'shortTime' }}</h1>
+          <h2>{{request.deadline | date }}</h2>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="4">
+          <ion-text>Created</ion-text>
+        </ion-col>
+        <ion-col size="8" class="ion-text-end">{{request.createdAt | date:'short' }}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="4">
+          <ion-text>Status</ion-text>
+        </ion-col>
+        <ion-col offset="1" size="7" class="ion-text-end">
+          <ion-text class="ion-text-end">
+            <h5>
+              <span [ngSwitch]="request.status">
+                <span *ngSwitchCase="'P'"> Pending
+                  <ion-icon class="medium-icon" name="stopwatch" color="warning"></ion-icon>
+                </span>
+                <span *ngSwitchCase="'T'"> In Transit
+                  <ion-icon class="medium-icon" color="primary" name="bicycle"></ion-icon>
+                </span>
+                <span *ngSwitchCase="'F'"> Finished
+                  <ion-icon class="medium-icon" name="checkmark-circle" color="success"></ion-icon>
+                </span>
+                <span *ngSwitchCase="'C'"> Cancelled
+                  <ion-icon class="medium-icon" name="close-circle-outline" color="danger"></ion-icon>
+                </span>
+                <span *ngSwitchDefault> Unknown
+                  <ion-icon class="medium-icon" name="bug-outline" color="danger"></ion-icon>
+                </span>
+              </span>
+            </h5>
+          </ion-text>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-padding description-box">
+        <ion-text class="description">
+          {{ request.description }}
+        </ion-text>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</ion-grid>
+<ion-row class="ion-justify-content-center ion-text-center" color="primary">
+  <ion-button expand="full" fill="solid" class="row-btn-full" (click)="acceptSelectedRequests()" [disabled]="selectedRequests.length === 0">
+    Accept {{selectedRequests.length}} of {{pendingRequestCount}} pending requests
+  </ion-button>
+</ion-row>

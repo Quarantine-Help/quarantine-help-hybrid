@@ -3,6 +3,7 @@ import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
+import { UserType } from 'src/app/models/core-api';
 import { GeoLocationService } from 'src/app/services/geo-location/geo-location.service';
 import { MiscService } from 'src/app/services/misc/misc.service';
 import { HEREMapService } from 'src/app/services/HERE-map/here-map.service';
@@ -10,10 +11,8 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { LatLng } from '../../models/geo';
 import { ReverseGeoResult } from 'src/app/models/here-map';
 import { UserRegData, UserRegResponse } from 'src/app/models/auth';
-import { UserType } from 'src/app/models/core-api';
-import { Crisis } from 'src/app/constants/core-api';
+import { Crisis, defaultUserType } from 'src/app/constants/core-api';
 
-type userSegments = 'volunteer' | 'quarantined';
 interface UserAddress {
   address: string;
   city: string;
@@ -28,21 +27,19 @@ interface UserAddress {
   styleUrls: ['./user-registration.page.scss'],
 })
 export class UserRegistrationPage implements OnInit, OnDestroy {
-  userSegment: userSegments;
-  volRegForm: FormGroup;
-  quaRegForm: FormGroup;
-  volRegFormSubs: Subscription;
-  quaRegFormSubs: Subscription;
-  volFormClean: boolean; // Flag to check if no changes were made.
-  quaFormClean: boolean;
+  userType: UserType;
+  regForm: FormGroup;
+  regFormSubs: Subscription;
+  regFormClean: boolean; // Flag to check if no changes were made.
   showPasswordText: boolean; // To toggle password visibility
   passwordIcon: 'eye' | 'eye-off' = 'eye';
+  currentLocation: LatLng = undefined;
+  userAddress: UserAddress;
   toastElement: Promise<void>;
   loadingAniGPSData: HTMLIonLoadingElement;
   loadingAniGetAddr: HTMLIonLoadingElement;
-  currentLocation: LatLng = undefined;
-  userAddress: UserAddress;
   userRegAni: HTMLIonLoadingElement;
+  authSubs: Subscription;
 
   constructor(
     private geoLocationService: GeoLocationService,
@@ -51,33 +48,10 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
     private router: Router,
     private authService: AuthService
   ) {
-    this.volRegForm = new FormGroup({
-      firstName: new FormControl('', [Validators.required]),
-      lastName: new FormControl('', [Validators.required]),
-      email: new FormControl('', [
-        Validators.required,
-        Validators.minLength(4),
-        Validators.email,
-      ]),
-      phoneNumber: new FormControl('', [
-        Validators.minLength(8),
-        Validators.maxLength(16),
-        Validators.required,
-      ]),
-      password: new FormControl('', [
-        Validators.minLength(8),
-        Validators.maxLength(30),
-        Validators.required,
-      ]),
-    });
-    this.quaRegForm = new FormGroup({
+    this.regForm = new FormGroup({
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
       address1: new FormControl('', [
-        Validators.required,
-        Validators.minLength(2),
-      ]),
-      address2: new FormControl('', [
         Validators.required,
         Validators.minLength(2),
       ]),
@@ -106,14 +80,18 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.showPasswordText = false;
-    this.userSegment = 'volunteer';
-    this.userAddress = undefined;
-    this.volRegFormSubs = this.volRegForm.valueChanges.subscribe((change) => {
-      this.volFormClean = false;
+    this.authSubs = this.authService.user.subscribe((user) => {
+      if (user && user.email !== undefined && user.token !== undefined) {
+        this.userType = user.type;
+      } else {
+        this.userType = defaultUserType;
+      }
     });
-    this.quaRegFormSubs = this.quaRegForm.valueChanges.subscribe((change) => {
-      this.quaFormClean = false;
+
+    this.showPasswordText = false;
+    this.userAddress = undefined;
+    this.regFormSubs = this.regForm.valueChanges.subscribe((change) => {
+      this.regFormClean = false;
     });
 
     // Provide user with instructions on filling the form.
@@ -124,11 +102,26 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
       message: `Please select <strong>I'm Quarantined</strong> if you are in quarantine and require assistance from volunteers.
       <br><br>You may continue in the <strong>I Volunteer</strong> tab otherwise.`,
     });
+
+    // Start the loading animation for getting GPS data
+    this.miscService
+      .presentLoadingWithOptions({
+        duration: 0,
+        message: `Getting current location.`,
+      })
+      .then((onLoadSuccess) => {
+        this.loadingAniGPSData = onLoadSuccess;
+        // Get the GPS data
+        this.getGPSLocation();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   ngOnDestroy() {
-    this.volRegFormSubs.unsubscribe();
-    this.quaRegFormSubs.unsubscribe();
+    this.regFormSubs.unsubscribe();
+    this.authSubs.unsubscribe();
   }
 
   togglePasswordVisibility() {
@@ -137,25 +130,6 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
       setTimeout(() => {
         this.passwordIcon = 'eye';
       }, 10000);
-    }
-  }
-
-  onSegmentChange() {
-    if (this.userSegment === 'quarantined') {
-      // Start the loading animation for getting GPS data
-      this.miscService
-        .presentLoadingWithOptions({
-          duration: 0,
-          message: `Getting current location.`,
-        })
-        .then((onLoadSuccess) => {
-          this.loadingAniGPSData = onLoadSuccess;
-          // Get the GPS data
-          this.getGPSLocation();
-        })
-        .catch((error) => {
-          console.error(error);
-        });
     }
   }
 
@@ -211,9 +185,9 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   getUserAddress() {
     // call reverse-geo code iff the user address does not exist
     if (this.userAddress) {
-      this.quaRegForm.get('address1').setValue(this.userAddress.address);
-      this.quaRegForm.get('city').setValue(this.userAddress.city);
-      this.quaRegForm.get('country').setValue(this.userAddress.country);
+      this.regForm.get('address1').setValue(this.userAddress.address);
+      this.regForm.get('city').setValue(this.userAddress.city);
+      this.regForm.get('country').setValue(this.userAddress.country);
     } else {
       this.miscService
         .presentLoadingWithOptions({
@@ -243,14 +217,10 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
                 placeId: geoDataObj.LocationId,
               };
               // set the values to the form
-              this.quaRegForm
-                .get('address1')
-                .setValue(this.userAddress.address);
-              this.quaRegForm.get('city').setValue(this.userAddress.city);
-              this.quaRegForm.get('country').setValue(this.userAddress.country);
-              this.quaRegForm
-                .get('postCode')
-                .setValue(this.userAddress.postCode);
+              this.regForm.get('address1').setValue(this.userAddress.address);
+              this.regForm.get('city').setValue(this.userAddress.city);
+              this.regForm.get('country').setValue(this.userAddress.country);
+              this.regForm.get('postCode').setValue(this.userAddress.postCode);
             });
         })
         .catch((error) => {
@@ -265,7 +235,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
     }
   }
 
-  registerUser(userType: UserType) {
+  registerUser() {
     const userData: UserRegData = {
       user: undefined,
       type: undefined,
@@ -276,41 +246,27 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
       country: undefined,
       position: undefined,
       firstLineOfAddress: undefined,
-      secondLineOfAddress: '',
+      secondLineOfAddress: undefined,
       crisis: Crisis.COVID19,
     };
 
-    if (userType === 'AF') {
-      userData.user = {
-        firstName: this.quaRegForm.get('firstName').value,
-        lastName: this.quaRegForm.get('lastName').value,
-        email: this.quaRegForm.get('email').value,
-        password: this.quaRegForm.get('password').value,
-      };
-      userData.city = this.quaRegForm.get('city').value;
-      userData.postCode = this.quaRegForm.get('postCode').value;
-      userData.firstLineOfAddress = this.quaRegForm.get('address1').value;
-      userData.secondLineOfAddress = this.quaRegForm.get('address2').value;
-      userData.phone = this.quaRegForm.get('phoneNumber').value;
-      userData.position = {
-        latitude: this.currentLocation.lat as any,
-        longitude: this.currentLocation.lng as any,
-      };
-      userData.type = userType;
-      userData.placeId = this.userAddress.placeId;
-      // TODO : Generate 2 char short-code from user Input/make it a select dropdown ?
-      userData.country = this.userAddress.countryCode;
-      // userData.country = this.quaRegForm.get('country').value;
-    } else if (userType === 'HL') {
-      userData.type = userType;
-      userData.user = {
-        firstName: this.volRegForm.get('firstName').value,
-        lastName: this.volRegForm.get('lastName').value,
-        email: this.volRegForm.get('email').value,
-        password: this.volRegForm.get('password').value,
-      };
-      userData.phone = this.volRegForm.get('phoneNumber').value;
-    }
+    userData.user = {
+      firstName: this.regForm.get('firstName').value,
+      lastName: this.regForm.get('lastName').value,
+      email: this.regForm.get('email').value,
+      password: this.regForm.get('password').value,
+    };
+    userData.city = this.regForm.get('city').value;
+    userData.postCode = this.regForm.get('postCode').value;
+    userData.firstLineOfAddress = this.regForm.get('address1').value;
+    userData.phone = this.regForm.get('phoneNumber').value;
+    userData.position = {
+      latitude: this.currentLocation.lat as any,
+      longitude: this.currentLocation.lng as any,
+    };
+    userData.type = this.userType;
+    userData.placeId = this.userAddress.placeId;
+    userData.country = this.userAddress.countryCode;
 
     // start the loading animation
     this.miscService

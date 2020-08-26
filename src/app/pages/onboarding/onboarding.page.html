@@ -1,0 +1,26 @@
+<ion-content class="ion-padding ion-margin">
+  <ion-slides pager="true" [options]="slideOptions" #slider (ionSlidesDidLoad)="slidesDidLoad(slider)"
+    (ionSlideReachEnd)="slidesEnd(slider)">
+    <ion-slide>
+      <img src="assets/onboarding/onboard1.svg" />
+      <h1> Quarantine Help </h1>
+      <p>Connect to a group of volunteers who are ready to help you out.
+    </ion-slide>
+
+    <ion-slide>
+      <img src="assets/onboarding/onboard2.svg" />
+      <h1> Start at home </h1>
+      <p> Raise your request, get the help you need. You are not alone.</p>
+    </ion-slide>
+
+    <ion-slide>
+      <img src="assets/onboarding/onboard3.svg" />
+      <h1> Help each other</h1>
+      <p> A small step could make the difference. Let us be united</p>
+      <ion-button fill="outline" (click)="onBoardingComplete()">
+        Continue <ion-icon slot=" end" name="arrow-forward"></ion-icon>
+      </ion-button>
+    </ion-slide>
+
+  </ion-slides>
+</ion-content>

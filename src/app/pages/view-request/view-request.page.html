@@ -10,10 +10,10 @@
 <ion-content class="ion-padding">
   <ion-item lines="none" color="light">
     <ion-text class="ion-padding-vertical">
-      <h3 *ngIf="requestedData.type=='G'">
+      <h3 *ngIf="requestData.type=='G'">
         <ion-icon size="large" name="cart-outline"></ion-icon> Grocery Request
       </h3>
-      <h3 *ngIf="requestedData.type=='M'">
+      <h3 *ngIf="requestData.type=='M'">
         <ion-icon size="large" name="medkit-outline"></ion-icon> Medicine Request
       </h3>
     </ion-text>
@@ -29,9 +29,9 @@
       </ion-col>
       <ion-col size="8">
         <ion-text color="danger" class="ion-text-end">
-          <h1> {{ requestedData.deadline | date:'h' }}:{{ requestedData.deadline | date:'mm' }} <small>
-              {{ requestedData.deadline | date:'aa' }} </small> </h1>
-          <h5> {{ requestedData.deadline | date }} </h5>
+          <h1> {{ requestData.deadline | date:'h' }}:{{ requestData.deadline | date:'mm' }} <small>
+              {{ requestData.deadline | date:'aa' }} </small> </h1>
+          <h5> {{ requestData.deadline | date }} </h5>
         </ion-text>
       </ion-col>
     </ion-row>
@@ -45,8 +45,8 @@
       <ion-col size="8">
         <ion-text class="ion-text-end">
           <h5>
-            {{ requestedData.createdAt | date:'shortTime' }}
-            , {{ requestedData.createdAt | date }}
+            {{ requestData.createdAt | date:'shortTime' }}
+            , {{ requestData.createdAt | date }}
           </h5>
         </ion-text>
       </ion-col>
@@ -61,20 +61,28 @@
       <ion-col size="8">
         <ion-text class="ion-text-end">
           <h5>
-            <span [ngSwitch]="requestedData.status">
-              <span *ngSwitchCase="'P'"> Pending </span>
-              <span *ngSwitchCase="'T'"> In Transit </span>
-              <span *ngSwitchCase="'F'"> Finished </span>
-              <span *ngSwitchCase="'C'"> Cancelled </span>
-              <span *ngSwitchDefault> Status not available </span>
-            </span> &nbsp;
-            <ion-icon name="bicycle-outline"></ion-icon>
+            <span [ngSwitch]="requestData.status">
+              <span *ngSwitchCase="'P'"> Pending
+                <ion-icon class="medium-icon" name="stopwatch" color="warning"></ion-icon>
+              </span>
+              <span *ngSwitchCase="'T'"> In Transit
+                <ion-icon class="medium-icon" name="bicycle"></ion-icon>
+              </span>
+              <span *ngSwitchCase="'F'"> Finished
+                <ion-icon class="medium-icon" name="checkmark-circle" color="success"></ion-icon>
+              </span>
+              <span *ngSwitchCase="'C'"> Cancelled
+                <ion-icon class="medium-icon" name="close-circle-outline" color="danger"></ion-icon>
+              </span>
+              <span *ngSwitchDefault> Unknown
+                <ion-icon class="medium-icon" name="bug-outline" color="danger"></ion-icon></span>
+            </span>
           </h5>
         </ion-text>
       </ion-col>
     </ion-row>
-    <hr *ngIf="!isVolunteer">
-    <ion-row class="ion-margin-bottom" *ngIf="!isVolunteer">
+    <hr *ngIf="!isVolunteer && requestData.assignee !== null">
+    <ion-row class="ion-margin-bottom" *ngIf="!isVolunteer && requestData.assignee !== null">
       <ion-col size="5">
         <ion-text>
           <h5> Assignee Details </h5>
@@ -84,13 +92,14 @@
         <ion-row class="ion-justify-content-start ion-align-items-center ion-padding-bottom">
           <ion-icon name="person-circle-outline"></ion-icon>&nbsp;&nbsp;
           <ion-text>
-            <h5><strong>{{ assigneeDetails.user.firstName }} {{ assigneeDetails.user.lastName }}</strong></h5>
+            <h5><strong>{{ requestData.assignee.user.firstName }} {{ requestData.assignee.user.lastName }}</strong></h5>
           </ion-text>
         </ion-row>
-        <ion-row class="ion-justify-content-start ion-align-items-center" (click)="callAssignee(assigneeDetails.phone)">
+        <ion-row class="ion-justify-content-start ion-align-items-center"
+          (click)="callAssignee(requestData.assignee.phone)">
           <ion-icon name="call-outline"></ion-icon>&nbsp;&nbsp;
           <ion-text>
-            <h5>{{ assigneeDetails.phone }}</h5>
+            <h5>{{ requestData.assignee.phone }}</h5>
           </ion-text>
         </ion-row>
       </ion-col>
@@ -98,13 +107,13 @@
     <hr *ngIf="!isVolunteer">
     <ion-item color="light" lines="none">
       <ion-text class="request-desc ion-padding">
-        {{ requestedData.description }}
+        {{ requestData.description }}
       </ion-text>
     </ion-item>
   </ion-grid>
 </ion-content>
 <ion-footer class="ion-no-border ion-padding-horizontal"
-  *ngIf="requestedData.status === 'P' || requestedData.status === 'T'">
+  *ngIf="requestData.status === 'P' || requestData.status === 'T'">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button (click)="cancelRequest()" color="primary">Cancel</ion-button>

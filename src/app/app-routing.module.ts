@@ -18,7 +18,7 @@ interface CustomRoute extends Route {
 }
 
 const routes: CustomRoute[] = [
-  { path: '', redirectTo: 'map', pathMatch: 'full' },
+  { path: '', redirectTo: 'onboarding', pathMatch: 'full' },
   {
     path: 'login',
     loadChildren: () =>
@@ -61,7 +61,7 @@ const routes: CustomRoute[] = [
       ),
   },
   {
-    path: 'view-request/:id',
+    path: 'view-request',
     canActivate: [AuthGuard],
     data: {
       expectedRoles: ['HL', 'AF', 'AU', 'TP'],
@@ -80,6 +80,13 @@ const routes: CustomRoute[] = [
     loadChildren: () =>
       import('./pages/my-requests/my-requests.module').then(
         (m) => m.MyRequestsPageModule
+      ),
+  },
+  {
+    path: 'onboarding',
+    loadChildren: () =>
+      import('./pages/onboarding/onboarding.module').then(
+        (m) => m.OnboardingPageModule
       ),
   },
   { path: '**', redirectTo: 'map' },

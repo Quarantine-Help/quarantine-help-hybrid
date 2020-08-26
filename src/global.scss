@@ -41,6 +41,34 @@ ion-searchbar {
   }
 }
 
+.ion-color-primary-text {
+  --ion-color-base: var(--ion-color-primary-text);
+  --ion-color-base-rgb: var(--ion-color-primary-text-rgb);
+  --ion-color-contrast: var(--ion-color-primary-text-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-primary-text-contrast-rgb);
+  --ion-color-shade: var(--ion-color-primary-text-shade);
+  --ion-color-tint: var(--ion-color-primary-text-tint);
+}
+
+.alert-backdrop {
+  backdrop-filter: blur(2px);
+  line-height: 1.5em;
+}
+
+.request-modal-wrapper {
+  --width: 80vw;
+  --height: 80vh;
+  color: red;
+}
+
+.font-medium {
+  font-size: medium;
+}
+
+.no-ripple {
+  --ripple-color: transparent;
+}
+
 /* responsive helper classes to hide content */
 //xs devices
 @media (max-width:576px) {

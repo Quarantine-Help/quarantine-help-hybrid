@@ -9,7 +9,7 @@ interface Position {
   latitude: string;
 }
 
-interface User {
+export interface User {
   firstName: string;
   lastName: string;
   email: string;
@@ -86,4 +86,10 @@ export interface UserProfileData {
   city?: string;
   phone: string;
   crisis?: number;
+}
+
+export interface AcceptRequestAPIParams {
+  participantId: number;
+  requestId: number;
+  crisisId: number;
 }

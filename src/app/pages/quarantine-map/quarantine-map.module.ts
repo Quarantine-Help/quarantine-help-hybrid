@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 
 import { QuarantineMapPage } from './quarantine-map';
 import { MapFilterComponent } from '../../components/map-filter/map-filter.component';
+import { RequestInfoModalComponent } from '../../components/request-info-modal/request-info-modal.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,11 @@ import { MapFilterComponent } from '../../components/map-filter/map-filter.compo
       },
     ]),
   ],
-  declarations: [QuarantineMapPage, MapFilterComponent],
-  exports: [MapFilterComponent],
+  declarations: [
+    QuarantineMapPage,
+    MapFilterComponent,
+    RequestInfoModalComponent,
+  ],
+  entryComponents: [],
 })
 export class QuarantineMapPageModule {}

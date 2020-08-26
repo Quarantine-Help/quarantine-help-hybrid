@@ -42,7 +42,7 @@ export class CommonHTTPService {
    * @param body body of the http POST request
    * @returns Promise which resolved on HTTP POST success
    */
-  httpPost(url, body) {
+  httpPost(url, body = {}) {
     // console.log('Starting HTTP POST call to ', url, body);
     return new Promise((resolve, reject) => {
       const headerOptions = new HttpHeaders();
