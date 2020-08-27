@@ -51,11 +51,11 @@
         <ion-col size-md="4" size-lg="4" size-xs="12">
           <ion-item>
             <ion-label color="medium" position="floating"> Address Line </ion-label>
-            <ion-input (keyup)="findAddress()" required formControlName="address"></ion-input>
+            <ion-input required formControlName="address"></ion-input>
           </ion-item>
           <ion-list *ngIf="displayAddressSearch" lines="none" class="ion-padding-top ion-padding-bottom">
             <ion-item lines="inset" (click)="setSelectedAddress(item)" class="ion-padding-horizontal search-list" 
-              *ngFor="let item of searchResult"> {{ item.title }} </ion-item>
+              *ngFor="let item of addressList"> {{ item.address.label }} </ion-item>
           </ion-list>
           <ion-item lines="none" class="formInvalid"
             *ngIf="(regForm.get('address').invalid && (regForm.get('address').dirty || regForm.get('address').touched))">
@@ -63,7 +63,7 @@
               Address Line is required.
             </div>
             <div *ngIf="regForm.get('address').errors.minlength">
-              Please enter minimum 2 characters.
+              Please enter minimum 3 characters.
             </div>
           </ion-item>
         </ion-col>

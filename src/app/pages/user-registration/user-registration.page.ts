@@ -12,6 +12,7 @@ import { LatLng } from '../../models/geo';
 import { ReverseGeoResult } from 'src/app/models/here-map';
 import { UserRegData, UserRegResponse } from 'src/app/models/auth';
 import { Crisis, defaultUserType } from 'src/app/constants/core-api';
+import { filter, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 interface UserAddress {
   address: string;
@@ -42,6 +43,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   authSubs: Subscription;
   searchResult: {};
   displayAddressSearch: boolean;
+  addressList: [];
 
   constructor(
     private geoLocationService: GeoLocationService,
@@ -55,7 +57,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
       lastName: new FormControl('', [Validators.required]),
       address: new FormControl('', [
         Validators.required,
-        Validators.minLength(2),
+        Validators.minLength(3),
       ]),
       city: new FormControl('', [Validators.required, Validators.minLength(2)]),
       postCode: new FormControl('', [Validators.required]),
@@ -90,6 +92,18 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
       }
     });
 
+    this.regForm
+      .get('address')
+      .valueChanges.pipe(
+        filter((searchInput) => searchInput.length > 2),
+        debounceTime(1000),
+        distinctUntilChanged()
+      )
+      .subscribe((value) => {
+        console.log(value);
+        this.findAddress();
+      });
+    this.addressList = [];
     this.showPasswordText = false;
     this.userAddress = undefined;
     this.regFormSubs = this.regForm.valueChanges.subscribe((change) => {
@@ -138,88 +152,18 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   findAddress() {
     this.displayAddressSearch = true;
     const searchWord = this.regForm.value.address;
-    const addressList = [
-      {
-        title: 'abc street, 13407 Berlin, Deutschland',
-        id: 'here:af:street:aWPDqlIclm3Hv9St4C8qtA',
-        resultType: 'street',
-        address: {
-          label: 'abc street, 13407 Berlin, Deutschland',
-        },
-        position: {
-          lat: 52.5651,
-          lng: 13.36372,
-        },
-        distance: 5541,
-        mapView: {
-          west: 13.35903,
-          south: 52.55807,
-          east: 13.37263,
-          north: 52.57426,
-        },
-        highlights: {
-          title: [
-            {
-              start: 0,
-              end: 3,
-            },
-          ],
-          address: {
-            label: [
-              {
-                start: 0,
-                end: 3,
-              },
-            ],
-          },
-        },
-      },
-      {
-        title: 'xyz street, 16321 Bernau bei Berlin, Deutschland',
-        id: 'here:af:street:Ew.151oNaltuxcjz5GX0vD',
-        resultType: 'street',
-        address: {
-          label: 'xyz no 54, 16321 Bernau bei Berlin, Deutschland',
-        },
-        position: {
-          lat: 52.67748,
-          lng: 13.56681,
-        },
-        distance: 20879,
-        mapView: {
-          west: 13.56507,
-          south: 52.6773,
-          east: 13.56854,
-          north: 52.67776,
-        },
-        highlights: {
-          title: [
-            {
-              start: 0,
-              end: 3,
-            },
-          ],
-          address: {
-            label: [
-              {
-                start: 0,
-                end: 3,
-              },
-            ],
-          },
-        },
-      },
-    ];
-    console.log('searchWord ', searchWord);
-    this.searchResult = addressList.filter((address) =>
-      address.title.toLowerCase().includes(searchWord.toLowerCase())
-    );
-    console.log(this.searchResult);
+    this.hereMapService
+      .getUserAddressOnSearch(this.currentLocation, searchWord)
+      .then((data: any) => {
+        this.addressList = data.body.items;
+        console.log(this.addressList);
+        console.log('searchWord ', searchWord);
+      });
   }
 
   setSelectedAddress(item) {
     this.regForm.patchValue({
-      address: item.title,
+      address: item.address.label,
     });
     this.displayAddressSearch = false;
   }
@@ -227,7 +171,6 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   getGPSLocation() {
     // If GPS data already exists, use it.
     if (this.currentLocation) {
-      this.getUserAddress();
     } else {
       this.loadingAniGPSData.present();
       this.geoLocationService
@@ -243,7 +186,6 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
             lat: location.coords.latitude,
             lng: location.coords.longitude,
           };
-          this.getUserAddress();
         })
         .catch((error) => {
           console.error(`ERROR - Unable to getting location`, error);
@@ -269,59 +211,6 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
                 }
               });
             });
-        });
-    }
-  }
-
-  getUserAddress() {
-    // call reverse-geo code iff the user address does not exist
-    if (this.userAddress) {
-      this.regForm.get('address').setValue(this.userAddress.address);
-      this.regForm.get('city').setValue(this.userAddress.city);
-      this.regForm.get('country').setValue(this.userAddress.country);
-    } else {
-      this.miscService
-        .presentLoadingWithOptions({
-          duration: 0,
-          message: `Getting user address`,
-        })
-        .then((onLoadSuccess) => {
-          this.loadingAniGetAddr = onLoadSuccess;
-          this.loadingAniGetAddr.present();
-          // Get the user address
-          this.hereMapService
-            .getUserAddress(this.currentLocation)
-            .then((data: ReverseGeoResult) => {
-              // Destroy loading controller on dismiss
-              if (this.loadingAniGetAddr !== undefined) {
-                this.loadingAniGetAddr.dismiss().then(() => {
-                  this.loadingAniGetAddr = undefined;
-                });
-              }
-              const geoDataObj = data.body.Response.View[0].Result[0].Location;
-              this.userAddress = {
-                address: geoDataObj.Address.Label,
-                city: geoDataObj.Address.City,
-                countryCode: geoDataObj.Address.AdditionalData[0].value,
-                country: geoDataObj.Address.AdditionalData[1].value,
-                postCode: geoDataObj.Address.PostalCode,
-                placeId: geoDataObj.LocationId,
-              };
-              // set the values to the form
-              this.regForm.get('address').setValue(this.userAddress.address);
-              this.regForm.get('city').setValue(this.userAddress.city);
-              this.regForm.get('country').setValue(this.userAddress.country);
-              this.regForm.get('postCode').setValue(this.userAddress.postCode);
-            });
-        })
-        .catch((error) => {
-          console.error('Error getting address', error);
-          // Destroy loading controller on dismiss.
-          if (this.loadingAniGetAddr) {
-            this.loadingAniGetAddr.dismiss().then(() => {
-              this.loadingAniGetAddr = undefined;
-            });
-          }
         });
     }
   }
