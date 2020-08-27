@@ -46,6 +46,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   addressList: [];
   hasSelectedAddress: boolean;
   addressDetails: any;
+  loadingAddressData: HTMLIonLoadingElement;
 
   constructor(
     private geoLocationService: GeoLocationService,
@@ -157,10 +158,25 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   findAddress() {
     this.displayAddressSearch = true;
     const searchWord = this.regForm.value.address;
-    this.hereMapService
-      .getUserAddressOnSearch(this.currentLocation, searchWord)
-      .then((data: any) => {
-        this.addressList = data.body.items;
+    this.miscService
+      .presentLoadingWithOptions({
+        duration: 0,
+        message: `Fetching Address`,
+      })
+      .then((onLoadSuccess) => {
+        this.loadingAddressData = onLoadSuccess;
+        this.loadingAddressData.present();
+        this.hereMapService
+          .getUserAddressOnSearch(this.currentLocation, searchWord)
+          .then((data: any) => {
+            // Dismiss & destroy loading controller on
+            if (this.loadingAddressData !== undefined) {
+              this.loadingAddressData.dismiss().then(() => {
+                this.loadingAddressData = undefined;
+              });
+            }
+            this.addressList = data.body.items;
+          });
       });
   }
 
