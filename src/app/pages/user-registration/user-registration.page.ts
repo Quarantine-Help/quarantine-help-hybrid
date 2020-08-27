@@ -47,6 +47,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   hasSelectedAddress: boolean;
   addressDetails: any;
   loadingAddressData: HTMLIonLoadingElement;
+  loadingData: HTMLIonLoadingElement;
 
   constructor(
     private geoLocationService: GeoLocationService,
@@ -186,14 +187,28 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
       address: item.address.label,
     });
     this.displayAddressSearch = false;
-    this.hereMapService.getDetailsOfLocation(item.id).then((data: any) => {
-      console.log(data);
-      this.addressDetails = data.body.address;
-      // set the values to the form
-      this.regForm.get('city').setValue(this.addressDetails.city);
-      this.regForm.get('country').setValue(this.addressDetails.countryName);
-      this.regForm.get('postCode').setValue(this.addressDetails.postalCode);
-    });
+    this.miscService
+      .presentLoadingWithOptions({
+        duration: 0,
+        message: `Loading`,
+      })
+      .then((onLoadSuccess) => {
+        this.loadingData = onLoadSuccess;
+        this.loadingData.present();
+        this.hereMapService.getDetailsOfLocation(item.id).then((data: any) => {
+          // Dismiss & destroy loading controller on
+          if (this.loadingData !== undefined) {
+            this.loadingData.dismiss().then(() => {
+              this.loadingData = undefined;
+            });
+          }
+          this.addressDetails = data.body.address;
+          // set the values to the form
+          this.regForm.get('city').setValue(this.addressDetails.city);
+          this.regForm.get('country').setValue(this.addressDetails.countryName);
+          this.regForm.get('postCode').setValue(this.addressDetails.postalCode);
+        });
+      });
   }
 
   getGPSLocation() {
