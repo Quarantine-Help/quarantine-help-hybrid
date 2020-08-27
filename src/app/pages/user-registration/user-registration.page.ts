@@ -44,6 +44,8 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   searchResult: {};
   displayAddressSearch: boolean;
   addressList: [];
+  hasSelectedAddress: boolean;
+  addressDetails: any;
 
   constructor(
     private geoLocationService: GeoLocationService,
@@ -92,10 +94,13 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
       }
     });
 
+    this.hasSelectedAddress = false;
     this.regForm
       .get('address')
       .valueChanges.pipe(
-        filter((searchInput) => searchInput.length > 2),
+        filter(
+          (searchInput) => searchInput.length > 2 && !this.hasSelectedAddress
+        ),
         debounceTime(1000),
         distinctUntilChanged()
       )
@@ -156,16 +161,23 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
       .getUserAddressOnSearch(this.currentLocation, searchWord)
       .then((data: any) => {
         this.addressList = data.body.items;
-        console.log(this.addressList);
-        console.log('searchWord ', searchWord);
       });
   }
 
   setSelectedAddress(item) {
+    this.hasSelectedAddress = true;
     this.regForm.patchValue({
       address: item.address.label,
     });
     this.displayAddressSearch = false;
+    this.hereMapService.getDetailsOfLocation(item.id).then((data: any) => {
+      console.log(data);
+      this.addressDetails = data.body.address;
+      // set the values to the form
+      this.regForm.get('city').setValue(this.addressDetails.city);
+      this.regForm.get('country').setValue(this.addressDetails.countryName);
+      this.regForm.get('postCode').setValue(this.addressDetails.postalCode);
+    });
   }
 
   getGPSLocation() {
