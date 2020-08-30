@@ -13,6 +13,7 @@ import { ReverseGeoResult } from 'src/app/models/here-map';
 import { UserRegData, UserRegResponse } from 'src/app/models/auth';
 import { Crisis, defaultUserType } from 'src/app/constants/core-api';
 import { filter, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { isoCountry3To2Mapping } from 'src/app/constants/countries';
 
 interface UserAddress {
   address: string;
@@ -108,7 +109,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
       )
       .subscribe((value) => {
         console.log(value);
-        this.findAddress();
+        this.findAddress(value);
       });
     this.addressList = [];
     this.showPasswordText = false;
@@ -156,9 +157,8 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
     }
   }
 
-  findAddress() {
+  findAddress(searchWord) {
     this.displayAddressSearch = true;
-    const searchWord = this.regForm.value.address;
     this.miscService
       .presentLoadingWithOptions({
         duration: 0,
@@ -195,7 +195,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
       .then((onLoadSuccess) => {
         this.loadingData = onLoadSuccess;
         this.loadingData.present();
-        this.hereMapService.getDetailsOfLocation(item.id).then((data: any) => {
+        this.hereMapService.getAddressDetails(item.id).then((data: any) => {
           // Dismiss & destroy loading controller on
           if (this.loadingData !== undefined) {
             this.loadingData.dismiss().then(() => {
@@ -203,10 +203,19 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
             });
           }
           this.addressDetails = data.body.address;
+          this.userAddress = {
+            address: data.body.address.label,
+            city: data.body.address.city,
+            countryCode: data.body.address.countryCode,
+            country: data.body.address.countryName,
+            postCode: data.body.address.postalCode,
+            placeId: data.body.id,
+          };
+
           // set the values to the form
-          this.regForm.get('city').setValue(this.addressDetails.city);
-          this.regForm.get('country').setValue(this.addressDetails.countryName);
-          this.regForm.get('postCode').setValue(this.addressDetails.postalCode);
+          this.regForm.get('city').setValue(this.userAddress.city);
+          this.regForm.get('country').setValue(this.userAddress.country);
+          this.regForm.get('postCode').setValue(this.userAddress.postCode);
         });
       });
   }
@@ -289,7 +298,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
     };
     userData.type = this.userType;
     userData.placeId = this.userAddress.placeId;
-    userData.country = this.userAddress.countryCode;
+    userData.country = this.getISO2CountryCode(this.addressDetails.countryCode);
 
     // start the loading animation
     this.miscService
@@ -300,7 +309,6 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
       .then((onLoadSuccess) => {
         this.userRegAni = onLoadSuccess;
         this.userRegAni.present();
-
         // call the register API
         this.authService
           .registerUser(userData)
@@ -323,6 +331,10 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
           });
       })
       .catch((error) => console.error(error));
+  }
+
+  getISO2CountryCode(iso3CountryCode) {
+    return isoCountry3To2Mapping[iso3CountryCode];
   }
 
   handleLoginErrors(errorMessages: string[], statusCode) {

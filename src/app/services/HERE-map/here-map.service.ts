@@ -14,7 +14,7 @@ export class HEREMapService {
     this.autoSuggestBaseUrl =
       'https://autosuggest.search.hereapi.com/v1/autosuggest?';
     this.apiKey = 'INxGhspY9TqShx3heSZSBmobOsutPeE9eJaTxfHiiQQ';
-    this.urlSuffix = `&apiKey=${this.apiKey}&resultTypes=houseNumber,street`;
+    this.urlSuffix = `&apiKey=${this.apiKey}&resultTypes=houseNumber,street&lang=en-US`;
     this.lookUpURL = 'https://lookup.search.hereapi.com/v1/';
   }
 
@@ -23,8 +23,8 @@ export class HEREMapService {
     return this.commonHTTP.httpGet(encodeURI(addressUrl));
   }
 
-  getDetailsOfLocation(id) {
-    const url = `${this.lookUpURL}lookup?id=${id}&apiKey=${this.apiKey}`;
+  getAddressDetails(id) {
+    const url = `${this.lookUpURL}lookup?id=${id}&apiKey=${this.apiKey}&lang=en-US`;
     return this.commonHTTP.httpGet(encodeURI(url));
   }
 }
