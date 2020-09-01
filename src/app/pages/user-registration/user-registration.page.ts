@@ -335,10 +335,13 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
     };
     userData.type = this.userType;
     userData.placeId = this.userAddress.placeId;
-    if (this.userAddress.countryCode.length !== 2) {
+    if (this.userAddress.countryCode.length === 3) {
       userData.country = this.getISO2CountryCode(this.userAddress.countryCode);
-    } else {
+    } else if (this.userAddress.countryCode.length === 2) {
       userData.country = this.userAddress.countryCode;
+    } else {
+      console.error('Country code invalid:', this.userAddress.countryCode);
+      alert('Country code invalid: ' + this.userAddress.countryCode);
     }
 
     // start the loading animation
