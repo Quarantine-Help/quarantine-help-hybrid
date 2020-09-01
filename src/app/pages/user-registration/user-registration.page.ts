@@ -9,11 +9,13 @@ import { MiscService } from 'src/app/services/misc/misc.service';
 import { HEREMapService } from 'src/app/services/HERE-map/here-map.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { LatLng } from '../../models/geo';
-import { ReverseGeoResult } from 'src/app/models/here-map';
 import { UserRegData, UserRegResponse } from 'src/app/models/auth';
 import { Crisis, defaultUserType } from 'src/app/constants/core-api';
 import { filter, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { isoCountry3To2Mapping } from 'src/app/constants/countries';
+import {
+  countryList,
+  isoCountry3To2Mapping,
+} from 'src/app/constants/countries';
 
 interface UserAddress {
   address: string;
@@ -42,13 +44,13 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   loadingAniGetAddr: HTMLIonLoadingElement;
   userRegAni: HTMLIonLoadingElement;
   authSubs: Subscription;
-  searchResult: {};
   displayAddressSearch: boolean;
   addressList: [];
   hasSelectedAddress: boolean;
-  addressDetails: any;
   loadingAddressData: HTMLIonLoadingElement;
   loadingData: HTMLIonLoadingElement;
+  displayCountrySearch: boolean;
+  searchResult: { name: string; isoAlphaTwoCode: string }[];
 
   constructor(
     private geoLocationService: GeoLocationService,
@@ -97,6 +99,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
       }
     });
 
+    this.searchResult = [];
     this.hasSelectedAddress = false;
     this.regForm
       .get('address')
@@ -113,7 +116,14 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
       });
     this.addressList = [];
     this.showPasswordText = false;
-    this.userAddress = undefined;
+    this.userAddress = {
+      address: '',
+      city: '',
+      country: '',
+      countryCode: '',
+      postCode: '',
+      placeId: '',
+    };
     this.regFormSubs = this.regForm.valueChanges.subscribe((change) => {
       this.regFormClean = false;
     });
@@ -155,6 +165,32 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
         this.passwordIcon = 'eye';
       }, 10000);
     }
+  }
+
+  showCountrySearch() {
+    if (this.displayCountrySearch) {
+      this.searchResult.splice(0);
+    }
+    this.displayCountrySearch = !this.displayCountrySearch;
+  }
+
+  filterCountries(e) {
+    const valueSearchbox = e.detail.value;
+    this.searchResult = countryList.filter((country) =>
+      country.name.toLowerCase().includes(valueSearchbox.toLowerCase())
+    );
+  }
+
+  setSelectedCountry(item: any) {
+    console.log(item);
+    this.regForm.markAsDirty();
+    this.userAddress.countryCode = item.isoAlphaTwoCode;
+    this.userAddress.country = item.name;
+    this.regForm.patchValue({
+      country: item.name,
+    });
+    this.searchResult.splice(0);
+    this.displayCountrySearch = false;
   }
 
   findAddress(searchWord) {
@@ -202,7 +238,6 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
               this.loadingData = undefined;
             });
           }
-          this.addressDetails = data.body.address;
           this.userAddress = {
             address: data.body.address.label,
             city: data.body.address.city,
@@ -298,7 +333,11 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
     };
     userData.type = this.userType;
     userData.placeId = this.userAddress.placeId;
-    userData.country = this.getISO2CountryCode(this.addressDetails.countryCode);
+    if (this.userAddress.countryCode.length !== 2) {
+      userData.country = this.getISO2CountryCode(this.userAddress.countryCode);
+    } else {
+      userData.country = this.userAddress.countryCode;
+    }
 
     // start the loading animation
     this.miscService
