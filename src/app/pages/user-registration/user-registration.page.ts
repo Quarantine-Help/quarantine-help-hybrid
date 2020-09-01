@@ -33,7 +33,6 @@ interface UserAddress {
 export class UserRegistrationPage implements OnInit, OnDestroy {
   userType: UserType;
   regForm: FormGroup;
-  regFormSubs: Subscription;
   regFormClean: boolean; // Flag to check if no changes were made.
   showPasswordText: boolean; // To toggle password visibility
   passwordIcon: 'eye' | 'eye-off' = 'eye';
@@ -42,15 +41,17 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   toastElement: Promise<void>;
   loadingAniGPSData: HTMLIonLoadingElement;
   loadingAniGetAddr: HTMLIonLoadingElement;
-  userRegAni: HTMLIonLoadingElement;
-  authSubs: Subscription;
-  displayAddressSearch: boolean;
-  addressList: [];
-  hasSelectedAddress: boolean;
   loadingAddressData: HTMLIonLoadingElement;
   loadingData: HTMLIonLoadingElement;
-  displayCountrySearch: boolean;
-  searchResult: { name: string; isoAlphaTwoCode: string }[];
+  userRegAni: HTMLIonLoadingElement;
+  authSubs: Subscription;
+  regFormAddressSubs: Subscription;
+  regFormSubs: Subscription;
+  addressResultList: [];
+  hasSelectedAddress: boolean;
+  displayAddressSearchResult: boolean;
+  displayCountrySearchResult: boolean;
+  countrySearchResult: { name: string; isoAlphaTwoCode: string }[];
 
   constructor(
     private geoLocationService: GeoLocationService,
@@ -91,6 +92,19 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.addressResultList = [];
+    this.showPasswordText = false;
+    this.userAddress = {
+      address: '',
+      city: '',
+      country: '',
+      countryCode: '',
+      postCode: '',
+      placeId: 'MANUAL_ADDRESS_ENTRY',
+    };
+    this.countrySearchResult = [];
+    this.hasSelectedAddress = false;
+
     this.authSubs = this.authService.user.subscribe((user) => {
       if (user && user.email !== undefined && user.token !== undefined) {
         this.userType = user.type;
@@ -99,9 +113,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
       }
     });
 
-    this.searchResult = [];
-    this.hasSelectedAddress = false;
-    this.regForm
+    this.regFormAddressSubs = this.regForm
       .get('address')
       .valueChanges.pipe(
         filter(
@@ -111,19 +123,9 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
         distinctUntilChanged()
       )
       .subscribe((value) => {
-        console.log(value);
         this.findAddress(value);
       });
-    this.addressList = [];
-    this.showPasswordText = false;
-    this.userAddress = {
-      address: '',
-      city: '',
-      country: '',
-      countryCode: '',
-      postCode: '',
-      placeId: '',
-    };
+
     this.regFormSubs = this.regForm.valueChanges.subscribe((change) => {
       this.regFormClean = false;
     });
@@ -156,6 +158,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.regFormSubs.unsubscribe();
     this.authSubs.unsubscribe();
+    this.regFormAddressSubs.unsubscribe();
   }
 
   togglePasswordVisibility() {
@@ -168,33 +171,32 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   }
 
   showCountrySearch() {
-    if (this.displayCountrySearch) {
-      this.searchResult.splice(0);
+    if (this.displayCountrySearchResult) {
+      this.countrySearchResult.splice(0);
     }
-    this.displayCountrySearch = !this.displayCountrySearch;
+    this.displayCountrySearchResult = !this.displayCountrySearchResult;
   }
 
-  filterCountries(e) {
-    const valueSearchbox = e.detail.value;
-    this.searchResult = countryList.filter((country) =>
-      country.name.toLowerCase().includes(valueSearchbox.toLowerCase())
+  handleCountrySearch(e) {
+    const countrySearchInput = e.detail.value;
+    this.countrySearchResult = countryList.filter((country) =>
+      country.name.toLowerCase().includes(countrySearchInput.toLowerCase())
     );
   }
 
-  setSelectedCountry(item: any) {
-    console.log(item);
+  setSelectedCountry(country: any) {
     this.regForm.markAsDirty();
-    this.userAddress.countryCode = item.isoAlphaTwoCode;
-    this.userAddress.country = item.name;
+    this.userAddress.countryCode = country.isoAlphaTwoCode;
+    this.userAddress.country = country.name;
     this.regForm.patchValue({
-      country: item.name,
+      country: country.name,
     });
-    this.searchResult.splice(0);
-    this.displayCountrySearch = false;
+    this.countrySearchResult.splice(0);
+    this.displayCountrySearchResult = false;
   }
 
   findAddress(searchWord) {
-    this.displayAddressSearch = true;
+    this.displayAddressSearchResult = true;
     this.miscService
       .presentLoadingWithOptions({
         duration: 0,
@@ -212,7 +214,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
                 this.loadingAddressData = undefined;
               });
             }
-            this.addressList = data.body.items;
+            this.addressResultList = data.body.items;
           });
       });
   }
@@ -222,7 +224,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
     this.regForm.patchValue({
       address: item.address.label,
     });
-    this.displayAddressSearch = false;
+    this.displayAddressSearchResult = false;
     this.miscService
       .presentLoadingWithOptions({
         duration: 0,
@@ -231,7 +233,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
       .then((onLoadSuccess) => {
         this.loadingData = onLoadSuccess;
         this.loadingData.present();
-        this.hereMapService.getAddressDetails(item.id).then((data: any) => {
+        this.hereMapService.getPlaceIdDetails(item.id).then((data: any) => {
           // Dismiss & destroy loading controller on
           if (this.loadingData !== undefined) {
             this.loadingData.dismiss().then(() => {

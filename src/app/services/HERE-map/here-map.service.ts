@@ -1,30 +1,33 @@
 import { Injectable } from '@angular/core';
 import { CommonHTTPService } from '../common-http/common-http.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HEREMapService {
-  apiKey: string;
   autoSuggestBaseUrl: string;
-  urlSuffix: string;
+  autoSuggestUrlSuffix: string;
   lookUpURL: string;
 
   constructor(private commonHTTP: CommonHTTPService) {
     this.autoSuggestBaseUrl =
       'https://autosuggest.search.hereapi.com/v1/autosuggest?';
-    this.apiKey = 'INxGhspY9TqShx3heSZSBmobOsutPeE9eJaTxfHiiQQ';
-    this.urlSuffix = `&apiKey=${this.apiKey}&resultTypes=houseNumber,street&lang=en-US`;
+    this.autoSuggestUrlSuffix = `&apiKey=${environment.HERE_MAPS_REST_KEY}&resultTypes=houseNumber,street&lang=en-US`;
     this.lookUpURL = 'https://lookup.search.hereapi.com/v1/';
   }
 
   getUserAddressOnSearch(location, searchWord) {
-    const addressUrl = `${this.autoSuggestBaseUrl}at=${location.lat},${location.lng}&limit=10&q=${searchWord}${this.urlSuffix}`;
-    return this.commonHTTP.httpGet(encodeURI(addressUrl));
+    const addressAPIUrl =
+      `${this.autoSuggestBaseUrl}at=${location.lat},${location.lng}` +
+      `&limit=10&q=${searchWord}${this.autoSuggestUrlSuffix}`;
+    return this.commonHTTP.httpGet(encodeURI(addressAPIUrl));
   }
 
-  getAddressDetails(id) {
-    const url = `${this.lookUpURL}lookup?id=${id}&apiKey=${this.apiKey}&lang=en-US`;
-    return this.commonHTTP.httpGet(encodeURI(url));
+  getPlaceIdDetails(id) {
+    const idLookUpApiUrl =
+      `${this.lookUpURL}lookup?id=${id}` +
+      `&apiKey=${environment.HERE_MAPS_REST_KEY}&lang=en-US`;
+    return this.commonHTTP.httpGet(encodeURI(idLookUpApiUrl));
   }
 }
