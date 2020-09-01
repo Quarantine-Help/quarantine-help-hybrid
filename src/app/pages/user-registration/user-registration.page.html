@@ -54,7 +54,7 @@
             <ion-input required formControlName="address"></ion-input>
           </ion-item>
           <ion-list *ngIf="displayAddressSearch" lines="none" class="ion-padding-top ion-padding-bottom">
-            <ion-item lines="inset" (click)="setSelectedAddress(item)" class="ion-padding-horizontal search-list" 
+            <ion-item lines="inset" (click)="setSelectedAddress(item)" class="ion-padding-horizontal search-list"
               *ngFor="let item of addressList"> {{ item.address.label }} </ion-item>
           </ion-list>
           <ion-item lines="none" class="formInvalid"
@@ -104,10 +104,21 @@
 
       <ion-row class="ion-justify-content-center">
         <ion-col size-md="4" size-lg="4" size-xs="12">
-          <ion-item>
+          <ion-item (click)="showCountrySearch()">
             <ion-label color="medium" position="floating"> Country </ion-label>
-            <ion-input required formControlName="country"></ion-input>
+            <ion-input readonly="true" required formControlName="country"></ion-input>
           </ion-item>
+          <ion-item *ngIf="displayCountrySearch" lines="none">
+            <ion-searchbar (ionChange)="filterCountries($event)"></ion-searchbar>
+            <ion-button expand="full" fill="none" (click)="showCountrySearch()">
+              <ion-text color="danger">Exit</ion-text>
+              <ion-icon color="danger" name="close"></ion-icon>
+            </ion-button>
+          </ion-item>
+          <ion-list *ngIf="searchResult.length > 0" lines="none" class="ion-padding-top ion-padding-bottom">
+            <ion-item lines="inset" class="ion-padding-horizontal search-list" (click)="setSelectedCountry(item)"
+              *ngFor="let item of searchResult | slice:0:8"> {{ item.name }} </ion-item>
+          </ion-list>
           <ion-item lines="none" class="formInvalid"
             *ngIf="(regForm.get('country').invalid && (regForm.get('country').dirty || regForm.get('country').touched))">
             <div *ngIf="regForm.get('country').errors.required">
