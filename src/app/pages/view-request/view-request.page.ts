@@ -1,32 +1,49 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 import { CallNumberService } from 'src/app/services/call-number/call-number.service';
 import { MiscService } from 'src/app/services/misc/misc.service';
 import { CoreAPIService } from 'src/app/services/core-api/core-api.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { UserType } from 'src/app/models/core-api';
+import { defaultUserType } from 'src/app/constants/core-api';
 
 @Component({
   selector: 'app-viewrequest',
   templateUrl: './view-request.page.html',
   styleUrls: ['./view-request.page.scss'],
 })
-export class ViewRequestPage implements OnInit {
+export class ViewRequestPage implements OnInit, OnDestroy {
   loadingData: HTMLIonLoadingElement;
-  isVolunteer: boolean; // flag for checking if the user is volunteer or quarantined
   requestData: any;
   requestId: number;
+  userType: UserType;
+  authSubs: Subscription;
   constructor(
     private router: Router,
     private callNumberService: CallNumberService,
     private miscService: MiscService,
-    private coreAPIService: CoreAPIService
+    private coreAPIService: CoreAPIService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
-    this.isVolunteer = true;
     const navigation = this.router.getCurrentNavigation();
     this.requestData = navigation.extras.state;
     this.requestId = navigation.extras.state.id;
+
+    this.authSubs = this.authService.user.subscribe((user) => {
+      if (user && user.email !== undefined && user.token !== undefined) {
+        this.userType = user.type;
+      } else {
+        this.userType = defaultUserType;
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.authSubs.unsubscribe();
   }
 
   callAssignee(phoneNo) {
