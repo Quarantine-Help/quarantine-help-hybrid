@@ -94,7 +94,7 @@ export class ViewRequestPage implements OnInit, OnDestroy {
                           text: 'Ok',
                           cssClass: 'secondary',
                           handler: () => {
-                            this.router.navigateByUrl('/my-requests');
+                            this.router.navigate(['/my-requests'], { replaceUrl: true });
                           },
                         },
                       ],
@@ -163,7 +163,7 @@ export class ViewRequestPage implements OnInit, OnDestroy {
                           text: 'Ok',
                           cssClass: 'secondary',
                           handler: () => {
-                            this.router.navigateByUrl('/my-requests');
+                            this.router.navigate(['/my-requests'], { replaceUrl: true });
                           },
                         },
                       ],
