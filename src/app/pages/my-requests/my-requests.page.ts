@@ -44,14 +44,15 @@ export class MyRequestsPage implements OnInit, OnDestroy {
   }
 
   createNewReq() {
-    this.router.navigateByUrl('/create-request');
+    this.router.navigate(['/create-request'], { replaceUrl: true });
   }
 
   onRequestOpened(requestData) {
-    const afRequestData: NavigationExtras = {
+    const afNavExtras: NavigationExtras = {
       state: requestData,
+      replaceUrl: true,
     };
-    this.router.navigate(['view-request'], afRequestData);
+    this.router.navigate(['view-request'], afNavExtras);
   }
 
   segmentChanged(e) {
@@ -87,14 +88,30 @@ export class MyRequestsPage implements OnInit, OnDestroy {
                 this.loadingData = undefined;
               });
             }
-            this.allRequests = result.body.results;
+            const allRequestRaw = result.body.results;
+            this.allRequests = this.sortRequests(allRequestRaw);
           })
           .catch((errorObj) => {
             this.loadingData.dismiss();
             this.handleErrors(errorObj);
-          })
-          .catch((error) => alert(error));
-      });
+          });
+      })
+      .catch((error) => console.error(error));
+  }
+
+  // sort data from api in descending order by created date
+  sortRequests(requests) {
+    return requests.sort((a, b) => {
+      const dateA = new Date(a.createdAt);
+      const dateB = new Date(b.createdAt);
+      if (dateA < dateB) {
+        return 1;
+      }
+      if (dateA > dateB) {
+        return -1;
+      }
+      return 0;
+    });
   }
 
   handleErrors(errorObj) {

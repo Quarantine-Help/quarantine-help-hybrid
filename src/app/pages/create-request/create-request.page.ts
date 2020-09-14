@@ -170,7 +170,12 @@ export class CreateRequestPage implements OnInit {
                 },
               ],
             });
+
+            // reset the form after submit
             this.requestForm.reset();
+            this.showDaysHours = false;
+            this.segmentSelected = 'Medicine';
+            this.deadline = { days: '0', hours: '0' };
           })
           .catch((errorObj) => {
             this.loadingData.dismiss();

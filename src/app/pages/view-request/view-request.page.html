@@ -81,8 +81,8 @@
         </ion-text>
       </ion-col>
     </ion-row>
-    <hr *ngIf="!isVolunteer && requestData.assignee !== null">
-    <ion-row class="ion-margin-bottom" *ngIf="!isVolunteer && requestData.assignee !== null">
+    <hr *ngIf="(userType==='AF') && (requestData.assignee !== null)">
+    <ion-row class="ion-margin-bottom" *ngIf="(userType==='AF') && (requestData.assignee !== null)">
       <ion-col size="5">
         <ion-text>
           <h5> Assignee Details </h5>
@@ -104,7 +104,7 @@
         </ion-row>
       </ion-col>
     </ion-row>
-    <hr *ngIf="!isVolunteer">
+    <hr *ngIf="userType==='AF'">
     <ion-item color="light" lines="none">
       <ion-text class="request-desc ion-padding">
         {{ requestData.description }}
@@ -113,10 +113,10 @@
   </ion-grid>
 </ion-content>
 <ion-footer class="ion-no-border ion-padding-horizontal"
-  *ngIf="requestData.status === 'P' || requestData.status === 'T'">
+  *ngIf="(userType==='HL') && (requestData.status === 'P' || requestData.status === 'T')">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="cancelRequest()" color="primary">Cancel</ion-button>
+      <ion-button (click)="removeRequest()" color="primary"> Remove </ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
       <ion-button (click)="resolveRequest()" color="primary" fill="solid" size="default">Resolve</ion-button>
