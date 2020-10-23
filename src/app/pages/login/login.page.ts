@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { MiscService } from 'src/app/services/misc/misc.service';
 import { LoginUserCred, LoginResponse } from '../../models/auth';
 import { UserType } from 'src/app/models/core-api';
+import { UserThemeColorPrimary } from 'src/app/models/ui';
 
 @Component({
   selector: 'app-login',
@@ -24,6 +25,7 @@ export class LoginPage implements OnInit, OnDestroy {
   pageClean: boolean; // Flag to check if no changes were made.
   loginSubs: Subscription;
   loginResponse: LoginResponse;
+  userThemeColorPrimary: UserThemeColorPrimary;
   constructor(
     private authService: AuthService,
     public alertController: AlertController,
@@ -31,6 +33,7 @@ export class LoginPage implements OnInit, OnDestroy {
     private router: Router,
     private menu: MenuController
   ) {
+    this.userThemeColorPrimary = 'primaryAF';
     this.pageClean = true;
     this.showPasswordText = false;
     this.loginForm = new FormGroup({

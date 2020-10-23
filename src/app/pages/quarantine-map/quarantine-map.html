@@ -1,5 +1,5 @@
 <ion-header translucent class="hide-lg hide-xl">
-  <ion-toolbar fixed color="primary">
+  <ion-toolbar fixed [color]="userThemeColorPrimary">
     <ion-buttons slot="start">
       <ion-menu-button autoHide="false"></ion-menu-button>
     </ion-buttons>
@@ -33,7 +33,7 @@
   <div #mapContainer id="map-container"></div>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button class="ion-margin-bottom ion-margin-end" color="light" (click)="onFabClick()">
-      <ion-icon name="locate" color="primary"></ion-icon>
+      <ion-icon name="locate" [color]="userThemeColorPrimary"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-content>

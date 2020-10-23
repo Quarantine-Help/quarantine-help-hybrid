@@ -5,6 +5,7 @@ import { PickerOptions } from '@ionic/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { CoreAPIService } from 'src/app/services/core-api/core-api.service';
 import { MiscService } from 'src/app/services/misc/misc.service';
+import { UserThemeColorPrimary, UserThemeColorSecondary } from 'src/app/models/ui';
 
 @Component({
   selector: 'app-create-request',
@@ -20,6 +21,8 @@ export class CreateRequestPage implements OnInit {
   selectedType: any;
   loadingData: HTMLIonLoadingElement;
   deadlineISO: string;
+  userThemeColorPrimary: UserThemeColorPrimary;
+  userThemeColorSecondary: UserThemeColorSecondary;
 
   constructor(
     private pickerCtrl: PickerController,
@@ -30,6 +33,8 @@ export class CreateRequestPage implements OnInit {
     this.requestForm = new FormGroup({
       requestMessage: new FormControl('', [Validators.required]),
     });
+    this.userThemeColorPrimary = 'primaryAF';
+    this.userThemeColorSecondary = 'secondaryAF';
   }
 
   ngOnInit() {

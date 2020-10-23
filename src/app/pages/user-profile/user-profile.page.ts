@@ -8,6 +8,7 @@ import {
   UserProfileResponseBody,
 } from 'src/app/models/core-api';
 import { countryList } from 'src/app/constants/countries';
+import { UserThemeColorPrimary } from 'src/app/models/ui';
 
 interface UserProfile {
   firstName: string;
@@ -33,7 +34,7 @@ export class UserProfilePage implements OnInit {
   displayCountrySearch: boolean;
   isoAlphaTwoCode: string;
   filterCountryName: { name: string; isoAlphaTwoCode: string }[];
-
+  userThemeColorPrimary: UserThemeColorPrimary;
   constructor(
     private miscService: MiscService,
     private coreAPIService: CoreAPIService
@@ -57,6 +58,7 @@ export class UserProfilePage implements OnInit {
         Validators.required,
       ]),
     });
+    this.userThemeColorPrimary = 'primaryAF';
   }
 
   ngOnInit() {

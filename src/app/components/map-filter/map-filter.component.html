@@ -7,7 +7,7 @@
       <ion-icon color="medium" name="funnel" slot="start" (click)="toggleOptions()"></ion-icon>
       <ion-icon color="medium" [name]="showOptions?'arrow-up-circle':'arrow-down-circle'" slot="end" size="large"
         (click)="toggleOptions()"></ion-icon>
-      <ion-chip color="primary" *ngIf="showClearFilter" (click)="clearFilters()">
+      <ion-chip [color]="userThemeColorPrimary" *ngIf="showClearFilter" (click)="clearFilters()">
         <ion-label>Clear Filters</ion-label>
         <ion-icon name="close-circle"></ion-icon>
       </ion-chip>

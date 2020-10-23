@@ -13,3 +13,7 @@ export interface RequestView {
   isGroceryRequest: boolean;
   requests: ParticipantRequest[];
 }
+
+
+export type UserThemeColorPrimary = 'primaryAF' | 'primaryHL';
+export type UserThemeColorSecondary = 'secondaryAF' | 'secondaryHL';

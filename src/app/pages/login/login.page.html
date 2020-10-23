@@ -19,7 +19,7 @@
           <ion-col class="ion-align-self-center" size-md="4" size-lg="3" size-xs="10">
             <ion-list>
               <ion-item lines="inset">
-                <ion-label color="primary" position="floating">Email Id</ion-label>
+                <ion-label [color]="userThemeColorPrimary" position="floating">Email Id</ion-label>
                 <ion-input type="email" formControlName="email" required></ion-input>
               </ion-item>
               <ion-item lines="none" class="formInvalid"
@@ -32,11 +32,11 @@
                 </div>
               </ion-item>
               <ion-item lines="inset">
-                <ion-label color="primary" position="floating">Password</ion-label>
+                <ion-label [color]="userThemeColorPrimary" position="floating">Password</ion-label>
                 <ion-input clearOnEdit="false" [type]="passwordIcon === 'eye'? 'password':'text' "
                   formControlName="password" required>
                 </ion-input>
-                <ion-icon slot="end" [name]="passwordIcon" (click)="togglePasswordVisibility()" color="primary"
+                <ion-icon slot="end" [name]="passwordIcon" (click)="togglePasswordVisibility()" [color]="userThemeColorPrimary"
                   class="ion-align-self-end">
                 </ion-icon>
               </ion-item>
@@ -76,6 +76,6 @@
 
 <ion-footer class="ion-no-border">
   <ion-row class="ion-justify-content-center ion-padding-bottom ion-margin-bottom">
-    <ion-text class="ion-text-center" color="primary"> About us</ion-text>
+    <ion-text class="ion-text-center" [color]="userThemeColorPrimary"> About us</ion-text>
   </ion-row>
 </ion-footer>

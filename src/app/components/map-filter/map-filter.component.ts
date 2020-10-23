@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
+
 import { SearchFilters, Categories } from 'src/app/models/here-map';
+import { UserThemeColorPrimary } from 'src/app/models/ui';
 
 @Component({
   selector: 'map-filter',
@@ -17,12 +19,14 @@ export class MapFilterComponent implements OnInit {
   showOptions: boolean;
   showClearFilter: boolean;
   category: Categories;
+  userThemeColorPrimary: UserThemeColorPrimary;
   constructor() {
     this.defaultDistance = 5;
     this.distance = this.defaultDistance; // default search radius in kilometers.
     this.showOptions = true;
     this.showClearFilter = false;
     this.category = 'all';
+    this.userThemeColorPrimary = 'primaryAF';
   }
 
   ngOnInit() {}

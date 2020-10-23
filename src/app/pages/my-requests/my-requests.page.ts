@@ -7,6 +7,7 @@ import { CoreAPIService } from 'src/app/services/core-api/core-api.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { UserType } from 'src/app/models/core-api';
 import { defaultUserType } from 'src/app/constants/core-api';
+import { UserThemeColorPrimary } from 'src/app/models/ui';
 
 @Component({
   selector: 'app-my-requests',
@@ -19,6 +20,7 @@ export class MyRequestsPage implements OnInit, OnDestroy {
   allRequests: any;
   userType: UserType;
   authSubs: Subscription;
+  userThemeColorPrimary: UserThemeColorPrimary;
   constructor(
     private router: Router,
     private miscService: MiscService,
@@ -27,6 +29,7 @@ export class MyRequestsPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.userThemeColorPrimary = 'primaryAF';
     this.isOpenRequests = true;
     this.getRequests();
 

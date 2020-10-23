@@ -8,6 +8,7 @@ import { CoreAPIService } from 'src/app/services/core-api/core-api.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { UserType } from 'src/app/models/core-api';
 import { defaultUserType } from 'src/app/constants/core-api';
+import { UserThemeColorPrimary } from 'src/app/models/ui';
 
 @Component({
   selector: 'app-viewrequest',
@@ -20,6 +21,7 @@ export class ViewRequestPage implements OnInit, OnDestroy {
   requestId: number;
   userType: UserType;
   authSubs: Subscription;
+  userThemeColorPrimary: UserThemeColorPrimary;
   constructor(
     private router: Router,
     private callNumberService: CallNumberService,
@@ -40,6 +42,7 @@ export class ViewRequestPage implements OnInit, OnDestroy {
         this.userType = defaultUserType;
       }
     });
+    this.userThemeColorPrimary = 'primaryAF';
   }
 
   ngOnDestroy() {

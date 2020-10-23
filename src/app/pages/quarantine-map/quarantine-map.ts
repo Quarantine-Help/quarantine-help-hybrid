@@ -13,7 +13,7 @@ import { MiscService } from 'src/app/services/misc/misc.service';
 import { CoreAPIService } from 'src/app/services/core-api/core-api.service';
 import { environment } from '../../../environments/environment';
 
-import { RequestView } from 'src/app/models/ui';
+import { RequestView, UserThemeColorPrimary } from 'src/app/models/ui';
 import { LatLng } from '../../models/geo';
 import {
   NearbyParticipantsResponse,
@@ -53,6 +53,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
   showFiltering: boolean;
   filters: SearchFilters;
   allIcon: any;
+  userThemeColorPrimary: UserThemeColorPrimary;
 
   constructor(
     private geoLocationService: GeoLocationService,
@@ -65,6 +66,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
       category: 'all',
     };
     this.showFiltering = false;
+    this.userThemeColorPrimary = 'primaryAF';
   }
 
   ngOnInit() {}

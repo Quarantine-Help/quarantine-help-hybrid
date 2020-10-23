@@ -5,6 +5,7 @@ import { SubjectSubscriber } from 'rxjs/internal/Subject';
 
 import { UserType } from 'src/app/models/core-api';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { UserThemeColorPrimary } from 'src/app/models/ui';
 
 type Language = 'en' | 'de';
 @Component({
@@ -31,6 +32,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean;
   authSubs: Subscription;
   userType: UserType | '';
+  userThemeColorPrimary: UserThemeColorPrimary;
   constructor(private router: Router, private authService: AuthService) {
     this.languages = [
       { name: 'English', value: 'en' },
@@ -67,6 +69,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         expectedRoles: ['HL', 'AF', 'AU', 'TP'], // must correspond to the routes in routing module
       },
     ];
+    this.userThemeColorPrimary = 'primaryAF';
   }
 
   ngOnInit() {

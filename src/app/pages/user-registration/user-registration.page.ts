@@ -16,6 +16,7 @@ import {
   countryList,
   isoCountry3To2Mapping,
 } from 'src/app/constants/countries';
+import { UserThemeColorPrimary } from 'src/app/models/ui';
 
 interface UserAddress {
   address: string;
@@ -52,6 +53,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   displayAddressSearchResult: boolean;
   displayCountrySearchResult: boolean;
   countrySearchResult: { name: string; isoAlphaTwoCode: string }[];
+  userThemeColorPrimary: UserThemeColorPrimary;
 
   constructor(
     private geoLocationService: GeoLocationService,
@@ -92,6 +94,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.userThemeColorPrimary = 'primaryAF';
     this.addressResultList = [];
     this.showPasswordText = false;
     this.userAddress = {
