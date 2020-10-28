@@ -83,6 +83,13 @@ const routes: CustomRoute[] = [
       ),
   },
   {
+    path: 'usertype',
+    loadChildren: () =>
+      import('./pages/select-user-type/select-user-type.module').then(
+        (m) => m.SelectUserTypePageModule
+      ),
+  },
+  {
     path: 'onboarding',
     loadChildren: () =>
       import('./pages/onboarding/onboarding.module').then(
