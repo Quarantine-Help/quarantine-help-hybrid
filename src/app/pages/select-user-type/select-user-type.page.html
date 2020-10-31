@@ -1,6 +1,28 @@
-<ion-content>
+<ion-content class="ion-padding">
+
   <div class="ion-margin-vertical ion-text-center ion-padding-top">
     <img class="logo ion-margin-top" src="../../../assets/icons/QHlogo.png" alt="logo">
   </div>
   <h1 class="ion-text-center"> Quarantine Help </h1>
+  <ion-item lines="none" class="ion-margin ion-padding">
+    <ion-label> Choose language </ion-label>
+    <ion-select placeholder="Select One">
+      <ion-select-option value="english">English</ion-select-option>
+      <ion-select-option value="german">German</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-text class="ion-text-center ion-padding-bottom ion-margin-vertical">
+    <h3> Do you want to... </h3>
+  </ion-text>
+
+  <ion-button class="lower-case-button ion-margin-top" [color]="userThemeColorPrimary" shape="round" expand="full"
+    size="default" fill="solid"> Seek for help as
+    quarantined
+  </ion-button>
+  <h5 class="ion-text-center ion-margin-vertical ion-padding-vertical"> or </h5>
+  <ion-button class="lower-case-button" [color]="userThemeColorHL" shape="round" expand="full" size="default"
+    fill="solid"> Volunteer to help
+    others
+  </ion-button>
+
 </ion-content>
