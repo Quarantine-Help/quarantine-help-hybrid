@@ -89,7 +89,12 @@ const routes: CustomRoute[] = [
         (m) => m.OnboardingPageModule
       ),
   },
+  {
+    path: 'about-us',
+    loadChildren: () => import('./pages/about-us/about-us.module').then( m => m.AboutUsPageModule)
+  },
   { path: '**', redirectTo: 'map' },
+
 ];
 
 @NgModule({
