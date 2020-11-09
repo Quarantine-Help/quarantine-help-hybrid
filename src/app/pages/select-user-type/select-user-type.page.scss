@@ -1,8 +1,22 @@
-.logo{
-    width: 20vw;
-    height: auto;
+.logo {
+  width: 20vw;
+  height: auto;
 }
 
 .lower-case-button {
-    text-transform: none;
-  }
+  text-transform: none;
+}
+
+.footer {
+  margin-top: 26vh;
+}
+
+.footericon {
+  width: 17vw;
+  height: auto;
+}
+
+.container-footer {
+  display: flex;
+  justify-content: space-between;
+}
