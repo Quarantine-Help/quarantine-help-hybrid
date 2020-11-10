@@ -1,4 +1,4 @@
-<ion-content class="ion-padding">
+<ion-content class="ion-padding ion-margin-horizontal">
 
   <div class="ion-margin-vertical ion-text-center ion-padding-top">
     <img class="logo ion-margin-top" src="../../../assets/icons/QHlogo.png" alt="logo">
@@ -12,17 +12,17 @@
     </ion-select>
   </ion-item>
   <ion-text class="ion-text-center ion-padding-bottom ion-margin-vertical">
-    <h3> Do you want to... </h3>
+    <h3 class="text-color"> Do you want to... </h3>
   </ion-text>
 
-  <ion-button class="lower-case-button ion-margin-top" [color]="userThemeColorPrimary" shape="round" expand="full"
-    size="default" fill="solid"> Seek for help as
-    quarantined
+  <ion-button (click)="goToQuarantinedReg()" class="lower-case-button ion-margin-horizontal ion-margin-top"
+    [color]="userThemeColorPrimary" shape="round" expand="full" size="default" strong="true" fill="solid">
+    Seek for help as quarantined
   </ion-button>
-  <h5 class="ion-text-center ion-margin-vertical ion-padding-vertical"> or </h5>
-  <ion-button class="lower-case-button" [color]="userThemeColorHL" shape="round" expand="full" size="default"
-    fill="solid"> Volunteer to help
-    others
+  <h5 class="ion-text-center ion-margin-vertical ion-padding-vertical text-color"> or </h5>
+  <ion-button (click)="goToVolunteerReg()" class="lower-case-button ion-margin-horizontal" [color]="userThemeColorHL"
+    shape="round" expand="full" size="default" strong="true" fill="solid">
+    Volunteer to help others
   </ion-button>
 
   <ion-footer class="ion-no-border footer">
@@ -32,7 +32,7 @@
           <img class="footericon" src="../../../assets/icons/folk.png" alt="logo">
           <img class="footericon" src="../../../assets/icons/who.png" alt="logo">
         </div>
-        <div class="ion-padding-top">
+        <div (click)="goToAboutUs()" class="ion-padding-top">
           <ion-text> About Us </ion-text>
         </div>
       </div>
