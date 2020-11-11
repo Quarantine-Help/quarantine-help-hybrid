@@ -1,29 +1,36 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title><ion-icon name="chevron-back-outline"></ion-icon>About Us</ion-title>
+        <ion-title >
+           <ion-grid>
+               <ion-row class="title-row ion-justify-content-start ion-align-items-center title">
+               <ion-icon name="chevron-back-outline" class = "ion-padding-end about-icon"></ion-icon>
+               <ion-text class="about" >About Us</ion-text>
+                 </ion-row>
+        </ion-grid> </ion-title>
     </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding">
    <ion-grid>
-       <ion-row>
-           <ion-col><ion-text>About Quarantine Help</ion-text></ion-col>
-       </ion-row>
-       <ion-row>
-           <ion-col><ion-text>
+       <ion-row class="ion-padding ion-justify-content-center ion-margin-bottom">
+
+            <ion-text class="heading ion-justify-content-center">About Quarantine Help</ion-text>
+        </ion-row>
+       <ion-row class="ion-margin-vertical ion-margin-horizontal ion-padding-horizontal">
+           <ion-text>
             We are a group of young software engineers and designers based in Sweden, India and the New Zealand, united by same passion for humane technologies.<br><br> Quarantine Help project started at 2020 eary april, we aim for connecting people all over the world to combat pandemic and save lifes.<br><br> Welcome to contact us for feedback, and don't hesitate to recommend it to your friends if you think it's helpful.
-           </ion-text></ion-col>
+           </ion-text>
        </ion-row>
-       <ion-row>
-           <ion-col>
-               <ion-text>Rate us in Google Play Store </ion-text>
-           </ion-col>
+       <ion-row class="ion-margin-vertical ion-padding-vertical ion-justify-content-center">
+               <ion-text class="rating">Rate us on Google Play Store </ion-text>
        </ion-row>
-       <ion-row>
+       <ion-row class="ion-margin-top ion-padding-top ion-justify-content-center sponsors">
            <ion-text>Supported by</ion-text>
-           <div>
-            <ion-img></ion-img>
-            <ion-img></ion-img>
-           </div>
-       </ion-row>
-   </ion-grid>
+        </ion-row>
+        <ion-row class="ion-justify-content-center ion-padding-vertical ion-margin-vertical">
+            <div>
+                <ion-img class="logo1 ion-margin-end"></ion-img>
+                <ion-img class="logo2 ion-margin-start"></ion-img>
+               </div>
+        </ion-row>
+        </ion-grid>
 </ion-content>
