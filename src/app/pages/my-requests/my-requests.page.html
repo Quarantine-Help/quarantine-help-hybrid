@@ -8,18 +8,17 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-item *ngIf="userType === 'AF'" class="ion-padding-vertical" lines="none" color="light">
+  <ion-item *ngIf="userType === 'AF'" class="ion-padding-vertical" lines="none">
     <ion-grid>
-      <ion-row>
+      <ion-row class="ion-justify-content-center">
         <ion-text color="dark">
-          <h2 class="ion-padding-horizontal"> Need help? </h2>
+          <h4 class="ion-padding-horizontal"> Need help? </h4>
         </ion-text>
       </ion-row>
-      <ion-row class="ion-justify-content-center ion-padding-vertical">
-        <ion-button (click)="createNewReq()" color="secondary" fill="solid" shape="round" size="default">
-          Create new request
-        </ion-button>
-      </ion-row>
+      <ion-button (click)="createNewReq()" [color]="userThemeColorSecondary" fill="solid" shape="round" expand="block"
+        size="default">
+        Create new request
+      </ion-button>
     </ion-grid>
   </ion-item>
   <ion-item lines="none">
