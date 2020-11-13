@@ -8,15 +8,9 @@ import { UserThemeColorPrimary } from 'src/app/models/ui';
   styleUrls: ['./select-user-type.page.scss'],
 })
 export class SelectUserTypePage implements OnInit {
-  userThemeColorPrimary: UserThemeColorPrimary;
-  userThemeColorHL: UserThemeColorPrimary;
-
   constructor(private router: Router) {}
 
-  ngOnInit() {
-    this.userThemeColorPrimary = 'primaryAF';
-    this.userThemeColorHL = 'primaryHL';
-  }
+  ngOnInit() {}
 
   goToAboutUs() {
     console.log('navigate to about us page');
