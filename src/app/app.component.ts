@@ -42,12 +42,12 @@ export class AppComponent {
   }
 
   resumeNavigation() {
-    // if (this.hasUserOnboarded) {
-    //   console.log('to map');
-    //   this.router.navigateByUrl('/map');
-    // } else {
-    //   console.log('to onboard');
-    //   this.router.navigateByUrl('/onboarding');
-    // }
+    if (this.hasUserOnboarded) {
+      console.log('to map');
+      this.router.navigateByUrl('/map');
+    } else {
+      console.log('to onboard');
+      this.router.navigateByUrl('/onboarding');
+    }
   }
 }
