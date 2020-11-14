@@ -7,12 +7,7 @@ import { AboutUsPageRoutingModule } from './about-us-routing.module';
 import { AboutUsPage } from './about-us.page';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    AboutUsPageRoutingModule
-  ],
-  declarations: [AboutUsPage]
+  imports: [CommonModule, FormsModule, IonicModule, AboutUsPageRoutingModule],
+  declarations: [AboutUsPage],
 })
 export class AboutUsPageModule {}
