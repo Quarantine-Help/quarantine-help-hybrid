@@ -4,8 +4,6 @@ export enum Crisis {
 
 export enum StorageKeys {
   hasUserOnboarded = 'hasUserOnboarded',
-  hasUserType = 'hasUserType',
-  isLoggedIn = 'isLoggedIn',
   authInfo = 'authInfo',
 }
 

@@ -15,9 +15,7 @@ export class RequestComponent implements OnInit {
   >();
   constructor() {}
 
-  ngOnInit() {
-    console.log(this.requestData);
-  }
+  ngOnInit() {}
 
   viewRequest(requestId) {
     this.requestOpened.emit({

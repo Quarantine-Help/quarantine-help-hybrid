@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 
 import { StorageKeys } from './constants/core-api';
 import { StorageService } from './services/storage/storage.service';
+import { UserType } from './models/core-api';
 const { StatusBar, SplashScreen } = Plugins;
 
 @Component({
@@ -14,6 +15,7 @@ const { StatusBar, SplashScreen } = Plugins;
 })
 export class AppComponent {
   hasUserOnboarded: boolean;
+  userType: UserType;
   constructor(
     private platform: Platform,
     private storageService: StorageService,
@@ -26,12 +28,35 @@ export class AppComponent {
   }
 
   initializeApp() {
+    this.hasUserOnboarded = false;
+    this.userType = undefined;
     this.platform.ready().then(() => {
       this.storageService
         .getObject(StorageKeys.hasUserOnboarded)
         .then(({ hasUserOnboarded }) => {
-          this.hasUserOnboarded = hasUserOnboarded;
-          this.resumeNavigation();
+          if (hasUserOnboarded) {
+            this.hasUserOnboarded = hasUserOnboarded;
+          }
+          this.storageService
+            .getObject(StorageKeys.authInfo)
+            .then(({ type }) => {
+              this.userType = type;
+              this.resumeNavigation();
+            });
+        })
+        .catch((error) => {
+          console.log('Unable to get data from Storage', error);
+          this.storageService
+            .getObject(StorageKeys.authInfo)
+            .then(({ type }) => {
+              if (type) {
+                this.userType = type;
+              }
+              this.resumeNavigation();
+            })
+            .catch((err) => {
+              console.log('Unable to get data from Storage', err);
+            });
         });
       if (this.platform.is('hybrid')) {
         StatusBar.setBackgroundColor({ color: 'white' });
@@ -42,11 +67,20 @@ export class AppComponent {
   }
 
   resumeNavigation() {
-    if (this.hasUserOnboarded) {
-      console.log('to map');
-      this.router.navigateByUrl('/map');
-    } else {
-      console.log('to onboard');
+    console.log('onboard, type', this.hasUserOnboarded, this.userType);
+    if (this.hasUserOnboarded === true && this.userType !== undefined) {
+      if (this.userType === 'HL') {
+        console.log('Onboarded HL to map');
+        this.router.navigateByUrl('/map');
+      } else if (this.userType === 'AF') {
+        console.log('Onboarded AF to my-requests');
+        this.router.navigateByUrl('/my-requests');
+      }
+    } else if (this.hasUserOnboarded === true && this.userType === undefined) {
+      console.log('New onboarded user to register');
+      this.router.navigateByUrl('/select-user-type');
+    } else if (this.hasUserOnboarded === false) {
+      console.log('Any new non-onboarded user goes to onboard');
       this.router.navigateByUrl('/onboarding');
     }
   }
