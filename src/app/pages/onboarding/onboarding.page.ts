@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { IonSlides } from '@ionic/angular';
 import { Router } from '@angular/router';
+
 import { StorageService } from 'src/app/services/storage/storage.service';
-const HAS_ONBOARDED_STORAGE_KEY = 'hasOnboarded';
+import { StorageKeys } from 'src/app/constants/core-api';
 
 @Component({
   selector: 'app-onboarding',
@@ -25,8 +26,8 @@ export class OnboardingPage implements OnInit {
   onBoardingComplete() {
     this.storageService
       .setObject(
-        HAS_ONBOARDED_STORAGE_KEY,
-        JSON.stringify({ hasOnboarded: 'true' })
+        StorageKeys.hasUserOnboarded,
+        JSON.stringify({ hasUserOnboarded: 'true' })
       )
       .then(() => {
         this.router.navigateByUrl('/map');

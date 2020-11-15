@@ -29,7 +29,9 @@ export class MyRequestsPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.userThemeColorPrimary = 'primaryAF';
+    this.userThemeColorPrimary =
+      this.userType === 'AF' ? 'primaryAF' : 'primaryHL';
+
     this.isOpenRequests = true;
     this.getRequests();
 

@@ -7,9 +7,11 @@ import { MenuController } from '@ionic/angular';
 
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { MiscService } from 'src/app/services/misc/misc.service';
+import { StorageService } from 'src/app/services/storage/storage.service';
 import { LoginUserCred, LoginResponse } from '../../models/auth';
 import { UserType } from 'src/app/models/core-api';
 import { UserThemeColorPrimary } from 'src/app/models/ui';
+import { StorageKeys } from 'src/app/constants/core-api';
 
 @Component({
   selector: 'app-login',
@@ -26,12 +28,14 @@ export class LoginPage implements OnInit, OnDestroy {
   loginSubs: Subscription;
   loginResponse: LoginResponse;
   userThemeColorPrimary: UserThemeColorPrimary;
+  userType: UserType;
   constructor(
     private authService: AuthService,
     public alertController: AlertController,
     private miscService: MiscService,
     private router: Router,
-    private menu: MenuController
+    private menu: MenuController,
+    private storageService: StorageService
   ) {
     this.userThemeColorPrimary = 'primaryAF';
     this.pageClean = true;
@@ -112,10 +116,10 @@ export class LoginPage implements OnInit, OnDestroy {
   navigateUser(type: UserType) {
     switch (type) {
       case 'AF':
-        this.router.navigateByUrl('/map');
+        this.router.navigateByUrl('/my-requests');
         break;
       case 'HL':
-        this.router.navigateByUrl('/profile');
+        this.router.navigateByUrl('/map');
         break;
       // case 'AU':
       //   this.router.navigateByUrl('/map');
@@ -124,10 +128,11 @@ export class LoginPage implements OnInit, OnDestroy {
       //   this.router.navigateByUrl('/map');
       //   break;
       default:
-        this.router.navigateByUrl('/map');
+        this.router.navigateByUrl('/profile');
         break;
     }
   }
+
   togglePasswordVisibility() {
     this.passwordIcon = this.passwordIcon === 'eye-off' ? 'eye' : 'eye-off';
     if (this.passwordIcon === 'eye-off') {
@@ -139,7 +144,7 @@ export class LoginPage implements OnInit, OnDestroy {
 
   handleLoginErrors(errorMessages: string[], statusCode) {
     console.log(...errorMessages, statusCode);
-    this.miscService.presentAlert({ message: errorMessages.join('. ')});
+    this.miscService.presentAlert({ message: errorMessages.join('. ') });
   }
 
   registerUser() {

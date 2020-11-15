@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { UserType } from 'src/app/models/core-api';
@@ -60,7 +60,8 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
     private miscService: MiscService,
     private hereMapService: HEREMapService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private route: ActivatedRoute
   ) {
     this.regForm = new FormGroup({
       firstName: new FormControl('', [Validators.required]),
@@ -94,9 +95,17 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.userThemeColorPrimary = 'primaryAF';
-    this.addressResultList = [];
+    this.userType = defaultUserType;
+    this.userThemeColorPrimary =
+      this.userType === 'AF' ? 'primaryAF' : 'primaryHL';
+
+    this.route.params.subscribe((params: Params) => {
+      this.userType = params.userType;
+      console.log(this.userType);
+    });
+
     this.showPasswordText = false;
+    this.addressResultList = [];
     this.userAddress = {
       address: '',
       city: '',
@@ -107,14 +116,6 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
     };
     this.countrySearchResult = [];
     this.hasSelectedAddress = false;
-
-    this.authSubs = this.authService.user.subscribe((user) => {
-      if (user && user.email !== undefined && user.token !== undefined) {
-        this.userType = user.type;
-      } else {
-        this.userType = defaultUserType;
-      }
-    });
 
     this.regFormAddressSubs = this.regForm
       .get('address')
@@ -159,9 +160,15 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.regFormSubs.unsubscribe();
-    this.authSubs.unsubscribe();
-    this.regFormAddressSubs.unsubscribe();
+    if (this.regFormSubs) {
+      this.regFormSubs.unsubscribe();
+    }
+    if (this.authSubs) {
+      this.authSubs.unsubscribe();
+    }
+    if (this.regFormAddressSubs) {
+      this.regFormAddressSubs.unsubscribe();
+    }
   }
 
   togglePasswordVisibility() {
