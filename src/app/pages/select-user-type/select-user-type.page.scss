@@ -8,6 +8,10 @@ ion-grid {
   flex-direction: row;
 }
 
+ion-button {
+  text-transform: none;
+}
+
 .logo1 {
   background-color: salmon;
   width: 15vw;
@@ -18,14 +22,13 @@ ion-grid {
   width: 15vw;
 }
 
-.logo {
+.qh-logo {
   width: 20vw;
   height: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.lower-case-button {
-  text-transform: none;
-}
 
 .footer-icon {
   width: 17vw;
@@ -37,6 +40,7 @@ ion-grid {
   margin-right: 10vw;
 }
 
+// TODO: Replace with Stepped Colors
 .text-color {
   color: #5d5d5d;
 }
