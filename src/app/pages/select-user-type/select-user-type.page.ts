@@ -18,10 +18,10 @@ export class SelectUserTypePage implements OnInit {
   }
 
   goToQuarantinedReg() {
-    this.router.navigateByUrl('/user-reg');
+    this.router.navigate(['/user-reg', 'AF']);
   }
 
   goToVolunteerReg() {
-    this.router.navigateByUrl('/user-reg');
+    this.router.navigate(['/user-reg', 'HL']);
   }
 }

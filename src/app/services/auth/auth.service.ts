@@ -11,8 +11,8 @@ import {
 import { UserType } from '../../models/core-api';
 import { CommonHTTPService } from '../common-http/common-http.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
+import { StorageKeys } from 'src/app/constants/core-api';
 
-const AUTH_TOKEN_STORAGE_KEY = 'authToken';
 @Injectable({
   providedIn: 'root',
 })
@@ -38,7 +38,7 @@ export class AuthService {
 
   loadAuthData() {
     this.storageService
-      .getObject(AUTH_TOKEN_STORAGE_KEY)
+      .getObject(StorageKeys.authInfo)
       .then((userData: UserDataObservableType | null | undefined) => {
         if (
           userData &&
@@ -65,7 +65,7 @@ export class AuthService {
         };
         this.authState.next(userData);
         this.storageService.setObject(
-          AUTH_TOKEN_STORAGE_KEY,
+          StorageKeys.authInfo,
           JSON.stringify(userData)
         );
         return Promise.resolve(userData);
@@ -79,7 +79,7 @@ export class AuthService {
   logOutUser() {
     this.authState.next(null);
     return this.storageService.setObject(
-      AUTH_TOKEN_STORAGE_KEY,
+      StorageKeys.authInfo,
       JSON.stringify({})
     );
   }

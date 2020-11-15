@@ -3,9 +3,9 @@ import { Platform } from '@ionic/angular';
 import { Plugins, StatusBarStyle } from '@capacitor/core';
 import { Router } from '@angular/router';
 
+import { StorageKeys } from './constants/core-api';
 import { StorageService } from './services/storage/storage.service';
 const { StatusBar, SplashScreen } = Plugins;
-const HAS_ONBOARDED_STORAGE_KEY = 'hasOnboarded';
 
 @Component({
   selector: 'app-root',
@@ -28,9 +28,9 @@ export class AppComponent {
   initializeApp() {
     this.platform.ready().then(() => {
       this.storageService
-        .getObject(HAS_ONBOARDED_STORAGE_KEY)
-        .then(({ hasOnboarded }) => {
-          this.hasUserOnboarded = hasOnboarded;
+        .getObject(StorageKeys.hasUserOnboarded)
+        .then(({ hasUserOnboarded }) => {
+          this.hasUserOnboarded = hasUserOnboarded;
           this.resumeNavigation();
         });
       if (this.platform.is('hybrid')) {
