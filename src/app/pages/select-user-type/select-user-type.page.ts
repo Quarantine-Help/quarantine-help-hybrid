@@ -13,8 +13,7 @@ export class SelectUserTypePage implements OnInit {
   ngOnInit() {}
 
   goToAboutUs() {
-    console.log('navigate to about us page');
-    // this.router.navigateByUrl('/');
+    this.router.navigateByUrl('/about-us');
   }
 
   goToQuarantinedReg() {

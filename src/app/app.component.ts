@@ -67,7 +67,6 @@ export class AppComponent {
   }
 
   resumeNavigation() {
-    console.log('onboard, type', this.hasUserOnboarded, this.userType);
     if (this.hasUserOnboarded === true && this.userType !== undefined) {
       if (this.userType === 'HL') {
         console.log('Onboarded HL to map');
