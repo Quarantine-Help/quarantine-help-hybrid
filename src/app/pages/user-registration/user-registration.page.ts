@@ -99,7 +99,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
     this.userThemeColorPrimary =
       this.userType === 'AF' ? 'primaryAF' : 'primaryHL';
 
-    this.route.params.subscribe((params: Params) => {
+    this.route.queryParams.subscribe((params: Params) => {
       this.userType = params.userType;
       console.log(this.userType);
     });

@@ -25,7 +25,7 @@ const routes: CustomRoute[] = [
       import('./pages/login/login.module').then((m) => m.LoginPageModule),
   },
   {
-    path: 'user-reg/:userType',
+    path: 'user-reg',
     loadChildren: () =>
       import('./pages/user-registration/user-registration.module').then(
         (m) => m.UserRegistrationPageModule

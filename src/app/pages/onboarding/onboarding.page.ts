@@ -27,10 +27,10 @@ export class OnboardingPage implements OnInit {
     this.storageService
       .setObject(
         StorageKeys.hasUserOnboarded,
-        JSON.stringify({ hasUserOnboarded: 'true' })
+        JSON.stringify({ hasUserOnboarded: true })
       )
       .then(() => {
-        this.router.navigateByUrl('/map');
+          this.router.navigateByUrl('/select-user-type');
       });
   }
 
