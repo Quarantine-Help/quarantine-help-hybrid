@@ -22,10 +22,24 @@ ion-icon {
   zoom: 2;
 }
 
+ion-title {
+  font-weight: 700;
+  font-size: 1.375 rem;
+}
+
 span.request-row {
   display: flex;
 }
 
 .lower-case-button {
   text-transform: none;
+}
+
+ion-segment-button {
+  --background-checked: var(--ion-color-dark);
+  --color-checked: #ffffff;
+  --color: var(--ion-color-dark);
+  --border-color: var(--ion-color-dark);
+  --border-style: solid;
+  --border-width: 1px;
 }

@@ -2,6 +2,7 @@ ion-item {
   --inner-padding-end: 0px;
   --padding-start: 0px;
   border-radius: 8px;
+  // --background: #f2cfcf;
 }
 
 ion-icon {
@@ -11,11 +12,19 @@ ion-icon {
   top: 5px;
 }
 
+ion-grid {
+  padding: 2vw;
+}
+
 small {
   position: absolute;
   left: 10px;
   bottom: 5px;
-  color: var(--ion-color-medium);
+}
+
+.request-content {
+  background-color: #ffffff;
+  border-radius: 10px;
 }
 
 .description {

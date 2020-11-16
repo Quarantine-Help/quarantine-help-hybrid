@@ -7,4 +7,11 @@ export enum StorageKeys {
   authInfo = 'authInfo',
 }
 
+export enum RequestStatus {
+  pending = 'P',
+  transit = 'T',
+  finished = 'F',
+  cancelled = 'C',
+}
+
 export const defaultUserType = 'AF';
