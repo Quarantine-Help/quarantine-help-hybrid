@@ -10,7 +10,9 @@
         </div>
       </ion-col>
       <ion-col class="request-content" size="10">
-        <ion-icon color="danger" *ngIf="requestData.type=='M'" name="medkit"> </ion-icon>
+        <ion-icon *ngIf="requestData.type=='M'" name="medkit"> </ion-icon>
+        <ion-icon *ngIf="requestData.type=='G'" name="cart"> </ion-icon>
+        <ion-icon *ngIf="requestData.type=='O'" name="grid"></ion-icon>
         <div class="description">
           <ion-text>
             {{ requestData.description | slice:0:50 }} ...

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { RequestStatus } from 'src/app/constants/core-api';
+import { UserThemeColorPrimary } from 'src/app/models/ui';
 
 interface RequestId {
   id: string;
