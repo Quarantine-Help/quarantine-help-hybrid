@@ -1,26 +1,32 @@
-<ion-content class="ion-padding ion-margin">
+<ion-content>
   <ion-slides pager="true" [options]="slideOptions" #slider (ionSlidesDidLoad)="slidesDidLoad(slider)"
     (ionSlideReachEnd)="slidesEnd(slider)">
-    <ion-slide>
-      <img src="assets/onboarding/onboard1.svg" />
-      <h1> Quarantine Help </h1>
-      <p>Connect to a group of volunteers who are ready to help you out.
+    <ion-slide class="ion-padding-vertical">
+      <ion-img class="ion-padding-top ion-margin-top" src="../../../assets/icons/icons/80X67.png"></ion-img>
+      <h1 class="ion-margin-bottom ion-padding-bottom"> Quarantine Help </h1>
+      <img class="ion-margin-bottom" src="assets/onboarding/onboard1.svg" />
+      <h2>Isolate virus not humanity</h2>
+      <ion-row class="ion-justify-content-end">
+        <ion-text>
+          Help quarantined fellows in your city.
+        </ion-text>
+        <ion-text> Get the reward you deserve</ion-text>
+      </ion-row>
     </ion-slide>
-
-    <ion-slide>
+    <ion-slide class="ion-padding-vertical">
+      <ion-img class="ion-padding-top ion-margin-top" src="../../../assets/icons/icons/80X67.png"></ion-img>
+      <h1 class="ion-margin-bottom ion-padding-bottom"> Quarantine Help </h1>
       <img src="assets/onboarding/onboard2.svg" />
-      <h1> Start at home </h1>
-      <p> Raise your request, get the help you need. You are not alone.</p>
-    </ion-slide>
-
-    <ion-slide>
-      <img src="assets/onboarding/onboard3.svg" />
-      <h1> Help each other</h1>
-      <p> A small step could make the difference. Let us be united</p>
-      <ion-button fill="outline" (click)="onBoardingComplete()">
-        Continue <ion-icon slot=" end" name="arrow-forward"></ion-icon>
+      <h2 class="page-2-heading">Stay safe at home</h2>
+      <ion-row class="ion-justify-content-end ion-margin-bottom">
+        <ion-text>
+          Raise your request, get the help you need.
+        </ion-text>
+        <ion-text>You are not alone.</ion-text>
+      </ion-row>
+      <ion-button class="ion-margin-top" shape="round" (click)="onBoardingComplete()">
+        continue
       </ion-button>
     </ion-slide>
-
   </ion-slides>
 </ion-content>
