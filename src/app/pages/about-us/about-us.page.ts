@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+
 import { defaultUserType } from 'src/app/constants/core-api';
 import { UserType } from 'src/app/models/core-api';
-
 import { UserThemeColorPrimary } from 'src/app/models/ui';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
