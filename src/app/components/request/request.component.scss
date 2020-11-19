@@ -4,10 +4,17 @@ ion-item {
   border-radius: 8px;
 }
 
-ion-icon {
+.category-icon {
   zoom: 1.2;
   position: absolute;
   right: 5px;
+  top: 5px;
+}
+
+.dollar-icon {
+  zoom: 1.2;
+  position: absolute;
+  right: 24px;
   top: 5px;
 }
 
