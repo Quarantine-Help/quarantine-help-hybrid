@@ -98,10 +98,20 @@ const routes: CustomRoute[] = [
   },
   {
     path: 'about-us',
-    loadChildren: () => import('./pages/about-us/about-us.module').then( m => m.AboutUsPageModule)
+    loadChildren: () =>
+      import('./pages/about-us/about-us.module').then(
+        (m) => m.AboutUsPageModule
+      ),
+  },
+
+  {
+    path: 'safety-instructions',
+    loadChildren: () =>
+      import('./pages/safety-instructions/safety-instructions.module').then(
+        (m) => m.SafetyInstructionsPageModule
+      ),
   },
   { path: '**', redirectTo: 'map' },
-
 ];
 
 @NgModule({
