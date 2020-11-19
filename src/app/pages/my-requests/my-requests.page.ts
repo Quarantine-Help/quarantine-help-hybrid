@@ -33,20 +33,22 @@ export class MyRequestsPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.userThemeColorPrimary =
-      this.userType === 'AF' ? 'primaryAF' : 'primaryHL';
-    this.userThemeColorSecondary =
-      this.userType === 'AF' ? 'secondaryAF' : 'secondaryHL';
-    this.isOpenRequests = true;
-    this.getRequests();
-
+    this.userThemeColorPrimary = 'primaryAF';
+    this.userThemeColorSecondary = 'secondaryAF';
     this.authSubs = this.authService.user.subscribe((user) => {
       if (user && user.email !== undefined && user.token !== undefined) {
         this.userType = user.type;
       } else {
         this.userType = defaultUserType;
       }
+      console.log('user type: ', this.userType);
+      this.userThemeColorPrimary =
+        this.userType === 'AF' ? 'primaryAF' : 'primaryHL';
+      this.userThemeColorSecondary =
+        this.userType === 'AF' ? 'secondaryAF' : 'secondaryHL';
     });
+    this.isOpenRequests = true;
+    this.getRequests();
   }
 
   ngOnDestroy() {

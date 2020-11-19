@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { RequestStatus } from 'src/app/constants/core-api';
-import { UserThemeColorPrimary } from 'src/app/models/ui';
+import { UserThemeColorPrimary, UserThemeColorSecondary } from 'src/app/models/ui';
 
 interface RequestId {
   id: string;
@@ -16,6 +16,7 @@ export class RequestComponent implements OnInit {
     RequestId
   >();
   requestStatusColor: UserThemeColorPrimary;
+  requestStatusSecondaryColor: UserThemeColorSecondary;
   constructor() {}
 
 
@@ -24,8 +25,10 @@ export class RequestComponent implements OnInit {
 
     // TODO: Find out about the other statuses - C & F
     this.requestStatusColor = 'primaryAF';
+    this.requestStatusSecondaryColor = 'secondaryAF';
     if (this.requestData.status === RequestStatus.transit) {
       this.requestStatusColor = 'primaryHL';
+      this.requestStatusSecondaryColor = 'secondaryHL';
     }
   }
 

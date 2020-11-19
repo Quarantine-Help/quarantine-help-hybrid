@@ -14,6 +14,12 @@
         <ion-icon class="category-icon" *ngIf="requestData.type=='M'" name="medkit"> </ion-icon>
         <ion-icon class="category-icon" *ngIf="requestData.type=='G'" name="cart"> </ion-icon>
         <ion-icon class="category-icon" *ngIf="requestData.type=='O'" name="grid"></ion-icon>
+        <ion-text [color]="requestStatusSecondaryColor" class="status" [ngSwitch]="requestData.status">
+          <ng-container *ngSwitchCase="'P'"> Waiting </ng-container>
+          <ng-container *ngSwitchCase="'T'"> On The Way </ng-container>
+          <ng-container *ngSwitchCase="'F'"> Finished </ng-container>
+          <ng-container *ngSwitchCase="'C'"> Cancelled </ng-container>
+        </ion-text>
         <div class="description">
           <ion-text>
             {{ requestData.description | slice:0:50 }} ...
