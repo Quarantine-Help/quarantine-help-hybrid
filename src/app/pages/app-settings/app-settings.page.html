@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar [color]="userThemeColorPrimary">
+    <ion-title>
+      <ion-grid>
+        <ion-row class="title-row ion-justify-content-start ion-align-items-center title">
+          <ion-back-button></ion-back-button>
+          <ion-text class="about"><strong>Settings</strong></ion-text>
+        </ion-row>
+      </ion-grid>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="medium">
+  <ion-list class="ion-margin-top ion-padding-top" lines="none">
+    <ion-item detail class="ion-margin-vertical">My profile</ion-item>
+    <ion-item detail class="ion-margin-vertical">Instruction on how to help</ion-item>
+    <ion-item detail class="ion-margin-vertical">App language</ion-item>
+    <ion-item class="ion-margin-vertical" *ngIf="this.userType === 'HL'">
+      App notifications
+      <ion-toggle slot="end" [style.--background]="'var(--ion-color-' + userThemeColorPrimary + ')'"></ion-toggle>
+    </ion-item>
+    <ion-item detail class="ion-margin-vertical">Our Website</ion-item>
+    <ion-item detail class="ion-margin-vertical">About us</ion-item>
+  </ion-list>
+
+  <ion-item class="ion-margin-top logout ion-text-center" lines="none">
+    <ion-label color="tertiary">
+      <strong>Log out</strong>
+    </ion-label>
+  </ion-item>
+</ion-content>

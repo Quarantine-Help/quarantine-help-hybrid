@@ -1,0 +1,43 @@
+ion-list {
+  background-color: var(--ion-color-medium);
+}
+
+ion-toggle {
+  position: relative;
+  width: 70px;
+  height: 3.4vh;
+  --border-radius: 4px 4px;
+  --handle-border-radius: 4px 4px;
+  --handle-height: 3vh;
+  --handle-width: 10vw;
+  --handle-spacing: 0px;
+}
+
+ion-toggle[aria-checked="false"] {
+  &::after {
+    position: absolute;
+    content: "off";
+    font-size: 1em;
+    line-height: 4vmax;
+    top: 1.5vmax;
+    left: 3vmax;
+    color: var(--ion-color-dark);
+  }
+}
+
+ion-toggle[aria-checked="true"] {
+  &::after {
+    position: absolute;
+    content: "on";
+    font-size: 1em;
+    line-height: 4vmax;
+    top: 1.5vmax;
+    right: 1vmax;
+    color: #fff;
+  }
+}
+
+.logout {
+  --background: transparent;
+  margin-top: 12vh;
+}
