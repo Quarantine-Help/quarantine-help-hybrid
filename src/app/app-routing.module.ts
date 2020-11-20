@@ -105,7 +105,7 @@ const routes: CustomRoute[] = [
   },
 
   {
-    path: 'safety-instructions',
+    path: 'instructions',
     loadChildren: () =>
       import('./pages/safety-instructions/safety-instructions.module').then(
         (m) => m.SafetyInstructionsPageModule

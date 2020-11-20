@@ -1,0 +1,86 @@
+ion-title {
+    font-weight: 700;
+    font-size: 1.375 rem;
+  }
+
+//   .container {
+//     width: 25%;
+//   }
+
+  .circle{
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+      color: white;
+  }
+  .step {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+
+    background-color: cream;
+  }
+
+  .v-stepper {
+    position: relative;
+  /*   visibility: visible; */
+  }
+
+
+  /* regular step */
+  .step .circle {
+    background-color: white;
+    border: 3px solid gray;
+    border-radius: 100%;
+    width: 20px;    /* +6 for border */
+    height: 20px;
+    display: inline-block;
+  }
+
+  .step .line {
+      top: 23px;
+    left: 12px;
+  /*   height: 120px; */
+    height: 100%;
+
+      position: absolute;
+      border-left: 3px dashed gray;
+  }
+
+  .step.completed .circle {
+    visibility: visible;
+    background-color: #000;
+    border-color: #000;
+  }
+
+  .step.completed .line {
+    border-left: 3px dashed #00000029;
+  }
+
+//   .step.active .circle {
+//   visibility: visible;
+//     border-color: rgb(6,150,215);
+//   }
+
+//   .step.empty .circle {
+//       visibility: hidden;
+//   }
+
+//   .step.empty .line {
+//   /*     visibility: hidden; */
+//   /*   height: 150%; */
+//     top: 0;
+//     height: 150%;
+//   }
+
+
+  .step:last-child .line {
+    border-left: 3px solid white;
+    z-index: -1; /* behind the circle to completely hide */
+  }
+
+  .content {
+    margin-left: 20px;
+    display: inline-block;
+  }
