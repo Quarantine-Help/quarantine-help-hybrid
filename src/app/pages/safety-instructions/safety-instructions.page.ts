@@ -26,9 +26,8 @@ export class SafetyInstructionsPage implements OnInit {
         this.userType = defaultUserType;
       }
     });
-
-    this.userThemeColorPrimary = 'primaryHL' ;
-      // this.userType === 'AF' ? 'primaryAF' : 'primaryHL';
+    this.userThemeColorPrimary =
+      this.userType === 'AF' ? 'primaryAF' : 'primaryHL';
   }
 
 }

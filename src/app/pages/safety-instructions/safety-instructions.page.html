@@ -10,26 +10,28 @@
     </ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content>
-<ion-card color="primaryHL" class="ion-margin">
-  <ion-card-header>
-    <ion-card-title>Safety Tips</ion-card-title>
-  </ion-card-header>
-  <ion-card-content class="ion-no-margin">
-    <ol>
-      <li>Maintain good hand hygiene when going out, and back at home, avoid face touching.</li>
-      <li>Maintain physical distance from other people.</li>
-      <li>Don't meet quarantined in person, use phone.</li>
-      <li>Use face mask if neccessary.</li>
-    </ol>
-  </ion-card-content>
-</ion-card>
 
-<div class="container">
-  <!-- completed -->
+<ion-content class="ion-margin-horizontal ion-padding-horizontal">
+  <ion-card *ngIf="userType == 'HL'" [color]="userThemeColorPrimary" class="ion-margin">
+    <ion-card-header class="ion-no-margin">
+      <ion-card-title>Safety Tips</ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="ion-no-margin">
+      <ol>
+        <li>Maintain good hand hygiene when going out, and back at home, avoid face touching.</li>
+        <li>Maintain physical distance from other people.</li>
+        <li>Don't meet quarantined in person, use phone.</li>
+        <li>Use face mask if neccessary.</li>
+      </ol>
+    </ion-card-content>
+  </ion-card>
+
+  <div class="container">
     <div class="step completed">
       <div class="v-stepper">
-        <div class="circle">1</div>
+        <div class="circle">
+          <ion-text class="step-index">1</ion-text>
+        </div>
         <div class="line"></div>
       </div>
       <div class="instr">
@@ -37,55 +39,60 @@
       <div class="content">
         <h3>Contact the quarantined user</h3>
         <ion-text>
-          Confirm with him/her that you accepted their request via phone call or SMS. They look forward to hearing from you.
+          Confirm with him/her that you accepted their request via phone call or SMS. They look forward to hearing from
+          you.
         </ion-text>
       </div>
-  </div>
+    </div>
+    <div class="step completed">
+      <div class="v-stepper">
+        <div class="circle">
+          <ion-text class="step-index">2</ion-text>
+        </div>
+        <div class="line"></div>
+      </div>
 
-  <!-- active -->
-  <div class="step completed">
-    <div class="v-stepper">
-      <div class="circle">2</div>
-      <div class="line"></div>
+      <div class="content">
+        <h3>Deliver the help they need</h3>
+        <ion-text>
+          Either buying groceries, medicines or help in act of services, please follow our safe tips and leave what they
+          need in appointed place. You should not meet the quarantined face to face and they understand that.
+        </ion-text>
+      </div>
     </div>
 
-    <div class="content">
-      <h3>Deliver the help they need</h3>
-      <ion-text>
-        Either buying groceries, medicines or help in act of services, please follow our safe tips and leave what they need in appointed place. You should not meet the quarantined face to face and they understand that.
-      </ion-text>    </div>
-  </div>
-
-    <!-- empty -->
-  <div class="step completed">
+    <div class="step completed">
       <div class="v-stepper">
-        <div class="circle">3</div>
+        <div class="circle">
+          <ion-text class="step-index">3</ion-text>
+        </div>
         <div class="line"></div>
       </div>
 
       <div class="content">
         <h3>Get paid off, no cash</h3>
-      <ion-text>
-        As we suggested, the quarantined user shall use non-cash payment method for the goods bought for them. So don't worry about infection and please stick with non-cash payment
-      </ion-text>
+        <ion-text>
+          As we suggested, the quarantined user shall use non-cash payment method for the goods bought for them. So
+          don't worry about infection and please stick with non-cash payment
+        </ion-text>
       </div>
-  </div>
+    </div>
 
-  <!-- regular -->
-  <div class="step completed">
+    <div class="step completed">
       <div class="v-stepper">
-        <div class="circle">4</div>
+        <div class="circle">
+          <ion-text class="step-index">4</ion-text>
+        </div>
         <div class="line"></div>
       </div>
 
       <div class="content">
         <h3>Resolve the request</h3>
         <ion-text>
-          Go to the request detail page and resolve the request. Congradualation! You have kindly helped a quarantined person, thank you:)
+          Go to the request detail page and resolve the request. Congradualation! You have kindly helped a quarantined
+          person, thank you:)
         </ion-text>
       </div>
+    </div>
   </div>
-
-</div>
-
 </ion-content>
