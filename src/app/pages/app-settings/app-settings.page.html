@@ -13,15 +13,15 @@
 
 <ion-content color="medium">
   <ion-list class="ion-margin-top ion-padding-top" lines="none">
-    <ion-item detail class="ion-margin-vertical">My profile</ion-item>
-    <ion-item detail class="ion-margin-vertical">Instruction on how to help</ion-item>
+    <ion-item routerLink="/profile" detail class="ion-margin-vertical">My profile</ion-item>
+    <ion-item routerLink="/instructions" detail class="ion-margin-vertical">Instruction on how to help</ion-item>
     <ion-item detail class="ion-margin-vertical">App language</ion-item>
     <ion-item class="ion-margin-vertical" *ngIf="this.userType === 'HL'">
       App notifications
-      <ion-toggle slot="end" class="afUserTheme"></ion-toggle>
+      <ion-toggle slot="end" class="afUserTheme" (ionChange)="toggleNotifications($event.detail)"></ion-toggle>
     </ion-item>
     <ion-item detail class="ion-margin-vertical">Our Website</ion-item>
-    <ion-item detail class="ion-margin-vertical">About us</ion-item>
+    <ion-item routerLink="/about-us" detail class="ion-margin-vertical">About us</ion-item>
   </ion-list>
 
   <ion-item class="ion-margin-top logout ion-text-center" lines="none">
