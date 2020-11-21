@@ -14,10 +14,9 @@
 <ion-content class="ion-padding">
   <ion-grid>
     <ion-row class="ion-padding ion-justify-content-center ion-margin-bottom">
-      <ion-text class="ion-justify-content-center" [ngClass]="{
-        'headingAF': this.userType === 'AF', 
-        'headingHL': this.userType === 'HL'
-      }">Quarantine Help</ion-text>
+      <ion-text class="ion-justify-content-center" [ngClass]="userType === 'AF' ?'headingAF' : 'headingHL'">
+        Quarantine Help
+      </ion-text>
     </ion-row>
     <ion-row class="ion-margin-vertical ion-margin-horizontal ion-padding-horizontal">
       <ion-text>

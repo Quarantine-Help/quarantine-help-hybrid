@@ -6,6 +6,9 @@ ion-toggle {
   position: relative;
   width: 70px;
   height: 3.4vh;
+  --background: var(--ion-color-primaryHL);
+  --background-checked: var(--ion-color-primaryHL);
+  --handle-background-checked: var(--ion-color-success);
   --border-radius: 4px 4px;
   --handle-border-radius: 4px 4px;
   --handle-height: 3vh;
@@ -33,7 +36,7 @@ ion-toggle[aria-checked="true"] {
     line-height: 4vmax;
     top: 1.5vmax;
     right: 1vmax;
-    color: #fff;
+    color: var(--ion-color-success-contrast);
   }
 }
 
