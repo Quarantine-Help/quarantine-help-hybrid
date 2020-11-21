@@ -11,12 +11,11 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   styleUrls: ['./safety-instructions.page.scss'],
 })
 export class SafetyInstructionsPage implements OnInit {
-
   userType: UserType;
   authSubs: Subscription;
   userThemeColorPrimary: UserThemeColorPrimary;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
   ngOnInit() {
     this.authSubs = this.authService.user.subscribe((user) => {
@@ -29,5 +28,4 @@ export class SafetyInstructionsPage implements OnInit {
     this.userThemeColorPrimary =
       this.userType === 'AF' ? 'primaryAF' : 'primaryHL';
   }
-
 }

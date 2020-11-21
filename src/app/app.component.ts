@@ -77,7 +77,7 @@ export class AppComponent {
       }
     } else if (this.hasUserOnboarded === true && this.userType === undefined) {
       console.log('New onboarded user to register');
-      this.router.navigateByUrl('/instructions');
+      this.router.navigateByUrl('/select-user-type');
     } else if (this.hasUserOnboarded === false) {
       console.log('Any new non-onboarded user goes to onboard');
       this.router.navigateByUrl('/onboarding');

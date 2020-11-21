@@ -3,7 +3,7 @@ ion-title {
   font-size: 1.375 rem;
 }
 ion-card {
-    margin-top: 2rem;
+  margin-top: 2rem;
   border-radius: 20px;
 }
 
@@ -19,7 +19,7 @@ ol {
   font-size: 0.75rem;
   padding-left: 0.9rem;
   li {
-    margin-bottom: 0.5em;
+    margin-bottom: 0.1em;
   }
 }
 
@@ -32,7 +32,7 @@ h3 {
   display: flex !important;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: var(--ion-color-dark);
 }
 .step {
   padding: 10px;
@@ -65,8 +65,8 @@ h3 {
 
 .step.completed .circle {
   visibility: visible;
-  background-color: #000;
-  border-color: #000;
+  background-color: var(--ion-color-medium);
+  border-color: var(--ion-color-medium);
 }
 
 .step.completed .line {
@@ -90,6 +90,6 @@ h3 {
   font-size: 0.8rem;
 }
 
-.container{
-    margin: 2rem 1rem;
+.container {
+  margin: 2rem 1rem;
 }
