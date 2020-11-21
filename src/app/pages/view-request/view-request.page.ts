@@ -7,7 +7,7 @@ import { MiscService } from 'src/app/services/misc/misc.service';
 import { CoreAPIService } from 'src/app/services/core-api/core-api.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { UserType } from 'src/app/models/core-api';
-import { defaultUserType } from 'src/app/constants/core-api';
+import { defaultUserType, defaultPrimaryColor } from 'src/app/constants/core-api';
 import { UserThemeColorPrimary } from 'src/app/models/ui';
 
 @Component({
@@ -35,14 +35,19 @@ export class ViewRequestPage implements OnInit, OnDestroy {
     this.requestData = navigation.extras.state;
     this.requestId = navigation.extras.state.id;
 
+    this.userType = defaultUserType;
+    this.userThemeColorPrimary = defaultPrimaryColor;
+
     this.authSubs = this.authService.user.subscribe((user) => {
       if (user && user.email !== undefined && user.token !== undefined) {
         this.userType = user.type;
+        this.userThemeColorPrimary =
+          this.userType === 'AF' ? 'primaryAF' : 'primaryHL';
       } else {
         this.userType = defaultUserType;
+        this.userThemeColorPrimary = defaultPrimaryColor;
       }
     });
-    this.userThemeColorPrimary = 'primaryAF';
   }
 
   ngOnDestroy() {

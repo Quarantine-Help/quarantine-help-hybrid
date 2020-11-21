@@ -15,3 +15,4 @@ export enum RequestStatus {
 }
 
 export const defaultUserType = 'AF';
+export const defaultPrimaryColor = 'primaryAF';

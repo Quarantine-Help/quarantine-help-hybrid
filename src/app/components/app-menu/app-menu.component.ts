@@ -6,6 +6,7 @@ import { SubjectSubscriber } from 'rxjs/internal/Subject';
 import { UserType } from 'src/app/models/core-api';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { UserThemeColorPrimary } from 'src/app/models/ui';
+import { defaultUserType, defaultPrimaryColor } from 'src/app/constants/core-api';
 
 type Language = 'en' | 'de';
 @Component({
@@ -69,7 +70,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         expectedRoles: ['HL', 'AF', 'AU', 'TP'], // must correspond to the routes in routing module
       },
     ];
-    this.userThemeColorPrimary = 'primaryAF';
+    this.userThemeColorPrimary = defaultPrimaryColor;
   }
 
   ngOnInit() {
@@ -89,7 +90,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         });
       } else {
         this.isLoggedIn = false;
-        this.userType = '';
+        this.userType = defaultUserType;
       }
     });
 

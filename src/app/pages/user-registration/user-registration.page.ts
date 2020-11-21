@@ -10,7 +10,11 @@ import { HEREMapService } from 'src/app/services/HERE-map/here-map.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { LatLng } from '../../models/geo';
 import { UserRegData, UserRegResponse } from 'src/app/models/auth';
-import { Crisis, defaultUserType } from 'src/app/constants/core-api';
+import {
+  Crisis,
+  defaultUserType,
+  defaultPrimaryColor,
+} from 'src/app/constants/core-api';
 import { filter, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import {
   countryList,
@@ -96,11 +100,12 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userType = defaultUserType;
-    this.userThemeColorPrimary =
-      this.userType === 'AF' ? 'primaryAF' : 'primaryHL';
+    this.userThemeColorPrimary = defaultPrimaryColor;
 
     this.route.queryParams.subscribe((params: Params) => {
       this.userType = params.userType;
+      this.userThemeColorPrimary =
+        this.userType === 'AF' ? 'primaryAF' : 'primaryHL';
       console.log(this.userType);
     });
 
