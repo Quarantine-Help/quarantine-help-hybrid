@@ -5,7 +5,10 @@ import { Subscription } from 'rxjs';
 import { UserThemeColorPrimary } from 'src/app/models/ui';
 import { UserType } from 'src/app/models/core-api';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { defaultUserType, defaultPrimaryColor } from 'src/app/constants/core-api';
+import {
+  defaultUserType,
+  defaultPrimaryColor,
+} from 'src/app/constants/core-api';
 
 @Component({
   selector: 'app-settings',
@@ -46,5 +49,9 @@ export class AppSettingsPage implements OnInit {
     } else {
       this.router.navigateByUrl('/login');
     }
+  }
+
+  toggleNotifications({ checked: isChecked }) {
+    console.log('Notification status: ', isChecked);
   }
 }
