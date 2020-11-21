@@ -104,7 +104,7 @@ const routes: CustomRoute[] = [
       ),
   },
   {
-    path: 'app-settings',
+    path: 'settings',
     loadChildren: () => import('./pages/app-settings/app-settings.module').then( m => m.AppSettingsPageModule)
   },
   {
