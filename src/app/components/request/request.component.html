@@ -10,7 +10,7 @@
         </div>
       </ion-col>
       <ion-col class="request-content" size="10">
-        <ion-icon class="dollar-icon" src="assets/common/dollar.svg"></ion-icon>
+        <ion-icon class="dollar-icon" *ngIf="requestData.hasIncentive" src="assets/common/dollar.svg"></ion-icon>
         <ion-icon class="category-icon" *ngIf="requestData.type=='M'" name="medkit"> </ion-icon>
         <ion-icon class="category-icon" *ngIf="requestData.type=='G'" name="cart"> </ion-icon>
         <ion-icon class="category-icon" *ngIf="requestData.type=='O'" name="grid"></ion-icon>
