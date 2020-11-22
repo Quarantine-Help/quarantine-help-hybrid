@@ -5,7 +5,7 @@ ion-slides {
 ion-slide {
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
 
   ion-text {
     text-align: left;
