@@ -1,12 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterEvent, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { SubjectSubscriber } from 'rxjs/internal/Subject';
 
 import { UserType } from 'src/app/models/core-api';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { UserThemeColorPrimary } from 'src/app/models/ui';
-import { defaultUserType, defaultPrimaryColor } from 'src/app/constants/core-api';
+import {
+  defaultUserType,
+  defaultPrimaryColor,
+} from 'src/app/constants/core-api';
 
 type Language = 'en' | 'de';
 @Component({
@@ -114,6 +116,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   }
 
   authAction() {
+    console.log('Log out clicked');
     if (this.isLoggedIn) {
       this.authService.logOutUser().then(() => {
         this.router.navigateByUrl('/login');

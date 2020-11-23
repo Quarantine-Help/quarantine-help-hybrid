@@ -42,9 +42,11 @@ export class AppSettingsPage implements OnInit {
   }
 
   authAction() {
+    console.log('Log out clicked');
     if (this.isLoggedIn) {
       this.authService.logOutUser().then(() => {
         this.router.navigateByUrl('/login');
+        this.isLoggedIn = false;
       });
     } else {
       this.router.navigateByUrl('/login');

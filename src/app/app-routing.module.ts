@@ -1,10 +1,5 @@
 import { NgModule } from '@angular/core';
-import {
-  PreloadAllModules,
-  RouterModule,
-  Routes,
-  Route,
-} from '@angular/router';
+import { PreloadAllModules, RouterModule, Route } from '@angular/router';
 
 import { AuthGuard } from './guards/auth.guard';
 import { UserType } from './models/core-api';
@@ -105,7 +100,10 @@ const routes: CustomRoute[] = [
   },
   {
     path: 'settings',
-    loadChildren: () => import('./pages/app-settings/app-settings.module').then( m => m.AppSettingsPageModule)
+    loadChildren: () =>
+      import('./pages/app-settings/app-settings.module').then(
+        (m) => m.AppSettingsPageModule
+      ),
   },
   {
     path: 'instructions',

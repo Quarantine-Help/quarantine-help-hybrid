@@ -1,0 +1,41 @@
+ion-tab-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  font-size: 1em;
+}
+
+.threeTabLayout {
+  max-width: 33.33%;
+  --ripple-color: var(--ion-color-light);
+
+
+  ion-icon {
+    margin-left: 1vw;
+  }
+
+  ion-label {
+    margin-left: 3vw;
+  }
+}
+
+.twoTabLayout {
+  --ripple-color: var(--ion-color-light);
+  max-width: 50%;
+
+  ion-icon {
+    margin-left: 10vw;
+  }
+
+  ion-label {
+    margin-left: 3vw;
+  }
+}
+
+.activeHL {
+  --background: var(--ion-color-primaryHL);
+}
+
+.activeAF {
+  --background: var(--ion-color-primaryAF);
+}

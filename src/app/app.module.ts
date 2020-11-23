@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AppMenuComponent } from './components/app-menu/app-menu.component';
 import { TokenInterceptor } from './services/interceptors/token.interceptor';
+import { FooterNavPageModule } from './components/footer-nav/footer-nav.module';
 
 @NgModule({
   declarations: [AppComponent, AppMenuComponent],
@@ -22,6 +23,7 @@ import { TokenInterceptor } from './services/interceptors/token.interceptor';
     IonicModule.forRoot(),
     AppRoutingModule,
     FormsModule,
+    FooterNavPageModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),

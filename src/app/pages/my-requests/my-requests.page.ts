@@ -25,6 +25,7 @@ export class MyRequestsPage implements OnInit, OnDestroy {
   authSubs: Subscription;
   userThemeColorPrimary: UserThemeColorPrimary;
   userThemeColorSecondary: UserThemeColorSecondary;
+  isLoggedIn: boolean;
   constructor(
     private router: Router,
     private miscService: MiscService,
@@ -33,13 +34,20 @@ export class MyRequestsPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.userThemeColorPrimary = 'primaryAF';
-    this.userThemeColorSecondary = 'secondaryAF';
+    this.userType = defaultUserType;
+    this.userThemeColorPrimary =
+      this.userType === 'AF' ? 'primaryAF' : 'primaryHL';
+    this.userThemeColorSecondary = 
+      this.userType === 'AF' ? 'secondaryAF'; 'secondaryHL';
+    this.isOpenRequests = true;
+    this.getRequests();
     this.authSubs = this.authService.user.subscribe((user) => {
       if (user && user.email !== undefined && user.token !== undefined) {
         this.userType = user.type;
+        this.isLoggedIn = true;
       } else {
         this.userType = defaultUserType;
+        this.isLoggedIn = false;
       }
       console.log('user type: ', this.userType);
       this.userThemeColorPrimary =
@@ -52,7 +60,9 @@ export class MyRequestsPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.authSubs.unsubscribe();
+    if (this.authSubs) {
+      this.authSubs.unsubscribe();
+    }
   }
 
   createNewReq() {
