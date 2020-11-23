@@ -15,6 +15,7 @@ ion-slide {
     font-size: 0.9em;
     color: var(--ion-color-step-600, #6a8caf);
   }
+
   ion-button {
     --background: white;
     color: black;
@@ -58,6 +59,7 @@ ion-slide {
   .page-2-heading {
     right: 10%;
   }
+
   .page-2-heading::after {
     left: 3.3rem;
     background-color: var(--ion-color-primaryHL);
