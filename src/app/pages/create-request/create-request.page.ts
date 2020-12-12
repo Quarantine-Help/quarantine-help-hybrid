@@ -6,6 +6,8 @@ import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { CoreAPIService } from 'src/app/shared/services/core-api/core-api.service';
 import { MiscService } from 'src/app/shared/services/misc/misc.service';
 import { UserThemeColorPrimary, UserThemeColorSecondary } from 'src/app/models/ui';
+import { ModalController } from '@ionic/angular';
+import { ConfirmModalComponent } from '../../components/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-create-request',
@@ -27,7 +29,8 @@ export class CreateRequestPage implements OnInit {
     private pickerCtrl: PickerController,
     private coreAPIService: CoreAPIService,
     private miscService: MiscService,
-    private router: Router
+    private router: Router,
+    public modalController: ModalController
   ) {
     this.requestForm = new FormGroup({
       requestMessage: new FormControl('', [Validators.required]),
@@ -203,5 +206,13 @@ export class CreateRequestPage implements OnInit {
   handleErrors(errorMessages: string[], statusCode) {
     console.log(...errorMessages, statusCode);
     this.miscService.presentAlert({ message: errorMessages.join('. ') });
+  }
+
+  async presentModal() {
+    const modal = await this.modalController.create({
+      component: ConfirmModalComponent,
+      cssClass: 'my-custom-class'
+    });
+    return await modal.present();
   }
 }
