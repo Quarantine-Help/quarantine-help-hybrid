@@ -31,8 +31,9 @@ span.request-row {
   display: flex;
 }
 
-.lower-case-button {
+.create-button {
   text-transform: none;
+  --box-shadow: #00000029 0px 3px 6px;
 }
 
 ion-segment-button {
