@@ -22,6 +22,18 @@ ion-textarea {
   --background: var(--ion-color-light);
 }
 
-ion-col ion-button{
+ion-col ion-button {
   text-transform: none;
+}
+
+.grocery {
+  color: #42b67c;
+}
+
+.medicine {
+  color: #d6392c;
+}
+
+.others {
+  color: #8b25a5;
 }

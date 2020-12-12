@@ -9,7 +9,6 @@ import { UserThemeColorPrimary, UserThemeColorSecondary } from 'src/app/models/u
 
 @Component({
   selector: 'app-create-request',
-
   templateUrl: './create-request.page.html',
   styleUrls: ['./create-request.page.scss'],
 })
@@ -136,6 +135,8 @@ export class CreateRequestPage implements OnInit {
       this.selectedType = 'M';
     } else if (this.segmentSelected === 'Grocery') {
       this.selectedType = 'G';
+    } else if (this.segmentSelected === 'Others') {
+      this.selectedType = 'O';
     }
 
     const reqUserDetails = {
