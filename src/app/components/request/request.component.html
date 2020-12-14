@@ -11,9 +11,11 @@
       </ion-col>
       <ion-col class="request-content" size="10">
         <ion-icon class="dollar-icon" *ngIf="requestData.hasIncentive" src="assets/common/dollar.svg"></ion-icon>
-        <ion-icon class="category-icon" *ngIf="requestData.type=='M'" name="medkit"> </ion-icon>
-        <ion-icon class="category-icon" *ngIf="requestData.type=='G'" name="cart"> </ion-icon>
-        <ion-icon class="category-icon" *ngIf="requestData.type=='O'" name="grid"></ion-icon>
+        <ng-container [ngSwitch]="requestData.type">
+          <ion-icon class="category-icon" *ngSwitchCase="'M'" name="medkit"> </ion-icon>
+          <ion-icon class="category-icon" *ngSwitchCase="'G'" name="cart"> </ion-icon>
+          <ion-icon class="category-icon" *ngSwitchCase="'O'" name="grid"></ion-icon>
+        </ng-container>
         <ion-text [color]="requestStatusSecondaryColor" class="status" [ngSwitch]="requestData.status">
           <ng-container *ngSwitchCase="'P'"> Waiting </ng-container>
           <ng-container *ngSwitchCase="'T'"> On The Way </ng-container>
