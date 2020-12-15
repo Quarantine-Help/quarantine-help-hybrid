@@ -211,7 +211,14 @@ export class CreateRequestPage implements OnInit {
   async presentModal() {
     const modal = await this.modalController.create({
       component: ConfirmModalComponent,
-      cssClass: 'my-custom-class'
+      cssClass: 'my-custom-class',
+      componentProps: {
+        question: 'Would you like to pay off volunteers for this request?',
+        note: '* Its not mandantory, we encourage you to do so if you have urgent needs, that increases response speed. Its promise-based deal, we dont process the payoff',
+        radioLabel: 'Nope',
+        textboxLabel: 'Yes',
+        button: 'finish'
+      }
     });
     return await modal.present();
   }

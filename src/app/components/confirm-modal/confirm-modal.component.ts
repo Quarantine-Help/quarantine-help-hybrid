@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 @Component({
@@ -7,6 +7,11 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./confirm-modal.component.scss'],
 })
 export class ConfirmModalComponent implements OnInit {
+  @Input() question: string;
+  @Input() note: string;
+  @Input() radioLabel: string;
+  @Input() textboxLabel: string;
+  @Input() button: string;
 
   constructor(public modalController: ModalController) { }
 
