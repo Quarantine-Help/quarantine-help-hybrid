@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { CreateRequestPageRoutingModule } from './create-request-routing.module';
 
 import { CreateRequestPage } from './create-request.page';
+import { ConfirmModalComponent } from 'src/app/components/confirm-modal/confirm-modal.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,6 @@ import { CreateRequestPage } from './create-request.page';
     CreateRequestPageRoutingModule,
     ReactiveFormsModule,
   ],
-  declarations: [CreateRequestPage],
+  declarations: [CreateRequestPage, ConfirmModalComponent],
 })
 export class CreateRequestPageModule {}
