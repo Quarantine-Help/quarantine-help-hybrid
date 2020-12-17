@@ -6,7 +6,7 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<ion-content class="ion-padding ion-margin">
+<ion-content class="ion-padding ion-margin-vertical">
   <ion-segment (ionChange)="segmentChanged($event)" value="{{segmentSelected}}">
     <ion-segment-button value="Grocery">
       <ion-icon class="grocery" name="cart-outline"></ion-icon>
@@ -21,7 +21,7 @@
       <ion-label>Others</ion-label>
     </ion-segment-button>
   </ion-segment>
-  <form [formGroup]="requestForm" class="ion-padding-top ion-margin-top">
+  <form [formGroup]="requestForm" class="ion-margin-horizontal">
     <ion-row class="ion-justify-content-center">
       <ion-col size-md="8" size-lg="8" size-xs="12">
         <ion-textarea formControlName="requestMessage" rows="12"
