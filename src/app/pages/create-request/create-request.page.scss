@@ -26,6 +26,10 @@ ion-col ion-button {
   text-transform: none;
 }
 
+ion-segment-button ion-icon {
+  margin-bottom: 10px;
+}
+
 .grocery {
   color: #42b67c;
 }
@@ -36,4 +40,8 @@ ion-col ion-button {
 
 .others {
   color: #8b25a5;
+}
+
+.ion-margin-horizontal {
+  --ion-margin: 32px;
 }
