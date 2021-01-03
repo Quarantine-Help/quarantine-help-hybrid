@@ -21,7 +21,6 @@ export class RequestComponent implements OnInit {
 
 
   ngOnInit() {
-    console.log(this.requestData);
 
     // TODO: Find out about the other statuses - C & F
     this.requestStatusColor = 'primaryAF';
