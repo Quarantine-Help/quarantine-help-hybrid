@@ -106,7 +106,6 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
       this.userType = params.userType;
       this.userThemeColorPrimary =
         this.userType === 'AF' ? 'primaryAF' : 'primaryHL';
-      console.log(this.userType);
     });
 
     this.showPasswordText = false;
