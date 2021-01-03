@@ -18,6 +18,7 @@ export class AboutUsPage implements OnInit {
   userType: UserType;
   authSubs: Subscription;
   userThemeColorPrimary: UserThemeColorPrimary;
+  isLoggedIn: boolean;
 
   constructor(private authService: AuthService) {}
 
@@ -25,12 +26,18 @@ export class AboutUsPage implements OnInit {
     this.userType = defaultUserType;
     this.userThemeColorPrimary = defaultPrimaryColor;
 
+    this.isLoggedIn = false;
+    this.userType = defaultUserType;
+    this.userThemeColorPrimary = defaultPrimaryColor;
+
     this.authSubs = this.authService.user.subscribe((user) => {
       if (user && user.email !== undefined && user.token !== undefined) {
         this.userType = user.type;
+        this.isLoggedIn = true;
         this.userThemeColorPrimary =
           this.userType === 'AF' ? 'primaryAF' : 'primaryHL';
       } else {
+        this.isLoggedIn = false;
         this.userType = defaultUserType;
         this.userThemeColorPrimary = defaultPrimaryColor;
       }

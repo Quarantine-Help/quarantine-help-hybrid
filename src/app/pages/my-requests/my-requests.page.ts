@@ -6,7 +6,10 @@ import { MiscService } from 'src/app/services/misc/misc.service';
 import { CoreAPIService } from 'src/app/services/core-api/core-api.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { UserType } from 'src/app/models/core-api';
-import { defaultUserType } from 'src/app/constants/core-api';
+import {
+  defaultUserType,
+  defaultPrimaryColor,
+} from 'src/app/constants/core-api';
 import {
   UserThemeColorPrimary,
   UserThemeColorSecondary,
@@ -31,24 +34,29 @@ export class MyRequestsPage implements OnInit, OnDestroy {
     private miscService: MiscService,
     private coreAPIService: CoreAPIService,
     private authService: AuthService
-  ) {}
+  ) {
+    this.isLoggedIn = false;
+    this.userType = defaultUserType;
+    this.userThemeColorPrimary = defaultPrimaryColor;
+    console.log(this.userThemeColorPrimary);
+  }
 
   ngOnInit() {
-    this.userType = defaultUserType;
-    this.userThemeColorPrimary =
-      this.userType === 'AF' ? 'primaryAF' : 'primaryHL';
-    this.userThemeColorSecondary =
-      this.userType === 'AF' ? 'secondaryAF' : 'secondaryHL';
-
     this.authSubs = this.authService.user.subscribe((user) => {
       if (user && user.email !== undefined && user.token !== undefined) {
         this.userType = user.type;
         this.isLoggedIn = true;
+        this.userThemeColorPrimary =
+          this.userType === 'AF' ? 'primaryAF' : 'primaryHL';
+        this.userThemeColorSecondary =
+          this.userType === 'AF' ? 'secondaryAF' : 'secondaryHL';
       } else {
-        this.userType = defaultUserType;
         this.isLoggedIn = false;
+        this.userType = defaultUserType;
+        this.userThemeColorPrimary = defaultPrimaryColor;
       }
     });
+
     this.hasOpenRequests = true;
     this.getRequests();
   }

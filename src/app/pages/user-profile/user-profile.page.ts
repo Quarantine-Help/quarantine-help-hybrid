@@ -3,12 +3,16 @@ import { FormControl, Validators, FormGroup } from '@angular/forms';
 
 import { MiscService } from 'src/app/services/misc/misc.service';
 import { CoreAPIService } from 'src/app/services/core-api/core-api.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import {
   UserProfileData,
   UserProfileResponseBody,
+  UserType,
 } from 'src/app/models/core-api';
 import { countryList } from 'src/app/constants/countries';
 import { UserThemeColorPrimary } from 'src/app/models/ui';
+import { defaultPrimaryColor, defaultUserType } from 'src/app/constants/core-api';
+import { Subscription } from 'rxjs';
 
 interface UserProfile {
   firstName: string;
@@ -35,9 +39,13 @@ export class UserProfilePage implements OnInit {
   isoAlphaTwoCode: string;
   filterCountryName: { name: string; isoAlphaTwoCode: string }[];
   userThemeColorPrimary: UserThemeColorPrimary;
+  isLoggedIn: boolean;
+  userType: UserType;
+  authSubs: Subscription;
   constructor(
     private miscService: MiscService,
-    private coreAPIService: CoreAPIService
+    private coreAPIService: CoreAPIService,
+    private authService: AuthService
   ) {
     this.profileForm = new FormGroup({
       firstName: new FormControl('', [Validators.required]),
@@ -58,13 +66,30 @@ export class UserProfilePage implements OnInit {
         Validators.required,
       ]),
     });
-    this.userThemeColorPrimary = 'primaryAF';
   }
 
   ngOnInit() {
     this.isEditable = false;
     this.searchResult = [];
     this.getProfileData();
+
+    this.isLoggedIn = false;
+    this.userType = defaultUserType;
+    this.userThemeColorPrimary = defaultPrimaryColor;
+
+    this.authSubs = this.authService.user.subscribe((user) => {
+      if (user && user.email !== undefined && user.token !== undefined) {
+        this.userType = user.type;
+        this.isLoggedIn = true;
+        this.userThemeColorPrimary =
+          this.userType === 'AF' ? 'primaryAF' : 'primaryHL';
+      } else {
+        this.isLoggedIn = false;
+        this.userType = defaultUserType;
+        this.userThemeColorPrimary = defaultPrimaryColor;
+      }
+    });
+
   }
 
   onEdit() {

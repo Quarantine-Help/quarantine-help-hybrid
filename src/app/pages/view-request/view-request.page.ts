@@ -22,6 +22,7 @@ export class ViewRequestPage implements OnInit, OnDestroy {
   userType: UserType;
   authSubs: Subscription;
   userThemeColorPrimary: UserThemeColorPrimary;
+  isLoggedIn: boolean;
   constructor(
     private router: Router,
     private callNumberService: CallNumberService,
@@ -35,15 +36,18 @@ export class ViewRequestPage implements OnInit, OnDestroy {
     this.requestData = navigation.extras.state;
     this.requestId = navigation.extras.state.id;
 
+    this.isLoggedIn = false;
     this.userType = defaultUserType;
     this.userThemeColorPrimary = defaultPrimaryColor;
 
     this.authSubs = this.authService.user.subscribe((user) => {
       if (user && user.email !== undefined && user.token !== undefined) {
         this.userType = user.type;
+        this.isLoggedIn = true;
         this.userThemeColorPrimary =
           this.userType === 'AF' ? 'primaryAF' : 'primaryHL';
       } else {
+        this.isLoggedIn = false;
         this.userType = defaultUserType;
         this.userThemeColorPrimary = defaultPrimaryColor;
       }
