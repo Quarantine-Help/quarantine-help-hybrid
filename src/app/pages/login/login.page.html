@@ -1,7 +1,7 @@
 <ion-header translucent class="hide-lg hide-xl">
   <ion-row class="ion-padding-start ion-padding-top ion-justify-content-center ion-align-items-center">
     <ion-col size="4" class="ion-padding-end">
-      <ion-img src="assets/icons/icon-2x.png" alt="Quarantine Help Logo"></ion-img>
+      <ion-img src="assets/icons/120X200.png" alt="Quarantine Help Logo"></ion-img>
     </ion-col>
     <ion-col size="8">
       <ion-text color="primary-text" class="menu-header">
@@ -19,7 +19,7 @@
           <ion-col class="ion-align-self-center" size-md="4" size-lg="3" size-xs="10">
             <ion-list>
               <ion-item lines="inset">
-                <ion-label [color]="userThemeColorPrimary" position="floating">Email Id</ion-label>
+                <ion-label color="dark" position="floating">Email Id</ion-label>
                 <ion-input type="email" formControlName="email" required></ion-input>
               </ion-item>
               <ion-item lines="none" class="formInvalid"
@@ -32,7 +32,7 @@
                 </div>
               </ion-item>
               <ion-item lines="inset">
-                <ion-label [color]="userThemeColorPrimary" position="floating">Password</ion-label>
+                <ion-label color="dark" position="floating">Password</ion-label>
                 <ion-input clearOnEdit="false" [type]="passwordIcon === 'eye'? 'password':'text' "
                   formControlName="password" required>
                 </ion-input>

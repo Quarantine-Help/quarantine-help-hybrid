@@ -4,7 +4,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="ion-padding ion-margin">
   <ion-item *ngIf="userType === 'AF'" class="ion-padding-vertical" lines="none">
     <ion-grid>
       <ion-row class="ion-justify-content-center">
@@ -12,9 +12,9 @@
           <h4 class="ion-padding-horizontal"> Need help? </h4>
         </ion-text>
       </ion-row>
-      <ion-button class="create-button" (click)="createNewReq()" [color]="userThemeColorSecondary" fill="solid" shape="round" expand="block"
-        size="large">
-         Create new request
+      <ion-button class="create-button" (click)="createNewReq()" [color]="userThemeColorSecondary" fill="solid"
+        shape="round" expand="block" size="default">
+        Create new request
       </ion-button>
     </ion-grid>
   </ion-item>
@@ -28,7 +28,7 @@
   </ion-segment>
   <ng-container *ngFor="let item of allRequests" class="ion-padding-top">
     <app-request [requestData]="item" (requestOpened)="onRequestOpened(item)"
-      *ngIf="(isOpenRequests && (item.status=='P' || item.status=='T')) || (!isOpenRequests && (item.status=='C' || item.status=='F'))">
+      *ngIf="(hasOpenRequests && (item.status=='P' || item.status=='T')) || (!hasOpenRequests && (item.status=='C' || item.status=='F'))">
     </app-request>
   </ng-container>
 </ion-content>

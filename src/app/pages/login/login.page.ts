@@ -61,8 +61,12 @@ export class LoginPage implements OnInit, OnDestroy {
   ngOnInit() {
     // TODO - remove on actual release
     this.pageClean = false;
+    // AF User
     this.loginForm.controls.email.setValue('testuser1@patient.com');
     this.loginForm.controls.password.setValue('testuser1');
+    // HL user
+    // this.loginForm.controls.email.setValue('testuser4@patient.com');
+    // this.loginForm.controls.password.setValue('testuser4');
 
     this.loginSubs = this.loginForm.valueChanges.subscribe((change) => {
       this.pageClean = false;
