@@ -310,10 +310,10 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
             // Inform user if there are no nearby requests
             if (result.body.count === 0) {
               this.miscService.presentAlert({
-                header: 'Info',
-                subHeader: 'No nearby requests.',
+                header: 'Welcome volunteer',
+                subHeader: null,
                 message:
-                  'We are unable to find any requests nearby. Please relax the search criteria.',
+                  'There are no requests nearby at the moment. Please use advanced search filters or Chill out, and stay with us 😃',
                 buttons: ['Ok'],
               });
             } else {

@@ -8,21 +8,23 @@ import { HEREMapService } from 'src/app/shared/services/HERE-map/here-map.servic
   styleUrls: ['./search-filter.component.scss'],
 })
 export class SearchFilterComponent implements OnInit {
-  @Input() showMenuToggleIcon: boolean;
   @Input() lat: number;
   @Input() lng: number;
   @Output() filter = new EventEmitter();
   @Output() searchResults = new EventEmitter();
   @Output() closeSearch = new EventEmitter();
   searchQuery: string;
+  isFilterEnabled: boolean;
   constructor(private hereMapService: HEREMapService) {}
 
   ngOnInit() {
+    this.isFilterEnabled = false;
     const location = { lat: this.lat, lng: this.lng };
   }
 
   toggleFiltering() {
     this.filter.emit();
+    this.isFilterEnabled = !this.isFilterEnabled;
   }
 
   handleOnBlur() {

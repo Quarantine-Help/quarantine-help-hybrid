@@ -10,35 +10,25 @@
  */
 
 /* Core CSS required for Ionic components to work properly */
-@import "~@ionic/angular/css/core.css";
+@import '~@ionic/angular/css/core.css';
 
 /* Basic CSS for apps built with Ionic */
-@import "~@ionic/angular/css/normalize.css";
-@import "~@ionic/angular/css/structure.css";
-@import "~@ionic/angular/css/typography.css";
+@import '~@ionic/angular/css/normalize.css';
+@import '~@ionic/angular/css/structure.css';
+@import '~@ionic/angular/css/typography.css';
 @import '~@ionic/angular/css/display.css';
 
 /* Optional CSS utils that can be commented out */
-@import "~@ionic/angular/css/padding.css";
-@import "~@ionic/angular/css/float-elements.css";
-@import "~@ionic/angular/css/text-alignment.css";
-@import "~@ionic/angular/css/text-transformation.css";
-@import "~@ionic/angular/css/flex-utils.css";
+@import '~@ionic/angular/css/padding.css';
+@import '~@ionic/angular/css/float-elements.css';
+@import '~@ionic/angular/css/text-alignment.css';
+@import '~@ionic/angular/css/text-transformation.css';
+@import '~@ionic/angular/css/flex-utils.css';
 
 .toast-service-class {
   align-items: center;
   text-align: center;
   backdrop-filter: blur(2px);
-}
-
-/* 
- Missing CSS variable border-radius for ion-searchbar
- https://github.com/ionic-team/ionic/issues/18247
- */
-ion-searchbar {
-  input {
-    border-radius: 10px !important;
-  }
 }
 
 .ion-color-primary-text {
@@ -71,35 +61,35 @@ ion-searchbar {
 
 /* responsive helper classes to hide content */
 //xs devices
-@media (max-width:576px) {
+@media (max-width: 576px) {
   .hide-xs {
     display: none;
   }
 }
 
 //sm devices
-@media (min-width:576px) and (max-width:768px) {
+@media (min-width: 576px) and (max-width: 768px) {
   .hide-sm {
     display: none;
   }
 }
 
 //md devices
-@media (min-width:768px) and (max-width:992px) {
+@media (min-width: 768px) and (max-width: 992px) {
   .hide-md {
     display: none;
   }
 }
 
 //lg devices
-@media (min-width:992px) and (max-width:1200px) {
+@media (min-width: 992px) and (max-width: 1200px) {
   .hide-lg {
     display: none;
   }
 }
 
 // xl devices
-@media (min-width:1200px) {
+@media (min-width: 1200px) {
   .hide-xl {
     display: none;
   }

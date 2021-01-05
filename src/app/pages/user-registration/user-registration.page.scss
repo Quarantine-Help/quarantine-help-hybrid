@@ -1,5 +1,5 @@
 // md upto lg devices
-@media (min-width:768px) {
+@media (min-width: 768px) {
   ion-img {
     max-width: 50vw;
     max-height: 200px;
@@ -7,7 +7,7 @@
 }
 
 // xl and above devices
-@media (min-width:1200px) {
+@media (min-width: 1200px) {
   ion-toolbar {
     height: 15vh;
   }
@@ -44,4 +44,8 @@ ion-list {
   padding-bottom: var(--ion-padding, 8px);
   padding-top: var(--ion-padding, 8px);
   line-height: 1.6;
+}
+
+ion-searchbar {
+  --border-radius: 10px;
 }
