@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { DecimalPipe } from '@angular/common';
 
-import { SearchFilters, Categories } from 'src/app/models/here-map';
+import { SearchFilters, Category } from 'src/app/models/here-map';
 import { UserThemeColorPrimary } from 'src/app/models/ui';
 
 @Component({
@@ -18,14 +17,14 @@ export class MapFilterComponent implements OnInit {
   defaultDistance: number;
   showOptions: boolean;
   showClearFilter: boolean;
-  category: Categories;
+  categories: Category[];
   userThemeColorPrimary: UserThemeColorPrimary;
   constructor() {
     this.defaultDistance = 5;
     this.distance = this.defaultDistance; // default search radius in kilometers.
     this.showOptions = true;
     this.showClearFilter = false;
-    this.category = 'all';
+    this.categories = ['all'];
     this.userThemeColorPrimary = 'primaryAF';
   }
 
@@ -33,7 +32,10 @@ export class MapFilterComponent implements OnInit {
 
   // Show/hide filter options.
   toggleOptions() {
-    if (this.distance === this.defaultDistance && this.category === 'all') {
+    if (
+      this.distance === this.defaultDistance &&
+      this.categories.includes('all')
+    ) {
       setTimeout(() => {
         this.showClearFilter = false;
       }, 200);
@@ -43,7 +45,7 @@ export class MapFilterComponent implements OnInit {
 
   // Clears the category and distance filters to default value
   clearFilters() {
-    this.category = 'all';
+    this.categories = ['all'];
     // If the distance slider was used, we need to reset it, taking into consideration the additional change event.
     if (this.distance !== this.defaultDistance) {
       this.distance = 5;
@@ -61,27 +63,49 @@ export class MapFilterComponent implements OnInit {
   }
 
   // Select the category and show the clear filters button.
-  selectCategory(category: Categories) {
+  selectCategory(category: Category) {
+    const hasOther = this.categories.includes('other');
+    const hasMedicine = this.categories.includes('medicine');
+    const hasGrocery = this.categories.includes('grocery');
+
     switch (category) {
       case 'all': {
-        this.category = 'all';
+        this.categories = ['all'];
         break;
       }
       case 'grocery': {
-        // Toggle all, if medicine was already selected
-        if (this.category === 'medicine') {
-          this.category = 'all';
+        // Toggle all, if medicine and other was already selected
+        if (hasMedicine && hasOther) {
+          this.categories = ['all'];
         } else {
-          this.category = 'grocery';
+          if (this.categories.includes('all')) {
+            this.categories.splice(this.categories.indexOf('all'), 1);
+          }
+          this.categories.push('grocery');
         }
         break;
       }
       case 'medicine': {
-        // Toggle all, if medicine was already selected
-        if (this.category === 'grocery') {
-          this.category = 'all';
+        // Toggle all, if grocery and other was already selected
+        if (hasGrocery && hasOther) {
+          this.categories = ['all'];
         } else {
-          this.category = 'medicine';
+          if (this.categories.includes('all')) {
+            this.categories.splice(this.categories.indexOf('all'), 1);
+          }
+          this.categories.push('medicine');
+        }
+        break;
+      }
+      case 'other': {
+        // Toggle all, if medicine & grocery was already selected
+        if (hasGrocery && hasMedicine) {
+          this.categories = ['all'];
+        } else {
+          if (this.categories.includes('all')) {
+            this.categories.splice(this.categories.indexOf('all'), 1);
+          }
+          this.categories.push('other');
         }
         break;
       }
@@ -93,7 +117,7 @@ export class MapFilterComponent implements OnInit {
     this.showOptions = false;
     this.filtersApplied.emit({
       distance: this.distance,
-      category: this.category,
+      categories: this.categories,
     });
   }
 }

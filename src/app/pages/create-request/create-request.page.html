@@ -1,7 +1,7 @@
 <ion-header translucent class="hide-lg hide-xl">
   <ion-toolbar fixed [color]="userThemeColorPrimary">
     <ion-buttons slot="start">
-      <ion-back-button icon="add"></ion-back-button>
+      <ion-back-button icon="chevron-back" defaultHref="/my-requests"></ion-back-button>
       <ion-title> Create New Request </ion-title>
     </ion-buttons>
   </ion-toolbar>
@@ -9,15 +9,15 @@
 <ion-content class="ion-padding ion-margin-vertical">
   <ion-segment (ionChange)="segmentChanged($event)" value="{{segmentSelected}}">
     <ion-segment-button value="Grocery">
-      <ion-icon class="grocery" name="cart-outline"></ion-icon>
+      <ion-icon class="grocery" src="assets/common/grocery.svg" name="cart-outline"></ion-icon>
       <ion-label>Grocery</ion-label>
     </ion-segment-button>
     <ion-segment-button value="Medicine">
-      <ion-icon class="medicine" name="medkit-outline"></ion-icon>
+      <ion-icon class="medicine" src="assets/common/medicine.svg"></ion-icon>
       <ion-label>Medicine</ion-label>
     </ion-segment-button>
     <ion-segment-button value="Others">
-      <ion-icon class="others" name="grid"></ion-icon>
+      <ion-icon class="others" src="assets/common/other.svg"></ion-icon>
       <ion-label>Others</ion-label>
     </ion-segment-button>
   </ion-segment>
@@ -61,10 +61,10 @@
 </ion-content>
 <ion-footer>
   <ion-row class="ion-justify-content-center ion-padding-vertical">
-    <ion-col size-md="4" size-lg="3" size-xs="8">
+    <ion-col size-md="4" size-lg="3" size-xs="6">
       <ion-button (click)="submitRequest()" [disabled]="requestForm.invalid" [color]="userThemeColorSecondary"
         shape="round" expand="full" size="default">
-        continue
+        Continue
       </ion-button>
     </ion-col>
   </ion-row>

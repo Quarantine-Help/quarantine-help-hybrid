@@ -21,11 +21,7 @@ import {
   NearbyParticipantsResponse,
   NearbyParticipant,
 } from '../../models/core-api';
-import {
-  RequestTypes,
-  SearchFilters,
-  Categories,
-} from 'src/app/models/here-map';
+import { RequestTypes, SearchFilters, Category } from 'src/app/models/here-map';
 import {
   defaultUserType,
   defaultPrimaryColor,
@@ -39,6 +35,8 @@ declare var H: any;
   styleUrls: ['quarantine-map.scss'],
 })
 export class QuarantineMapPage implements OnInit, AfterViewInit {
+  @ViewChild('mapContainer', { static: true }) mapElement: ElementRef;
+
   private HEREMapsPlatform: any;
   private HEREMapObj: any;
   private HEREMapUI: any;
@@ -49,18 +47,18 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
   private markerGroup: any;
   private groceryIcon: any;
   private medicalIcon: any;
+  private otherIcon: any;
+  private allIcon: any;
   showSearchResults: boolean;
   addressSearchResults: string[];
 
   currentLocation: LatLng = undefined;
-  @ViewChild('mapContainer', { static: true }) mapElement: ElementRef;
   loadingAniHEREMap: HTMLIonLoadingElement;
   loadingAniNearbyParticipants: HTMLIonLoadingElement;
   loadingAniGPSData: HTMLIonLoadingElement;
   toastElement: Promise<void>;
   showFiltering: boolean;
   filters: SearchFilters;
-  allIcon: any;
   userThemeColorPrimary: UserThemeColorPrimary;
   isLoggedIn: boolean;
   userType: string;
@@ -75,7 +73,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
   ) {
     this.filters = {
       distance: 5,
-      category: 'all',
+      categories: ['all'],
     };
     this.showFiltering = false;
     this.showSearchResults = false;
@@ -111,6 +109,9 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
       size: { w: 56, h: 56 },
     });
     this.groceryIcon = new H.map.Icon('assets/common/groceryIcon.svg', {
+      size: { w: 56, h: 56 },
+    });
+    this.otherIcon = new H.map.Icon('assets/common/otherIcon.svg', {
       size: { w: 56, h: 56 },
     });
     this.allIcon = new H.map.Icon('assets/common/allIcon.svg', {
@@ -184,7 +185,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
         this.getNearbyParticipants(
           this.filters.distance,
           this.currentLocation,
-          this.filters.category
+          this.filters.categories
         );
         this.HEREMapObj.setCenter(this.currentLocation, true);
       })
@@ -274,7 +275,11 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
   }
 
   // TODO - refactor
-  getNearbyParticipants(radius: number, latlng: LatLng, category: Categories) {
+  getNearbyParticipants(
+    radius: number,
+    latlng: LatLng,
+    categories: Category[]
+  ) {
     // Removes all markers, marker group and event listeners.
     this.markers.forEach((marker) => {
       marker.dispose();
@@ -284,10 +289,12 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
 
     // create a RequestTypes string value for query param, as per API requirements.
     let requestType: RequestTypes;
-    if (category === 'grocery') {
+    if (categories.includes('grocery')) {
       requestType = 'G';
-    } else if (category === 'medicine') {
+    } else if (categories.includes('medicine')) {
       requestType = 'M';
+    } else if (categories.includes('other')) {
+      requestType = 'O';
     }
 
     this.miscService
@@ -333,13 +340,18 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
       const isMedicineRequest = participant.requests.some(
         (request) => request.type === 'M'
       );
+      const isOtherRequest = participant.requests.some(
+        (request) => request.type === 'O'
+      );
       let markerIcon;
       if (isGroceryRequest && isMedicineRequest) {
         markerIcon = { icon: this.allIcon };
       } else if (isGroceryRequest) {
         markerIcon = { icon: this.groceryIcon };
-      } else {
+      } else if (isMedicineRequest) {
         markerIcon = { icon: this.medicalIcon };
+      } else if (isOtherRequest) {
+        markerIcon = { icon: this.otherIcon };
       }
 
       const markerData: RequestView = {
@@ -440,7 +452,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
     this.getNearbyParticipants(
       this.filters.distance,
       this.HEREMapObj.getCenter(), // When using the search filters, use current map center to query.
-      this.filters.category
+      this.filters.categories
     );
   }
 

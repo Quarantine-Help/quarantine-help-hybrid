@@ -14,16 +14,20 @@
         Filter requests by categories
       </ion-list-header>
       <ion-item class="ion-margin-start ion-align-items-center ios-padding-top" id="category" lines="none">
-        <ion-chip [ngClass]="category === 'all' ? 'selected-chip':''" (click)="selectCategory('all')">
+        <ion-chip [ngClass]="categories.includes('all') ? 'selected-chip':''" (click)="selectCategory('all')">
           <ion-label>All</ion-label>
         </ion-chip>
-        <ion-chip [ngClass]="category === 'medicine'? 'selected-chip':''" (click)="selectCategory('medicine')">
-          <ion-icon name="medkit" [color]="category === 'medicine'? 'light': 'dark'"></ion-icon>
+        <ion-chip [ngClass]="categories.includes('medicine')? 'selected-chip':''" (click)="selectCategory('medicine')">
+          <ion-icon name="medkit" [color]="categories.includes('medicine')? 'light': 'dark'"></ion-icon>
           <ion-label>Medicine</ion-label>
         </ion-chip>
-        <ion-chip [ngClass]="category === 'grocery'? 'selected-chip':''" (click)="selectCategory('grocery')">
-          <ion-icon name="fast-food" [color]="category === 'grocery'? 'light': 'dark'"></ion-icon>
+        <ion-chip [ngClass]="categories.includes('grocery')?'selected-chip':''" (click)="selectCategory('grocery')">
+          <ion-icon name="fast-food" [color]="categories.includes('grocery') ? 'light': 'dark'"></ion-icon>
           <ion-label>Grocery</ion-label>
+        </ion-chip>
+        <ion-chip [ngClass]="categories.includes('other') ? 'selected-chip':''" (click)="selectCategory('other')">
+          <ion-icon name="grid" [color]="categories.includes('other') ? 'light': 'dark'"></ion-icon>
+          <ion-label>Other</ion-label>
         </ion-chip>
       </ion-item>
       <ion-list-header class="ion-padding-start ion-margin-start ion-padding-end ion-margin-end">
