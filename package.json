@@ -74,7 +74,7 @@
   "description": "A hybrid mobile frontend for the QuarantineHelp project.",
   "husky": {
     "hooks": {
-      "pre-commit": "ng lint --format stylish",
+      "pre-commit": "ng lint --format stylish && pretty-quick --staged",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   }

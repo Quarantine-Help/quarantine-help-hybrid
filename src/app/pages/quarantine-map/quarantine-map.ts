@@ -49,6 +49,8 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
   private markerGroup: any;
   private groceryIcon: any;
   private medicalIcon: any;
+  showSearchResults: boolean;
+  addressSearchResults: string[];
 
   currentLocation: LatLng = undefined;
   @ViewChild('mapContainer', { static: true }) mapElement: ElementRef;
@@ -76,6 +78,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
       category: 'all',
     };
     this.showFiltering = false;
+    this.showSearchResults = false;
     this.isLoggedIn = false;
   }
 
@@ -131,16 +134,6 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
       .catch((error) => alert(error));
   }
 
-  // Show/hide the map-filter component.
-  toggleFiltering() {
-    this.showFiltering = !this.showFiltering;
-    if (this.showFiltering) {
-      this.HEREMapObj.getViewPort().setPadding(50, 50, 120, 100);
-    } else {
-      this.HEREMapObj.getViewPort().setPadding(50, 50, 50, 100);
-    }
-  }
-
   // TODO
   exitApp() {
     console.error('exitApp not implemented.');
@@ -193,7 +186,6 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
           this.currentLocation,
           this.filters.category
         );
-
         this.HEREMapObj.setCenter(this.currentLocation, true);
       })
       .catch((error) => {
@@ -247,12 +239,12 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
     this.defaultLayers = this.HEREMapsPlatform.createDefaultLayers();
 
     // Instantiate (and display) a map object:
-    const MAX_ZOOM_LEVEL = 21;
+    const INIT_ZOOM_LEVEL = 15;
     this.HEREMapObj = new H.Map(
       this.mapElement.nativeElement,
       this.defaultLayers.vector.normal.map,
       {
-        zoom: MAX_ZOOM_LEVEL,
+        zoom: INIT_ZOOM_LEVEL,
         padding: { top: 50, left: 50, bottom: 50, right: 100 },
       }
     );
@@ -279,16 +271,6 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
     this.HEREmapEvents = new H.mapevents.MapEvents(this.HEREMapObj);
     // Instantiate the default behavior on the map events
     this.mapEventsBehavior = new H.mapevents.Behavior(this.HEREmapEvents);
-  }
-
-  // Apply the filters from the filter component and call the API..
-  onFiltersApplied(filters: SearchFilters) {
-    this.filters = filters;
-    this.getNearbyParticipants(
-      this.filters.distance,
-      this.HEREMapObj.getCenter(), // When using the search filters, use current map center to query.
-      this.filters.category
-    );
   }
 
   // TODO - refactor
@@ -440,5 +422,38 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
       lat: Math.abs(coordinates.lat.toFixed(4)),
       lng: Math.abs(coordinates.lng.toFixed(4)),
     };
+  }
+
+  // Show/hide the map-filter component.
+  toggleFiltering() {
+    this.showFiltering = !this.showFiltering;
+    if (this.showFiltering) {
+      this.HEREMapObj.getViewPort().setPadding(50, 50, 120, 100);
+    } else {
+      this.HEREMapObj.getViewPort().setPadding(50, 50, 50, 100);
+    }
+  }
+
+  // Apply the filters from the filter component and call the API.
+  onFiltersApplied(filters: SearchFilters) {
+    this.filters = filters;
+    this.getNearbyParticipants(
+      this.filters.distance,
+      this.HEREMapObj.getCenter(), // When using the search filters, use current map center to query.
+      this.filters.category
+    );
+  }
+
+  handleSearchResults(results) {
+    console.log('handleSearchResults - qh map page', results);
+    if (results.length > 0) {
+      this.showSearchResults = true;
+      this.addressSearchResults = results;
+    }
+  }
+
+  handleSearchClose() {
+    this.showSearchResults = false;
+    this.addressSearchResults = [];
   }
 }

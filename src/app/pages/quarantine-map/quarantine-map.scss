@@ -17,4 +17,8 @@ map-filter, app-footer-nav {
   width: 100%;
   top: 10vh;
   z-index: 1;
+
+  ion-toolbar {
+    border-radius: 18px;
+  }
 }

@@ -1,0 +1,9 @@
+<ng-container *ngIf="show">
+  <ion-list>
+    <ion-item *ngFor="let address of searchResults" button detail lines="inset" (click)="handleAddressSelect(address)">
+      <ion-label>
+        {{ address.title }}
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ng-container>
