@@ -4,10 +4,10 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { UserType } from 'src/app/models/core-api';
-import { GeoLocationService } from 'src/app/services/geo-location/geo-location.service';
-import { MiscService } from 'src/app/services/misc/misc.service';
-import { HEREMapService } from 'src/app/services/HERE-map/here-map.service';
-import { AuthService } from 'src/app/services/auth/auth.service';
+import { GeoLocationService } from 'src/app/shared/services/geo-location/geo-location.service';
+import { MiscService } from 'src/app/shared/services/misc/misc.service';
+import { HEREMapService } from 'src/app/shared/services/HERE-map/here-map.service';
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { LatLng } from '../../models/geo';
 import { UserRegData, UserRegResponse } from 'src/app/models/auth';
 import {

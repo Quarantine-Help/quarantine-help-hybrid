@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { PickerController } from '@ionic/angular';
 import { PickerOptions } from '@ionic/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
-import { CoreAPIService } from 'src/app/services/core-api/core-api.service';
-import { MiscService } from 'src/app/services/misc/misc.service';
+import { CoreAPIService } from 'src/app/shared/services/core-api/core-api.service';
+import { MiscService } from 'src/app/shared/services/misc/misc.service';
 import { UserThemeColorPrimary, UserThemeColorSecondary } from 'src/app/models/ui';
 
 @Component({

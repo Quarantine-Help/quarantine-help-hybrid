@@ -3,7 +3,7 @@ import { RouterEvent, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { UserType } from 'src/app/models/core-api';
-import { AuthService } from 'src/app/services/auth/auth.service';
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { UserThemeColorPrimary } from 'src/app/models/ui';
 import {
   defaultUserType,

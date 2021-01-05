@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IonSlides } from '@ionic/angular';
 import { Router } from '@angular/router';
 
-import { StorageService } from 'src/app/services/storage/storage.service';
+import { StorageService } from 'src/app/shared/services/storage/storage.service';
 import { StorageKeys } from 'src/app/constants/core-api';
 
 @Component({

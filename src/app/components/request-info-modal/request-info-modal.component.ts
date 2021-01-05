@@ -3,8 +3,8 @@ import { ModalController } from '@ionic/angular';
 
 import { LatLng } from 'src/app/models/geo';
 import { RequestView, UserThemeColorPrimary } from 'src/app/models/ui';
-import { CoreAPIService } from 'src/app/services/core-api/core-api.service';
-import { MiscService } from 'src/app/services/misc/misc.service';
+import { CoreAPIService } from 'src/app/shared/services/core-api/core-api.service';
+import { MiscService } from 'src/app/shared/services/misc/misc.service';
 
 @Component({
   selector: 'app-request-info-modal',

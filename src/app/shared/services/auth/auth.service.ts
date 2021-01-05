@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 import {
   LoginUserCred,
   LoginResponse,
   UserRegData,
   UserDataObservableType,
-} from '../../models/auth';
-import { UserType } from '../../models/core-api';
+} from '../../../models/auth';
+import { UserType } from '../../../models/core-api';
 import { CommonHTTPService } from '../common-http/common-http.service';
-import { StorageService } from 'src/app/services/storage/storage.service';
+import { StorageService } from 'src/app/shared/services/storage/storage.service';
 import { StorageKeys } from 'src/app/constants/core-api';
 
 @Injectable({

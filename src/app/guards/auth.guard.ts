@@ -10,8 +10,8 @@ import {
 import { Observable } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 
-import { AuthService } from '../services/auth/auth.service';
-import { MiscService } from '../services/misc/misc.service';
+import { AuthService } from '../shared/services/auth/auth.service';
+import { MiscService } from '../shared/services/misc/misc.service';
 
 @Injectable({
   providedIn: 'root',

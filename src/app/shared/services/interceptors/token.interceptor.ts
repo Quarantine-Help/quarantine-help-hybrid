@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',

@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Plugins, StatusBarStyle } from '@capacitor/core';
 import { Router } from '@angular/router';
+const { StatusBar, SplashScreen } = Plugins;
 
 import { StorageKeys } from './constants/core-api';
-import { StorageService } from './services/storage/storage.service';
+import { StorageService } from './shared/services/storage/storage.service';
 import { UserType } from './models/core-api';
-const { StatusBar, SplashScreen } = Plugins;
 
 @Component({
   selector: 'app-root',

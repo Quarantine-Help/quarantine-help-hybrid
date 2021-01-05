@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CommonHTTPService } from '../common-http/common-http.service';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
