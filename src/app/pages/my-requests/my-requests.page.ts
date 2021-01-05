@@ -2,11 +2,18 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { MiscService } from 'src/app/services/misc/misc.service';
-import { CoreAPIService } from 'src/app/services/core-api/core-api.service';
-import { AuthService } from 'src/app/services/auth/auth.service';
+import { MiscService } from 'src/app/shared/services/misc/misc.service';
+import { CoreAPIService } from 'src/app/shared/services/core-api/core-api.service';
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { UserType } from 'src/app/models/core-api';
-import { defaultUserType } from 'src/app/constants/core-api';
+import {
+  defaultUserType,
+  defaultPrimaryColor,
+} from 'src/app/constants/core-api';
+import {
+  UserThemeColorPrimary,
+  UserThemeColorSecondary,
+} from 'src/app/models/ui';
 
 @Component({
   selector: 'app-my-requests',
@@ -15,32 +22,49 @@ import { defaultUserType } from 'src/app/constants/core-api';
 })
 export class MyRequestsPage implements OnInit, OnDestroy {
   loadingData: HTMLIonLoadingElement;
-  isOpenRequests: boolean;
+  hasOpenRequests: boolean;
   allRequests: any;
   userType: UserType;
   authSubs: Subscription;
+  userThemeColorPrimary: UserThemeColorPrimary;
+  userThemeColorSecondary: UserThemeColorSecondary;
+  isLoggedIn: boolean;
   constructor(
     private router: Router,
     private miscService: MiscService,
     private coreAPIService: CoreAPIService,
     private authService: AuthService
-  ) {}
+  ) {
+    this.isLoggedIn = false;
+    this.userType = defaultUserType;
+    this.userThemeColorPrimary = defaultPrimaryColor;
+    console.log(this.userThemeColorPrimary);
+  }
 
   ngOnInit() {
-    this.isOpenRequests = true;
-    this.getRequests();
-
     this.authSubs = this.authService.user.subscribe((user) => {
       if (user && user.email !== undefined && user.token !== undefined) {
         this.userType = user.type;
+        this.isLoggedIn = true;
+        this.userThemeColorPrimary =
+          this.userType === 'AF' ? 'primaryAF' : 'primaryHL';
+        this.userThemeColorSecondary =
+          this.userType === 'AF' ? 'secondaryAF' : 'secondaryHL';
       } else {
+        this.isLoggedIn = false;
         this.userType = defaultUserType;
+        this.userThemeColorPrimary = defaultPrimaryColor;
       }
     });
+
+    this.hasOpenRequests = true;
+    this.getRequests();
   }
 
   ngOnDestroy() {
-    this.authSubs.unsubscribe();
+    if (this.authSubs) {
+      this.authSubs.unsubscribe();
+    }
   }
 
   createNewReq() {
@@ -57,9 +81,9 @@ export class MyRequestsPage implements OnInit, OnDestroy {
 
   segmentChanged(e) {
     if (e.detail.value === 'Open Requests') {
-      this.isOpenRequests = true;
+      this.hasOpenRequests = true;
     } else if (e.detail.value === 'Closed Requests') {
-      this.isOpenRequests = false;
+      this.hasOpenRequests = false;
     }
   }
 

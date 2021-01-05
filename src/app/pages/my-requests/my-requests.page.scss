@@ -1,3 +1,49 @@
+ion-content {
+  --padding-top: 5vmin;
+  --padding-bottom: 5vmin;
+  --padding-start: 8vmin;
+  --padding-end: 8vmin;
+}
+
+ion-button {
+  height: 6vh;
+  font-size: medium;
+}
+
+ion-icon {
+  zoom: 2;
+}
+
+ion-title {
+  font-weight: 700;
+  font-size: 1.375 rem;
+}
+
+span.request-row {
+  display: flex;
+}
+
+ion-segment-button {
+  --background-checked: var(--ion-color-dark);
+  --color-checked: #ffffff;
+  --color: var(--ion-color-dark);
+  --border-color: var(--ion-color-dark);
+  --border-style: solid;
+  --border-width: 1px;
+  --margin-top: 0;
+  --margin-bottom: 0;
+  align-items: center;
+}
+
+app-footer-nav {
+  z-index: 2;
+}
+
+.create-button {
+  text-transform: none;
+  --box-shadow: #00000029 0px 3px 6px;
+}
+
 // md upto lg devices
 @media (min-width: 768px) {
   ion-img {
@@ -16,12 +62,4 @@
     max-width: 25vw;
     max-height: 12vh;
   }
-}
-
-ion-icon {
-  zoom: 2;
-}
-
-span.request-row {
-  display: flex;
 }

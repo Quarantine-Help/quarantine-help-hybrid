@@ -1,0 +1,53 @@
+ion-button {
+  --box-shadow: 0px 3px 6px #00000029;
+  font-size: medium;
+}
+
+ion-grid {
+  display: flex;
+  flex-direction: row;
+}
+
+ion-button {
+  text-transform: none;
+}
+
+.logo1 {
+  background-color: salmon;
+  width: 15vw;
+}
+
+.logo2 {
+  background-color: #c7ceea;
+  width: 15vw;
+}
+
+.qh-logo {
+  width: 20vw;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.footer-icon {
+  width: 17vw;
+  height: auto;
+}
+
+.about-us {
+  margin-left: auto;
+  margin-right: 10vw;
+}
+
+// TODO: Replace with Stepped Colors
+.text-color {
+  color: #5d5d5d;
+}
+
+* {
+  --padding-top: 0.8vh;
+  --padding-start: 0.8vh;
+  --padding-end: 0.8vh;
+  --padding-bottom: 0.8vh;
+}

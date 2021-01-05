@@ -1,10 +1,10 @@
 <ion-header translucent>
   <ion-row class="ion-padding-start ion-padding-top ion-justify-content-center ion-align-items-center">
     <ion-col size="4" class="ion-padding-end">
-      <ion-img src="assets/icons/favicon.png"></ion-img>
+      <ion-img src="assets/icons/120X200.png"></ion-img>
     </ion-col>
     <ion-col size="8">
-      <ion-text color="primary" class="menu-header">
+      <ion-text [color]="userThemeColorPrimary" class="menu-header">
         <h3>Quarantine Help</h3>
       </ion-text>
     </ion-col>
@@ -22,13 +22,13 @@
     <ion-menu-toggle auto-hide="false" *ngFor="let page of permittedPages">
       <ion-item [routerLink]="page.path" routerDirection="root" [class.active-menu]="activePath === page.path"
         class="menu-item ion-justify-content-center ion-align-items-center">
-        <ion-icon color="primary" [name]="page.icon" slot="start"></ion-icon>
+        <ion-icon [color]="userThemeColorPrimary" [name]="page.icon" slot="start"></ion-icon>
         <ion-label>{{ page.name }}</ion-label>
       </ion-item>
     </ion-menu-toggle>
     <ion-menu-toggle auto-hide="false">
       <ion-item button="true" class="menu-item ion-justify-content-center ion-align-items-center" (click)="authAction()">
-        <ion-icon color="primary" [name]="isLoggedIn ? 'exit':'enter'" slot="start"></ion-icon>
+        <ion-icon [color]="userThemeColorPrimary" [name]="isLoggedIn ? 'exit':'enter'" slot="start"></ion-icon>
         <ion-label>{{ isLoggedIn? 'Logout':'Login' }}</ion-label>
       </ion-item>
     </ion-menu-toggle>
@@ -39,7 +39,7 @@
   <ion-row class="ion-padding ion-justify-content-center ion-align-items-center">
     <ion-col>
       <ion-menu-toggle>
-        <ion-button color="primary" fill="solid" expand="block" shape="round" size="default">Close</ion-button>
+        <ion-button [color]="userThemeColorPrimary" fill="solid" expand="block" shape="round" size="default">Close</ion-button>
       </ion-menu-toggle>
     </ion-col>
   </ion-row>

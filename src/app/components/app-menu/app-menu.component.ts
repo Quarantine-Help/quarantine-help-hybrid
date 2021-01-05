@@ -1,10 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterEvent, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { SubjectSubscriber } from 'rxjs/internal/Subject';
 
 import { UserType } from 'src/app/models/core-api';
-import { AuthService } from 'src/app/services/auth/auth.service';
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
+import { UserThemeColorPrimary } from 'src/app/models/ui';
+import {
+  defaultUserType,
+  defaultPrimaryColor,
+} from 'src/app/constants/core-api';
 
 type Language = 'en' | 'de';
 @Component({
@@ -31,6 +35,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean;
   authSubs: Subscription;
   userType: UserType | '';
+  userThemeColorPrimary: UserThemeColorPrimary;
   constructor(private router: Router, private authService: AuthService) {
     this.languages = [
       { name: 'English', value: 'en' },
@@ -67,6 +72,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         expectedRoles: ['HL', 'AF', 'AU', 'TP'], // must correspond to the routes in routing module
       },
     ];
+    this.userThemeColorPrimary = defaultPrimaryColor;
   }
 
   ngOnInit() {
@@ -86,7 +92,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         });
       } else {
         this.isLoggedIn = false;
-        this.userType = '';
+        this.userType = defaultUserType;
       }
     });
 
@@ -110,6 +116,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   }
 
   authAction() {
+    console.log('Log out clicked');
     if (this.isLoggedIn) {
       this.authService.logOutUser().then(() => {
         this.router.navigateByUrl('/login');

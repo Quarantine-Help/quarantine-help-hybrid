@@ -8,13 +8,13 @@ ion-searchbar {
   --background: var(--ion-color-light);
 }
 
+map-filter, app-footer-nav {
+  z-index: 2;
+}
+
 .float-search {
   position: absolute;
   width: 100%;
   top: 10vh;
   z-index: 1;
-}
-
-map-filter {
-  z-index: 2;
 }

@@ -2,12 +2,13 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { CallNumberService } from 'src/app/services/call-number/call-number.service';
-import { MiscService } from 'src/app/services/misc/misc.service';
-import { CoreAPIService } from 'src/app/services/core-api/core-api.service';
-import { AuthService } from 'src/app/services/auth/auth.service';
+import { CallNumberService } from 'src/app/shared/services/call-number/call-number.service';
+import { MiscService } from 'src/app/shared/services/misc/misc.service';
+import { CoreAPIService } from 'src/app/shared/services/core-api/core-api.service';
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { UserType } from 'src/app/models/core-api';
-import { defaultUserType } from 'src/app/constants/core-api';
+import { defaultUserType, defaultPrimaryColor } from 'src/app/constants/core-api';
+import { UserThemeColorPrimary } from 'src/app/models/ui';
 
 @Component({
   selector: 'app-viewrequest',
@@ -20,6 +21,8 @@ export class ViewRequestPage implements OnInit, OnDestroy {
   requestId: number;
   userType: UserType;
   authSubs: Subscription;
+  userThemeColorPrimary: UserThemeColorPrimary;
+  isLoggedIn: boolean;
   constructor(
     private router: Router,
     private callNumberService: CallNumberService,
@@ -33,11 +36,20 @@ export class ViewRequestPage implements OnInit, OnDestroy {
     this.requestData = navigation.extras.state;
     this.requestId = navigation.extras.state.id;
 
+    this.isLoggedIn = false;
+    this.userType = defaultUserType;
+    this.userThemeColorPrimary = defaultPrimaryColor;
+
     this.authSubs = this.authService.user.subscribe((user) => {
       if (user && user.email !== undefined && user.token !== undefined) {
         this.userType = user.type;
+        this.isLoggedIn = true;
+        this.userThemeColorPrimary =
+          this.userType === 'AF' ? 'primaryAF' : 'primaryHL';
       } else {
+        this.isLoggedIn = false;
         this.userType = defaultUserType;
+        this.userThemeColorPrimary = defaultPrimaryColor;
       }
     });
   }

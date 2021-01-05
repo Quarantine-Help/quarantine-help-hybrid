@@ -1,5 +1,5 @@
 // md upto lg devices
-@media (min-width:768px) {
+@media (min-width: 768px) {
   ion-img {
     max-width: 50vw;
     max-height: 200px;
@@ -7,7 +7,7 @@
 }
 
 // xl and above devices
-@media (min-width:1200px) {
+@media (min-width: 1200px) {
   ion-toolbar {
     height: 9vh;
   }
@@ -16,12 +16,32 @@
     max-width: 20vw;
     max-height: 12vh;
   }
-
-  .top-spacer {
-    padding: 5vh;
-  }
 }
 
 ion-textarea {
   --background: var(--ion-color-light);
+}
+
+ion-col ion-button {
+  text-transform: none;
+}
+
+ion-segment-button ion-icon {
+  margin-bottom: 10px;
+}
+
+.grocery {
+  color: #42b67c;
+}
+
+.medicine {
+  color: #d6392c;
+}
+
+.others {
+  color: #8b25a5;
+}
+
+.ion-margin-horizontal {
+  --ion-margin: 32px;
 }

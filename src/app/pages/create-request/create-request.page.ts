@@ -3,12 +3,12 @@ import { Router } from '@angular/router';
 import { PickerController } from '@ionic/angular';
 import { PickerOptions } from '@ionic/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
-import { CoreAPIService } from 'src/app/services/core-api/core-api.service';
-import { MiscService } from 'src/app/services/misc/misc.service';
+import { CoreAPIService } from 'src/app/shared/services/core-api/core-api.service';
+import { MiscService } from 'src/app/shared/services/misc/misc.service';
+import { UserThemeColorPrimary, UserThemeColorSecondary } from 'src/app/models/ui';
 
 @Component({
   selector: 'app-create-request',
-
   templateUrl: './create-request.page.html',
   styleUrls: ['./create-request.page.scss'],
 })
@@ -20,6 +20,8 @@ export class CreateRequestPage implements OnInit {
   selectedType: any;
   loadingData: HTMLIonLoadingElement;
   deadlineISO: string;
+  userThemeColorPrimary: UserThemeColorPrimary;
+  userThemeColorSecondary: UserThemeColorSecondary;
 
   constructor(
     private pickerCtrl: PickerController,
@@ -30,6 +32,8 @@ export class CreateRequestPage implements OnInit {
     this.requestForm = new FormGroup({
       requestMessage: new FormControl('', [Validators.required]),
     });
+    this.userThemeColorPrimary = 'primaryAF';
+    this.userThemeColorSecondary = 'secondaryAF';
   }
 
   ngOnInit() {
@@ -131,6 +135,8 @@ export class CreateRequestPage implements OnInit {
       this.selectedType = 'M';
     } else if (this.segmentSelected === 'Grocery') {
       this.selectedType = 'G';
+    } else if (this.segmentSelected === 'Others') {
+      this.selectedType = 'O';
     }
 
     const reqUserDetails = {

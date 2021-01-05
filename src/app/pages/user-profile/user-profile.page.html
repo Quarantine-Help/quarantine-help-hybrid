@@ -1,5 +1,5 @@
 <ion-header translucent class="hide-lg hide-xl">
-  <ion-toolbar fixed color="primary">
+  <ion-toolbar fixed [color]="userThemeColorPrimary">
     <ion-buttons slot="start">
       <ion-menu-button autoHide="false"></ion-menu-button>
       <ion-title>Quarantine Help</ion-title>
@@ -10,7 +10,7 @@
   <ion-grid class="ion-padding top-spacer">
     <ion-row class="ion-justify-content-center ion-align-items-center">
       <ion-col size-md="2" size-lg="2">
-        <ion-text color="primary">
+        <ion-text [color]="userThemeColorPrimary">
           <h1>My Profile</h1>
         </ion-text>
       </ion-col>
@@ -161,8 +161,8 @@
 <ion-footer *ngIf="isEditable">
   <ion-row class="ion-justify-content-center ion-padding-vertical">
     <ion-col size-md="4" size-lg="2" size-xs="8">
-      <ion-button [disabled]="(profileForm.pristine || profileForm.invalid)" (click)="saveUser()" color="primary"
-        shape="round" expand="full" size="default" fill="solid"> Save </ion-button>
+      <ion-button [disabled]="(profileForm.pristine || profileForm.invalid)" (click)="saveUser()"
+        [color]="userThemeColorPrimary" shape="round" expand="full" size="default" fill="solid"> Save </ion-button>
     </ion-col>
   </ion-row>
 </ion-footer>

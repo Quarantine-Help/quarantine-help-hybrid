@@ -1,21 +1,26 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { UserType } from 'src/app/models/core-api';
-import { GeoLocationService } from 'src/app/services/geo-location/geo-location.service';
-import { MiscService } from 'src/app/services/misc/misc.service';
-import { HEREMapService } from 'src/app/services/HERE-map/here-map.service';
-import { AuthService } from 'src/app/services/auth/auth.service';
+import { GeoLocationService } from 'src/app/shared/services/geo-location/geo-location.service';
+import { MiscService } from 'src/app/shared/services/misc/misc.service';
+import { HEREMapService } from 'src/app/shared/services/HERE-map/here-map.service';
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { LatLng } from '../../models/geo';
 import { UserRegData, UserRegResponse } from 'src/app/models/auth';
-import { Crisis, defaultUserType } from 'src/app/constants/core-api';
+import {
+  Crisis,
+  defaultUserType,
+  defaultPrimaryColor,
+} from 'src/app/constants/core-api';
 import { filter, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import {
   countryList,
   isoCountry3To2Mapping,
 } from 'src/app/constants/countries';
+import { UserThemeColorPrimary } from 'src/app/models/ui';
 
 interface UserAddress {
   address: string;
@@ -52,13 +57,15 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   displayAddressSearchResult: boolean;
   displayCountrySearchResult: boolean;
   countrySearchResult: { name: string; isoAlphaTwoCode: string }[];
+  userThemeColorPrimary: UserThemeColorPrimary;
 
   constructor(
     private geoLocationService: GeoLocationService,
     private miscService: MiscService,
     private hereMapService: HEREMapService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private route: ActivatedRoute
   ) {
     this.regForm = new FormGroup({
       firstName: new FormControl('', [Validators.required]),
@@ -92,8 +99,17 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.addressResultList = [];
+    this.userType = defaultUserType;
+    this.userThemeColorPrimary = defaultPrimaryColor;
+
+    this.route.queryParams.subscribe((params: Params) => {
+      this.userType = params.userType;
+      this.userThemeColorPrimary =
+        this.userType === 'AF' ? 'primaryAF' : 'primaryHL';
+    });
+
     this.showPasswordText = false;
+    this.addressResultList = [];
     this.userAddress = {
       address: '',
       city: '',
@@ -104,14 +120,6 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
     };
     this.countrySearchResult = [];
     this.hasSelectedAddress = false;
-
-    this.authSubs = this.authService.user.subscribe((user) => {
-      if (user && user.email !== undefined && user.token !== undefined) {
-        this.userType = user.type;
-      } else {
-        this.userType = defaultUserType;
-      }
-    });
 
     this.regFormAddressSubs = this.regForm
       .get('address')
@@ -156,9 +164,15 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.regFormSubs.unsubscribe();
-    this.authSubs.unsubscribe();
-    this.regFormAddressSubs.unsubscribe();
+    if (this.regFormSubs) {
+      this.regFormSubs.unsubscribe();
+    }
+    if (this.authSubs) {
+      this.authSubs.unsubscribe();
+    }
+    if (this.regFormAddressSubs) {
+      this.regFormAddressSubs.unsubscribe();
+    }
   }
 
   togglePasswordVisibility() {

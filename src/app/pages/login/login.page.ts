@@ -5,10 +5,13 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MenuController } from '@ionic/angular';
 
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { MiscService } from 'src/app/services/misc/misc.service';
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
+import { MiscService } from 'src/app/shared/services/misc/misc.service';
+import { StorageService } from 'src/app/shared/services/storage/storage.service';
 import { LoginUserCred, LoginResponse } from '../../models/auth';
 import { UserType } from 'src/app/models/core-api';
+import { UserThemeColorPrimary } from 'src/app/models/ui';
+import { StorageKeys } from 'src/app/constants/core-api';
 
 @Component({
   selector: 'app-login',
@@ -24,13 +27,17 @@ export class LoginPage implements OnInit, OnDestroy {
   pageClean: boolean; // Flag to check if no changes were made.
   loginSubs: Subscription;
   loginResponse: LoginResponse;
+  userThemeColorPrimary: UserThemeColorPrimary;
+  userType: UserType;
   constructor(
     private authService: AuthService,
     public alertController: AlertController,
     private miscService: MiscService,
     private router: Router,
-    private menu: MenuController
+    private menu: MenuController,
+    private storageService: StorageService
   ) {
+    this.userThemeColorPrimary = 'primaryAF';
     this.pageClean = true;
     this.showPasswordText = false;
     this.loginForm = new FormGroup({
@@ -54,8 +61,12 @@ export class LoginPage implements OnInit, OnDestroy {
   ngOnInit() {
     // TODO - remove on actual release
     this.pageClean = false;
+    // AF User
     this.loginForm.controls.email.setValue('testuser1@patient.com');
     this.loginForm.controls.password.setValue('testuser1');
+    // HL user
+    // this.loginForm.controls.email.setValue('testuser4@patient.com');
+    // this.loginForm.controls.password.setValue('testuser4');
 
     this.loginSubs = this.loginForm.valueChanges.subscribe((change) => {
       this.pageClean = false;
@@ -109,10 +120,10 @@ export class LoginPage implements OnInit, OnDestroy {
   navigateUser(type: UserType) {
     switch (type) {
       case 'AF':
-        this.router.navigateByUrl('/map');
+        this.router.navigateByUrl('/my-requests');
         break;
       case 'HL':
-        this.router.navigateByUrl('/profile');
+        this.router.navigateByUrl('/map');
         break;
       // case 'AU':
       //   this.router.navigateByUrl('/map');
@@ -121,10 +132,11 @@ export class LoginPage implements OnInit, OnDestroy {
       //   this.router.navigateByUrl('/map');
       //   break;
       default:
-        this.router.navigateByUrl('/map');
+        this.router.navigateByUrl('/profile');
         break;
     }
   }
+
   togglePasswordVisibility() {
     this.passwordIcon = this.passwordIcon === 'eye-off' ? 'eye' : 'eye-off';
     if (this.passwordIcon === 'eye-off') {
@@ -136,7 +148,7 @@ export class LoginPage implements OnInit, OnDestroy {
 
   handleLoginErrors(errorMessages: string[], statusCode) {
     console.log(...errorMessages, statusCode);
-    this.miscService.presentAlert({ message: errorMessages.join('. ')});
+    this.miscService.presentAlert({ message: errorMessages.join('. ') });
   }
 
   registerUser() {

@@ -2,9 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 import { LatLng } from 'src/app/models/geo';
-import { RequestView } from 'src/app/models/ui';
-import { CoreAPIService } from 'src/app/services/core-api/core-api.service';
-import { MiscService } from 'src/app/services/misc/misc.service';
+import { RequestView, UserThemeColorPrimary } from 'src/app/models/ui';
+import { CoreAPIService } from 'src/app/shared/services/core-api/core-api.service';
+import { MiscService } from 'src/app/shared/services/misc/misc.service';
 
 @Component({
   selector: 'app-request-info-modal',
@@ -23,11 +23,14 @@ export class RequestInfoModalComponent implements OnInit {
   selectedRequests: any[];
   pendingRequestCount: number;
   loadingAni: HTMLIonLoadingElement;
+  userThemeColorPrimary: UserThemeColorPrimary;
   constructor(
     public modalCtrl: ModalController,
     private coreAPIService: CoreAPIService,
     private miscService: MiscService
-  ) {}
+  ) {
+    this.userThemeColorPrimary = 'primaryAF';
+  }
   // Data passed in by componentProps
   @Input() viewportX: string;
   @Input() viewportY: string;

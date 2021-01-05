@@ -2,26 +2,50 @@ ion-item {
   --inner-padding-end: 0px;
   --padding-start: 0px;
   border-radius: 8px;
+  font-size: .8em;
 }
 
-ion-icon {
-  zoom: 1.5;
+.category-icon {
+  zoom: 1.4;
   position: absolute;
   right: 5px;
   top: 5px;
+}
+
+.dollar-icon {
+  zoom: 1.4;
+  position: absolute;
+  right: 24px;
+  top: 5px;
+}
+
+ion-grid {
+  padding: 2vw;
 }
 
 small {
   position: absolute;
   left: 10px;
   bottom: 5px;
-  color: var(--ion-color-medium);
+  font-size: .8em;
+  margin-left: 6px;
+}
+
+.status {
+  position: absolute;
+  right: 7px;
+  bottom: 5px;
+}
+
+.request-content {
+  background-color: #ffffff;
+  border-radius: 10px;
 }
 
 .description {
   background-color: var(--ion-color-primary-text-contrast);
   min-height: 100%;
-  padding: 10px 25px 15px 10px;
+  padding: 3px 25px 15px 10px;
   border-radius: 5px;
   line-height: 1.3;
 }

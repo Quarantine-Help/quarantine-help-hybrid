@@ -1,5 +1,5 @@
 <ion-header translucent class="hide-lg hide-xl">
-  <ion-toolbar fixed color="primary">
+  <ion-toolbar fixed [color]="userThemeColorPrimary">
     <ion-buttons slot="start">
       <ion-menu-button autoHide="false"></ion-menu-button>
       <ion-title>Quarantine Help</ion-title>
@@ -195,7 +195,7 @@
 
       <ion-row class="ion-justify-content-center ion-padding-vertical">
         <ion-col size-md="4" size-lg="3" size-xs="8">
-          <ion-button color="primary" shape="round" expand="full" size="default" fill="outline"
+          <ion-button [color]="userThemeColorPrimary" shape="round" expand="full" size="default" fill="outline"
             [disabled]="(regFormClean || !regForm.valid)" (click)="registerUser()">
             Register
           </ion-button>

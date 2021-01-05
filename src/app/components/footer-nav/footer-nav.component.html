@@ -1,0 +1,34 @@
+<ion-footer>
+    <ion-tab-bar *ngIf="userType === 'AF'">
+      <ion-tab-button (click)="onTabSelect('/my-requests')" class="twoTabLayout" tab="my-requests" [ngClass]="{activeAF: currentTab === '/my-requests'}">
+        <ion-icon color="dark" class="ion-no-padding ion-no-margin" name="list-outline"></ion-icon>
+        <ion-label color="dark" class="ion-no-padding ion-no-margin">Requests</ion-label>
+      </ion-tab-button>
+      <ion-tab-button (click)="onTabSelect('/settings')" class="twoTabLayout" tab="settings" [ngClass]="{activeAF: currentTab === '/settings'}">
+        <ion-icon color="dark" class="ion-no-padding ion-no-margin" name="settings-outline"></ion-icon>
+        <ion-label color="dark" class="ion-no-padding ion-no-margin">Settings</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+
+    <ion-tab-bar *ngIf="userType === 'HL'">
+      <ion-tab-button (click)="onTabSelect('/map')" class="threeTabLayout" tab="map" [ngClass]="{activeHL: currentTab === '/map'}">
+        <ion-icon color="dark" class="ion-no-padding ion-no-margin" name="map-outline"></ion-icon>
+        <ion-label color="dark" class="ion-no-padding ion-no-margin">QH Map</ion-label>
+      </ion-tab-button>
+      <ion-tab-button (click)="onTabSelect('/my-requests')" class="threeTabLayout" tab="my-requests" [ngClass]="{activeHL: currentTab === '/my-requests'}">
+        <ion-icon color="dark" class="ion-no-padding ion-no-margin" name="list-outline"></ion-icon>
+        <ion-label color="dark" class="ion-no-padding ion-no-margin">Requests</ion-label>
+      </ion-tab-button>
+      <ion-tab-button (click)="onTabSelect('/settings')" *ngIf="isLoggedIn;else showLoginTab" class="threeTabLayout" tab="settings"
+        [ngClass]="{activeHL: currentTab === '/settings'}">
+        <ion-icon color="dark" class="ion-no-padding ion-no-margin" name="settings-outline"></ion-icon>
+        <ion-label color="dark" class="ion-no-padding ion-no-margin">Settings</ion-label>
+      </ion-tab-button>
+      <ng-template #showLoginTab>
+        <ion-tab-button (click)="onTabSelect('/login')" class="threeTabLayout" tab="login" [ngClass]="{activeHL: currentTab === '/login'}">
+          <ion-icon color="dark" class="ion-no-padding ion-no-margin" name="person-circle-outline"></ion-icon>
+          <ion-label color="dark" class="ion-no-padding ion-no-margin">Login</ion-label>
+        </ion-tab-button>
+      </ng-template>
+    </ion-tab-bar>
+</ion-footer>

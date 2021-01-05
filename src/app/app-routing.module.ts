@@ -1,10 +1,5 @@
 import { NgModule } from '@angular/core';
-import {
-  PreloadAllModules,
-  RouterModule,
-  Routes,
-  Route,
-} from '@angular/router';
+import { PreloadAllModules, RouterModule, Route } from '@angular/router';
 
 import { AuthGuard } from './guards/auth.guard';
 import { UserType } from './models/core-api';
@@ -83,10 +78,38 @@ const routes: CustomRoute[] = [
       ),
   },
   {
+    path: 'select-user-type',
+    loadChildren: () =>
+      import('./pages/select-user-type/select-user-type.module').then(
+        (m) => m.SelectUserTypePageModule
+      ),
+  },
+  {
     path: 'onboarding',
     loadChildren: () =>
       import('./pages/onboarding/onboarding.module').then(
         (m) => m.OnboardingPageModule
+      ),
+  },
+  {
+    path: 'about-us',
+    loadChildren: () =>
+      import('./pages/about-us/about-us.module').then(
+        (m) => m.AboutUsPageModule
+      ),
+  },
+  {
+    path: 'settings',
+    loadChildren: () =>
+      import('./pages/app-settings/app-settings.module').then(
+        (m) => m.AppSettingsPageModule
+      ),
+  },
+  {
+    path: 'instructions',
+    loadChildren: () =>
+      import('./pages/safety-instructions/safety-instructions.module').then(
+        (m) => m.SafetyInstructionsPageModule
       ),
   },
   { path: '**', redirectTo: 'map' },
@@ -94,7 +117,7 @@ const routes: CustomRoute[] = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, relativeLinkResolution: 'legacy' }),
   ],
   exports: [RouterModule],
 })

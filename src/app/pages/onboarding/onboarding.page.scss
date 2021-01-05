@@ -5,26 +5,29 @@ ion-slides {
 ion-slide {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
+
+  ion-text {
+    text-align: left;
+    line-height: 1.3;
+    margin-left: 10vw;
+    margin-right: 10vw;
+    font-size: 0.9em;
+    color: var(--ion-color-step-600, #6a8caf);
+  }
+
+  ion-button {
+    --background: white;
+    color: black;
+    text-transform: lowercase;
+    font-weight: bold;
+  }
 
   h1 {
     padding-top: 2vh;
     font-size: xx-large;
     font-weight: bolder;
-    align-self: flex-start;
-    margin-left: 10vw;
     position: relative;
-  }
-
-  h1:after {
-    content: "";
-    position: absolute;
-    width: 110%;
-    height: 55%;
-    background-color: var(--ion-color-light-shade);
-    z-index: -1;
-    left: -5%;
-    bottom: -4px;
   }
 
   img {
@@ -33,11 +36,33 @@ ion-slide {
     pointer-events: none;
   }
 
-  p {
-    line-height: 1.3;
-    margin-left: 10vw;
-    margin-right: 10vw;
+  h2 {
     font-size: x-large;
-    color: var(--ion-color-step-600, #6A8CAF);
+    font-weight: bolder;
+    position: relative;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+    right: 5%;
+  }
+
+  h2::after {
+    content: '';
+    width: 90%;
+    height: 130%;
+    position: absolute;
+    left: 3em;
+    background-color: #f2cfcf;
+    z-index: -1;
+  }
+
+  .page-2-heading {
+    right: 10%;
+  }
+
+  .page-2-heading::after {
+    left: 3.3rem;
+    background-color: var(--ion-color-primaryHL);
+    width: 130%;
   }
 }

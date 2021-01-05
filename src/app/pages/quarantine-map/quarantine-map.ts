@@ -6,14 +6,16 @@ import {
   OnInit,
 } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 
 import { RequestInfoModalComponent } from 'src/app/components/request-info-modal/request-info-modal.component';
-import { GeoLocationService } from 'src/app/services/geo-location/geo-location.service';
-import { MiscService } from 'src/app/services/misc/misc.service';
-import { CoreAPIService } from 'src/app/services/core-api/core-api.service';
+import { GeoLocationService } from 'src/app/shared/services/geo-location/geo-location.service';
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
+import { MiscService } from 'src/app/shared/services/misc/misc.service';
+import { CoreAPIService } from 'src/app/shared/services/core-api/core-api.service';
 import { environment } from '../../../environments/environment';
 
-import { RequestView } from 'src/app/models/ui';
+import { RequestView, UserThemeColorPrimary } from 'src/app/models/ui';
 import { LatLng } from '../../models/geo';
 import {
   NearbyParticipantsResponse,
@@ -24,6 +26,10 @@ import {
   SearchFilters,
   Categories,
 } from 'src/app/models/here-map';
+import {
+  defaultUserType,
+  defaultPrimaryColor,
+} from 'src/app/constants/core-api';
 
 declare var H: any;
 
@@ -53,21 +59,44 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
   showFiltering: boolean;
   filters: SearchFilters;
   allIcon: any;
+  userThemeColorPrimary: UserThemeColorPrimary;
+  isLoggedIn: boolean;
+  userType: string;
+  authSubs: Subscription;
 
   constructor(
     private geoLocationService: GeoLocationService,
     private miscService: MiscService,
     private coreAPIService: CoreAPIService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private authService: AuthService
   ) {
     this.filters = {
       distance: 5,
       category: 'all',
     };
     this.showFiltering = false;
+    this.isLoggedIn = false;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.userThemeColorPrimary = defaultPrimaryColor;
+    this.userType = defaultUserType;
+    this.isLoggedIn = false;
+
+    this.authSubs = this.authService.user.subscribe((user) => {
+      if (user && user.email !== undefined && user.token !== undefined) {
+        this.userType = user.type;
+        this.isLoggedIn = true;
+        this.userThemeColorPrimary =
+          this.userType === 'AF' ? 'primaryAF' : 'primaryHL';
+      } else {
+        this.isLoggedIn = false;
+        this.userType = defaultUserType;
+        this.userThemeColorPrimary = defaultPrimaryColor;
+      }
+    });
+  }
 
   ngAfterViewInit() {
     // Create a marker group for future use.

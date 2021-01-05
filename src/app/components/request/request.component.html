@@ -1,5 +1,5 @@
 <ion-item lines="none" class="ion-margin-top ion-no-padding ion-activatable ripple-parent"
-  (click)="viewRequest(requestData.id)" color="light">
+  (click)="viewRequest(requestData.id)" [color]="requestStatusColor">
   <ion-grid>
     <ion-row>
       <ion-col size="2" class="ion-text-center">
@@ -9,14 +9,27 @@
           <span> {{ requestData.createdAt | date:'yyyy' }} </span>
         </div>
       </ion-col>
-      <ion-col size="10">
-        <ion-icon color="danger" *ngIf="requestData.type=='M'" name="medkit"> </ion-icon>
+      <ion-col class="request-content" size="10">
+        <ion-icon class="dollar-icon" *ngIf="requestData.hasIncentive" src="assets/common/dollar.svg"></ion-icon>
+        <ng-container [ngSwitch]="requestData.type">
+          <ion-icon class="category-icon" *ngSwitchCase="'M'" name="medkit"> </ion-icon>
+          <ion-icon class="category-icon" *ngSwitchCase="'G'" name="cart"> </ion-icon>
+          <ion-icon class="category-icon" *ngSwitchCase="'O'" name="grid"></ion-icon>
+        </ng-container>
+        <ion-text [color]="requestStatusSecondaryColor" class="status" [ngSwitch]="requestData.status">
+          <ng-container *ngSwitchCase="'P'"> Waiting </ng-container>
+          <ng-container *ngSwitchCase="'T'"> On The Way </ng-container>
+          <ng-container *ngSwitchCase="'F'"> Finished </ng-container>
+          <ng-container *ngSwitchCase="'C'"> Cancelled </ng-container>
+        </ion-text>
         <div class="description">
           <ion-text>
             {{ requestData.description | slice:0:50 }} ...
           </ion-text>
         </div>
-        <small> {{ requestData.createdAt | date:'shortTime' }} </small>
+        <ion-text color="dark">
+          <small> {{ requestData.createdAt | date:'shortTime' }} </small>
+        </ion-text>
       </ion-col>
     </ion-row>
   </ion-grid>

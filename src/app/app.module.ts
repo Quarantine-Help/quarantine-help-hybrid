@@ -7,11 +7,11 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 
-import { environment } from '../environments/environment';
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AppMenuComponent } from './components/app-menu/app-menu.component';
-import { TokenInterceptor } from './services/interceptors/token.interceptor';
+import { environment } from '../environments/environment';
+import { AppRoutingModule } from './app-routing.module';
+import { TokenInterceptor } from './shared/services/interceptors/token.interceptor';
 
 @NgModule({
   declarations: [AppComponent, AppMenuComponent],
