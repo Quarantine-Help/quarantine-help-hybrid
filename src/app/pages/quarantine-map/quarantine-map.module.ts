@@ -4,6 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
+import { SharedModule } from 'src/app/shared/shared.module';
 import { QuarantineMapPage } from './quarantine-map';
 import { MapFilterComponent } from '../../components/map-filter/map-filter.component';
 import { RequestInfoModalComponent } from '../../components/request-info-modal/request-info-modal.component';
@@ -19,6 +20,7 @@ import { RequestInfoModalComponent } from '../../components/request-info-modal/r
         component: QuarantineMapPage,
       },
     ]),
+    SharedModule
   ],
   declarations: [
     QuarantineMapPage,

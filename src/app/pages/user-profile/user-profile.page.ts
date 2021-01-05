@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 
-import { MiscService } from 'src/app/services/misc/misc.service';
-import { CoreAPIService } from 'src/app/services/core-api/core-api.service';
-import { AuthService } from 'src/app/services/auth/auth.service';
+import { MiscService } from 'src/app/shared/services/misc/misc.service';
+import { CoreAPIService } from 'src/app/shared/services/core-api/core-api.service';
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import {
   UserProfileData,
   UserProfileResponseBody,

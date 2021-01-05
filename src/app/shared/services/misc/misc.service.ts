@@ -5,7 +5,7 @@ import {
   ToastController,
 } from '@ionic/angular';
 
-import { AlertOptions, LoadingOptions } from '../../models/ionic';
+import { AlertOptions, LoadingOptions } from '../../../models/ionic';
 
 @Injectable({
   providedIn: 'root',

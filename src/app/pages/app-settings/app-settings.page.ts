@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 
 import { UserThemeColorPrimary } from 'src/app/models/ui';
 import { UserType } from 'src/app/models/core-api';
-import { AuthService } from 'src/app/services/auth/auth.service';
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import {
   defaultUserType,
   defaultPrimaryColor,

@@ -2,10 +2,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { CallNumberService } from 'src/app/services/call-number/call-number.service';
-import { MiscService } from 'src/app/services/misc/misc.service';
-import { CoreAPIService } from 'src/app/services/core-api/core-api.service';
-import { AuthService } from 'src/app/services/auth/auth.service';
+import { CallNumberService } from 'src/app/shared/services/call-number/call-number.service';
+import { MiscService } from 'src/app/shared/services/misc/misc.service';
+import { CoreAPIService } from 'src/app/shared/services/core-api/core-api.service';
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { UserType } from 'src/app/models/core-api';
 import { defaultUserType, defaultPrimaryColor } from 'src/app/constants/core-api';
 import { UserThemeColorPrimary } from 'src/app/models/ui';

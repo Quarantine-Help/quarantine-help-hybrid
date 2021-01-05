@@ -5,9 +5,9 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MenuController } from '@ionic/angular';
 
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { MiscService } from 'src/app/services/misc/misc.service';
-import { StorageService } from 'src/app/services/storage/storage.service';
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
+import { MiscService } from 'src/app/shared/services/misc/misc.service';
+import { StorageService } from 'src/app/shared/services/storage/storage.service';
 import { LoginUserCred, LoginResponse } from '../../models/auth';
 import { UserType } from 'src/app/models/core-api';
 import { UserThemeColorPrimary } from 'src/app/models/ui';

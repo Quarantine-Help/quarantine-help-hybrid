@@ -44,6 +44,10 @@ ion-label {
   font-size: 1.3em;
 }
 
+app-footer-nav {
+  z-index: 2;
+}
+
 .logout {
   --background: transparent;
   margin-top: 12vh;

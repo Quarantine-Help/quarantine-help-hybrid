@@ -35,6 +35,10 @@ ion-segment-button {
   align-items: center;
 }
 
+app-footer-nav {
+  z-index: 2;
+}
+
 .create-button {
   text-transform: none;
   --box-shadow: #00000029 0px 3px 6px;

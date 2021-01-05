@@ -9,10 +9,10 @@ import { ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 
 import { RequestInfoModalComponent } from 'src/app/components/request-info-modal/request-info-modal.component';
-import { GeoLocationService } from 'src/app/services/geo-location/geo-location.service';
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { MiscService } from 'src/app/services/misc/misc.service';
-import { CoreAPIService } from 'src/app/services/core-api/core-api.service';
+import { GeoLocationService } from 'src/app/shared/services/geo-location/geo-location.service';
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
+import { MiscService } from 'src/app/shared/services/misc/misc.service';
+import { CoreAPIService } from 'src/app/shared/services/core-api/core-api.service';
 import { environment } from '../../../environments/environment';
 
 import { RequestView, UserThemeColorPrimary } from 'src/app/models/ui';
