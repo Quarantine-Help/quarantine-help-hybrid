@@ -19,7 +19,7 @@
 </map-filter>
 <!-- This ion-content component nesting alone had caused approx. 1 hours troubleshooting - beware !!-->
 <ion-content fullscreen>
-  <app-search-result-list [show]="showSearchResults" [searchResults]="addressSearchResults"></app-search-result-list>
+  <app-search-result-list [show]="showSearchResults" [searchResults]="addressSearchResults" (selectAddress)="onAddressSelect($event)"></app-search-result-list>
   <div #mapContainer id="map-container"></div>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="!showSearchResults">
     <ion-fab-button color="primaryHL" class="ion-margin-bottom ion-margin-end" (click)="onFabClick()">

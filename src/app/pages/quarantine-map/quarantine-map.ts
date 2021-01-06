@@ -16,12 +16,17 @@ import { CoreAPIService } from 'src/app/shared/services/core-api/core-api.servic
 import { environment } from '../../../environments/environment';
 
 import { RequestView, UserThemeColorPrimary } from 'src/app/models/ui';
+import { AutoSuggestResultItem } from 'src/app/models/here-map-autosuggest';
 import { LatLng } from '../../models/geo';
 import {
   NearbyParticipantsResponse,
   NearbyParticipant,
 } from '../../models/core-api';
-import { RequestTypes, SearchFilters, Category } from 'src/app/models/here-map';
+import {
+  RequestTypes,
+  SearchFilters,
+  Category,
+} from 'src/app/models/here-map-core';
 import {
   defaultUserType,
   defaultPrimaryColor,
@@ -454,6 +459,10 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
       this.HEREMapObj.getCenter(), // When using the search filters, use current map center to query.
       this.filters.categories
     );
+  }
+
+  onAddressSelect(address: AutoSuggestResultItem) {
+    console.log('address.position', address.position);
   }
 
   handleSearchResults(results) {

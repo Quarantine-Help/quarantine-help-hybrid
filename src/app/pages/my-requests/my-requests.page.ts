@@ -38,7 +38,6 @@ export class MyRequestsPage implements OnInit, OnDestroy {
     this.isLoggedIn = false;
     this.userType = defaultUserType;
     this.userThemeColorPrimary = defaultPrimaryColor;
-    console.log(this.userThemeColorPrimary);
   }
 
   ngOnInit() {

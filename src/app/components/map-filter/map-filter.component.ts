@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 
-import { SearchFilters, Category } from 'src/app/models/here-map';
+import { SearchFilters, Category } from 'src/app/models/here-map-core';
 import { UserThemeColorPrimary } from 'src/app/models/ui';
 
 @Component({
