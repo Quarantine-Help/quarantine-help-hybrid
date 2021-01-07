@@ -55,7 +55,6 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
   private otherIcon: any;
   private allIcon: any;
   showSearchResults: boolean;
-  addressSearchResults: string[];
 
   currentLocation: LatLng = undefined;
   loadingAniHEREMap: HTMLIonLoadingElement;
@@ -461,20 +460,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
     );
   }
 
-  onAddressSelect(address: AutoSuggestResultItem) {
-    console.log('address.position', address.position);
-  }
-
-  handleSearchResults(results) {
-    console.log('handleSearchResults - qh map page', results);
-    if (results.length > 0) {
-      this.showSearchResults = true;
-      this.addressSearchResults = results;
-    }
-  }
-
-  handleSearchClose() {
-    this.showSearchResults = false;
-    this.addressSearchResults = [];
+  onAddressSelect(address) {
+    console.log('Address Selected', address);
   }
 }

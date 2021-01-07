@@ -8,7 +8,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { QuarantineMapPage } from './quarantine-map';
 import { MapFilterComponent } from '../../components/map-filter/map-filter.component';
 import { RequestInfoModalComponent } from '../../components/request-info-modal/request-info-modal.component';
-import { SearchFilterComponent } from 'src/app/components/address-search-filter/search-filter.component';
+import { AddressSearchComponent } from 'src/app/components/address-search/address-search.component';
 import { SearchResultListComponent } from 'src/app/components/search-result-list/search-result-list.component';
 
 @NgModule({
@@ -22,13 +22,13 @@ import { SearchResultListComponent } from 'src/app/components/search-result-list
         component: QuarantineMapPage,
       },
     ]),
-    SharedModule
+    SharedModule,
   ],
   declarations: [
     QuarantineMapPage,
     MapFilterComponent,
     RequestInfoModalComponent,
-    SearchFilterComponent,
+    AddressSearchComponent,
     SearchResultListComponent,
   ],
   entryComponents: [],
