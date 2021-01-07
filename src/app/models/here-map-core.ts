@@ -1,8 +1,8 @@
-export type RequestTypes = 'G' | 'M' | undefined;
-export type Categories = 'all' | 'medicine' | 'grocery';
+export type RequestTypes = 'G' | 'M' | 'O' | undefined;
+export type Category = 'all' | 'medicine' | 'grocery' | 'other';
 export interface SearchFilters {
   distance: number;
-  category: Categories;
+  categories: Category[];
 }
 export interface ReverseGeoResult {
   headers: {

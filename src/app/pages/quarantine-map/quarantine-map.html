@@ -1,40 +1,28 @@
 <ion-header translucent class="hide-lg hide-xl">
-  <ion-toolbar fixed [color]="userThemeColorPrimary">
-    <ion-buttons slot="start">
-      <ion-menu-button autoHide="false"></ion-menu-button>
-    </ion-buttons>
-    <ion-buttons slot="primary">
-      <ion-button color="secondary" (click)="toggleFiltering()">
-        <!-- <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon> -->
-        <ion-icon slot="icon-only" name="filter" color="dark"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-searchbar placeholder="Search" showCancelButton="focus" animated></ion-searchbar>
-  </ion-toolbar>
+  <app-address-search (filter)="toggleFiltering()" [lat]="currentLocation?.lat"
+    [lng]="currentLocation?.lng">
+  </app-address-search>
 </ion-header>
 
 <ion-row
   class="ion-no-padding ion-no-margin ion-align-items-center ion-justify-content-center  hide-md hide-xs hide-sm float-search">
   <ion-col size-xs="10" size-sm="8" size-md="5" size-lg="5" size-xl="4" class="ion-no-padding">
-    <ion-toolbar color="medium">
-      <ion-buttons slot="primary">
-        <ion-button color="secondary" (click)="toggleFiltering()">
-          <ion-icon slot="icon-only" name="filter" color="dark"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-      <ion-searchbar placeholder="Search" showCancelButton="focus" animated></ion-searchbar>
-    </ion-toolbar>
+    <app-address-search (filter)="toggleFiltering()" [lat]="currentLocation?.lat"
+      [lng]="currentLocation?.lng">
+    </app-address-search>
   </ion-col>
 </ion-row>
 
-<map-filter [showFiltering]="showFiltering" (filtersApplied)="onFiltersApplied($event)"></map-filter>
+<map-filter [showFiltering]="showFiltering" (filtersApplied)="onFiltersApplied($event)">
+</map-filter>
 <!-- This ion-content component nesting alone had caused approx. 1 hours troubleshooting - beware !!-->
-<ion-content>
+<ion-content fullscreen>
+  <app-search-result-list (selectAddress)="onAddressSelect($event)"></app-search-result-list>
   <div #mapContainer id="map-container"></div>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button class="ion-margin-bottom ion-margin-end" color="light" (click)="onFabClick()">
-      <ion-icon name="locate" [color]="userThemeColorPrimary"></ion-icon>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="!showSearchResults">
+    <ion-fab-button color="primaryHL" class="ion-margin-bottom ion-margin-end" (click)="onFabClick()">
+      <ion-icon name="locate"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-content>
-<app-footer-nav currentTab="/map" ></app-footer-nav>
+<app-footer-nav currentTab="/map"></app-footer-nav>
