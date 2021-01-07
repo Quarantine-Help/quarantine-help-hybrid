@@ -20,7 +20,7 @@ export class HEREMapService {
 
   getUserAddressOnSearch(location: LatLng, searchWord) {
     const addressAPIUrl =
-      `${this.autoSuggestBaseUrl}in=circle:${location.lat},${location.lng};r=100000` +
+      `${this.autoSuggestBaseUrl}in=circle:${location.lat},${location.lng};r=1000000` +
       `&limit=10&q=${searchWord}${this.autoSuggestUrlSuffix}`;
     return this.commonHTTP.httpGet(encodeURI(addressAPIUrl));
   }

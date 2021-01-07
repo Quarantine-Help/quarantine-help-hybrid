@@ -460,7 +460,12 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
     );
   }
 
-  onAddressSelect(address) {
-    console.log('Address Selected', address);
+  onAddressSelect(address: AutoSuggestResultItem) {
+    this.getNearbyParticipants(
+      this.filters.distance,
+      address.position,
+      this.filters.categories
+    );
+    this.HEREMapObj.setCenter(address.position, true);
   }
 }
