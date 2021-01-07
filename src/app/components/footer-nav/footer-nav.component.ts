@@ -40,8 +40,7 @@ export class FooterNavComponent implements OnInit, OnDestroy {
     }
   }
 
-  onTabSelect(url){
-    console.log('onTabSelect', url);
+  onTabSelect(url) {
     this.router.navigateByUrl(url);
   }
 }

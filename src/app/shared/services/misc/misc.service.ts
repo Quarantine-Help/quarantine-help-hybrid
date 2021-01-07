@@ -4,18 +4,27 @@ import {
   AlertController,
   ToastController,
 } from '@ionic/angular';
+import { BehaviorSubject } from 'rxjs';
 
+import { AutoSuggestResultItem } from 'src/app/models/here-map-autosuggest';
 import { AlertOptions, LoadingOptions } from '../../../models/ionic';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MiscService {
+  addressResult: BehaviorSubject<AutoSuggestResultItem[]>;
   constructor(
     private loadingController: LoadingController,
     private alertController: AlertController,
     private toastController: ToastController
-  ) {}
+  ) {
+    this.addressResult = new BehaviorSubject([]);
+  }
+
+  clearAddressSearchResult() {
+    this.addressResult.next([]);
+  }
 
   presentLoadingWithOptions(
     options?: LoadingOptions

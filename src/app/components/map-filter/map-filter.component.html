@@ -1,10 +1,7 @@
 <ng-container *ngIf="showFiltering">
-  <ion-list [lines]="showOptions?'full':'none'">
-    <ion-item class="ion-padding-start">
-      <ion-label (click)="toggleOptions()">
-        Filters
-      </ion-label>
-      <ion-icon color="medium" name="funnel" slot="start" (click)="toggleOptions()"></ion-icon>
+  <ion-list [lines]="showOptions?'full':'none'" color="primaryHL">
+    <ion-item class="ion-padding-start" [lines]="showClearFilter? 'full':'none'">
+      <ion-label (click)="toggleOptions()" *ngIf="showClearFilter"><strong> Filters </strong> </ion-label>
       <ion-icon color="medium" [name]="showOptions?'arrow-up-circle':'arrow-down-circle'" slot="end" size="large"
         (click)="toggleOptions()"></ion-icon>
       <ion-chip [color]="userThemeColorPrimary" *ngIf="showClearFilter" (click)="clearFilters()">
@@ -14,38 +11,42 @@
     </ion-item>
     <ng-container *ngIf="showOptions">
       <ion-list-header class="ion-padding-start ion-margin-start">
-        Category
+        Filter requests by categories
       </ion-list-header>
-      <ion-item class="ion-padding-start ion-margin-start ion-align-items-center ios-padding-top" id="category"
-        lines="none">
-        <ion-chip [outline]="category !== 'all'" (click)="selectCategory('all')">
+      <ion-item class="ion-margin-start ion-align-items-center ios-padding-top" id="category" lines="none">
+        <ion-chip [ngClass]="categories.includes('all') ? 'selected-chip':''" (click)="selectCategory('all')">
           <ion-label>All</ion-label>
         </ion-chip>
-        <ion-chip [outline]="category !== 'medicine'" (click)="selectCategory('medicine')">
-          <ion-icon name="medkit-outline" color="danger"></ion-icon>
+        <ion-chip [ngClass]="categories.includes('medicine')? 'selected-chip':''" (click)="selectCategory('medicine')">
+          <ion-icon name="medkit" [color]="categories.includes('medicine')? 'light': 'dark'"></ion-icon>
           <ion-label>Medicine</ion-label>
         </ion-chip>
-        <ion-chip [outline]="category !== 'grocery'" (click)="selectCategory('grocery')">
-          <ion-icon name="fast-food-outline" color="success"></ion-icon>
+        <ion-chip [ngClass]="categories.includes('grocery')?'selected-chip':''" (click)="selectCategory('grocery')">
+          <ion-icon name="fast-food" [color]="categories.includes('grocery') ? 'light': 'dark'"></ion-icon>
           <ion-label>Grocery</ion-label>
+        </ion-chip>
+        <ion-chip [ngClass]="categories.includes('other') ? 'selected-chip':''" (click)="selectCategory('other')">
+          <ion-icon name="grid" [color]="categories.includes('other') ? 'light': 'dark'"></ion-icon>
+          <ion-label>Other</ion-label>
         </ion-chip>
       </ion-item>
       <ion-list-header class="ion-padding-start ion-margin-start ion-padding-end ion-margin-end">
-        <ion-label>Distance</ion-label>
+        <ion-label>Filter requests by distance</ion-label>
         <ion-item lines="none">
           <ion-badge color="medium" slot="start">{{ distance | number:'1.1-1'}} kilometers</ion-badge>
         </ion-item>
       </ion-list-header>
-      <ion-item class="ion-padding-horizontal ion-margin-start ion-margin-start" lines="none">
+      <ion-item class="ion-padding-end ion-margin-start ion-margin-start" lines="none">
         <ion-range [(ngModel)]="distance" min="1" max="20" step="0.5" ticks="true" snaps="true" pin="true"
-          color="medium" (ionChange)="onDistanceChange($event)">
+          (ionChange)="onDistanceChange($event)">
           <ion-label slot="start">1</ion-label>
           <ion-label slot="end">20</ion-label>
         </ion-range>
       </ion-item>
       <ion-row class="ion-justify-content-center ion-padding-vertical">
-        <ion-col size-md="4" size-lg="3" size-xs="8">
-          <ion-button expand="full" size="default" shape="round" (click)="applyFilters()">Apply filters</ion-button>
+        <ion-col size-md="4" size-lg="3" size-xs="6">
+          <ion-button expand="full" size="default" shape="round" color="light" (click)="applyFilters()">Apply
+            filters</ion-button>
         </ion-col>
       </ion-row>
     </ng-container>

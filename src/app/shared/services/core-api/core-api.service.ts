@@ -3,7 +3,7 @@ import { environment } from '../../../../environments/environment';
 import { CommonHTTPService } from '../common-http/common-http.service';
 
 import { LatLng } from 'src/app/models/geo';
-import { RequestTypes } from 'src/app/models/here-map';
+import { RequestTypes } from 'src/app/models/here-map-core';
 import { Crisis } from 'src/app/constants/core-api';
 
 @Injectable({

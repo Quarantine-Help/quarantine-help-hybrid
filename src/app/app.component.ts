@@ -69,17 +69,17 @@ export class AppComponent {
   resumeNavigation() {
     if (this.hasUserOnboarded === true && this.userType !== undefined) {
       if (this.userType === 'HL') {
-        console.log('Onboarded HL to map');
+        // console.log('Onboarded HL to map');
         this.router.navigateByUrl('/map');
       } else if (this.userType === 'AF') {
-        console.log('Onboarded AF to my-requests');
+        // console.log('Onboarded AF to my-requests');
         this.router.navigateByUrl('/my-requests');
       }
     } else if (this.hasUserOnboarded === true && this.userType === undefined) {
-      console.log('New onboarded user to register');
+      // console.log('New onboarded user to register');
       this.router.navigateByUrl('/select-user-type');
     } else if (this.hasUserOnboarded === false) {
-      console.log('Any new non-onboarded user goes to onboard');
+      // console.log('Any new non-onboarded user goes to onboard');
       this.router.navigateByUrl('/onboarding');
     }
   }

@@ -1,6 +1,5 @@
-#map-container {
-  width: 100%;
-  height: 100%;
+app-search-result-list {
+  z-index: 2;
 }
 
 ion-searchbar {
@@ -8,7 +7,8 @@ ion-searchbar {
   --background: var(--ion-color-light);
 }
 
-map-filter, app-footer-nav {
+map-filter,
+app-footer-nav {
   z-index: 2;
 }
 
@@ -17,4 +17,13 @@ map-filter, app-footer-nav {
   width: 100%;
   top: 10vh;
   z-index: 1;
+
+  ion-toolbar {
+    border-radius: 18px;
+  }
+}
+
+#map-container {
+  width: 100%;
+  height: 100%;
 }

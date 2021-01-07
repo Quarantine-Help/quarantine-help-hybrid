@@ -16,6 +16,7 @@ import { CoreAPIService } from 'src/app/shared/services/core-api/core-api.servic
 import { environment } from '../../../environments/environment';
 
 import { RequestView, UserThemeColorPrimary } from 'src/app/models/ui';
+import { AutoSuggestResultItem } from 'src/app/models/here-map-autosuggest';
 import { LatLng } from '../../models/geo';
 import {
   NearbyParticipantsResponse,
@@ -24,8 +25,8 @@ import {
 import {
   RequestTypes,
   SearchFilters,
-  Categories,
-} from 'src/app/models/here-map';
+  Category,
+} from 'src/app/models/here-map-core';
 import {
   defaultUserType,
   defaultPrimaryColor,
@@ -39,6 +40,8 @@ declare var H: any;
   styleUrls: ['quarantine-map.scss'],
 })
 export class QuarantineMapPage implements OnInit, AfterViewInit {
+  @ViewChild('mapContainer', { static: true }) mapElement: ElementRef;
+
   private HEREMapsPlatform: any;
   private HEREMapObj: any;
   private HEREMapUI: any;
@@ -49,16 +52,17 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
   private markerGroup: any;
   private groceryIcon: any;
   private medicalIcon: any;
+  private otherIcon: any;
+  private allIcon: any;
+  showSearchResults: boolean;
 
   currentLocation: LatLng = undefined;
-  @ViewChild('mapContainer', { static: true }) mapElement: ElementRef;
   loadingAniHEREMap: HTMLIonLoadingElement;
   loadingAniNearbyParticipants: HTMLIonLoadingElement;
   loadingAniGPSData: HTMLIonLoadingElement;
   toastElement: Promise<void>;
   showFiltering: boolean;
   filters: SearchFilters;
-  allIcon: any;
   userThemeColorPrimary: UserThemeColorPrimary;
   isLoggedIn: boolean;
   userType: string;
@@ -73,9 +77,10 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
   ) {
     this.filters = {
       distance: 5,
-      category: 'all',
+      categories: ['all'],
     };
     this.showFiltering = false;
+    this.showSearchResults = false;
     this.isLoggedIn = false;
   }
 
@@ -110,6 +115,9 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
     this.groceryIcon = new H.map.Icon('assets/common/groceryIcon.svg', {
       size: { w: 56, h: 56 },
     });
+    this.otherIcon = new H.map.Icon('assets/common/otherIcon.svg', {
+      size: { w: 56, h: 56 },
+    });
     this.allIcon = new H.map.Icon('assets/common/allIcon.svg', {
       size: { w: 56, h: 56 },
     });
@@ -129,16 +137,6 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
         this.initHEREMap();
       })
       .catch((error) => alert(error));
-  }
-
-  // Show/hide the map-filter component.
-  toggleFiltering() {
-    this.showFiltering = !this.showFiltering;
-    if (this.showFiltering) {
-      this.HEREMapObj.getViewPort().setPadding(50, 50, 120, 100);
-    } else {
-      this.HEREMapObj.getViewPort().setPadding(50, 50, 50, 100);
-    }
   }
 
   // TODO
@@ -191,9 +189,8 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
         this.getNearbyParticipants(
           this.filters.distance,
           this.currentLocation,
-          this.filters.category
+          this.filters.categories
         );
-
         this.HEREMapObj.setCenter(this.currentLocation, true);
       })
       .catch((error) => {
@@ -247,12 +244,12 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
     this.defaultLayers = this.HEREMapsPlatform.createDefaultLayers();
 
     // Instantiate (and display) a map object:
-    const MAX_ZOOM_LEVEL = 21;
+    const INIT_ZOOM_LEVEL = 15;
     this.HEREMapObj = new H.Map(
       this.mapElement.nativeElement,
       this.defaultLayers.vector.normal.map,
       {
-        zoom: MAX_ZOOM_LEVEL,
+        zoom: INIT_ZOOM_LEVEL,
         padding: { top: 50, left: 50, bottom: 50, right: 100 },
       }
     );
@@ -281,18 +278,12 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
     this.mapEventsBehavior = new H.mapevents.Behavior(this.HEREmapEvents);
   }
 
-  // Apply the filters from the filter component and call the API..
-  onFiltersApplied(filters: SearchFilters) {
-    this.filters = filters;
-    this.getNearbyParticipants(
-      this.filters.distance,
-      this.HEREMapObj.getCenter(), // When using the search filters, use current map center to query.
-      this.filters.category
-    );
-  }
-
   // TODO - refactor
-  getNearbyParticipants(radius: number, latlng: LatLng, category: Categories) {
+  getNearbyParticipants(
+    radius: number,
+    latlng: LatLng,
+    categories: Category[]
+  ) {
     // Removes all markers, marker group and event listeners.
     this.markers.forEach((marker) => {
       marker.dispose();
@@ -302,10 +293,12 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
 
     // create a RequestTypes string value for query param, as per API requirements.
     let requestType: RequestTypes;
-    if (category === 'grocery') {
+    if (categories.includes('grocery')) {
       requestType = 'G';
-    } else if (category === 'medicine') {
+    } else if (categories.includes('medicine')) {
       requestType = 'M';
+    } else if (categories.includes('other')) {
+      requestType = 'O';
     }
 
     this.miscService
@@ -328,10 +321,10 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
             // Inform user if there are no nearby requests
             if (result.body.count === 0) {
               this.miscService.presentAlert({
-                header: 'Info',
-                subHeader: 'No nearby requests.',
+                header: 'Welcome volunteer',
+                subHeader: null,
                 message:
-                  'We are unable to find any requests nearby. Please relax the search criteria.',
+                  'There are no requests nearby at the moment. Please use advanced search filters or Chill out, and stay with us 😃',
                 buttons: ['Ok'],
               });
             } else {
@@ -351,13 +344,18 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
       const isMedicineRequest = participant.requests.some(
         (request) => request.type === 'M'
       );
+      const isOtherRequest = participant.requests.some(
+        (request) => request.type === 'O'
+      );
       let markerIcon;
       if (isGroceryRequest && isMedicineRequest) {
         markerIcon = { icon: this.allIcon };
       } else if (isGroceryRequest) {
         markerIcon = { icon: this.groceryIcon };
-      } else {
+      } else if (isMedicineRequest) {
         markerIcon = { icon: this.medicalIcon };
+      } else if (isOtherRequest) {
+        markerIcon = { icon: this.otherIcon };
       }
 
       const markerData: RequestView = {
@@ -440,5 +438,34 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
       lat: Math.abs(coordinates.lat.toFixed(4)),
       lng: Math.abs(coordinates.lng.toFixed(4)),
     };
+  }
+
+  // Show/hide the map-filter component.
+  toggleFiltering() {
+    this.showFiltering = !this.showFiltering;
+    if (this.showFiltering) {
+      this.HEREMapObj.getViewPort().setPadding(50, 50, 120, 100);
+    } else {
+      this.HEREMapObj.getViewPort().setPadding(50, 50, 50, 100);
+    }
+  }
+
+  // Apply the filters from the filter component and call the API.
+  onFiltersApplied(filters: SearchFilters) {
+    this.filters = filters;
+    this.getNearbyParticipants(
+      this.filters.distance,
+      this.HEREMapObj.getCenter(), // When using the search filters, use current map center to query.
+      this.filters.categories
+    );
+  }
+
+  onAddressSelect(address: AutoSuggestResultItem) {
+    this.getNearbyParticipants(
+      this.filters.distance,
+      address.position,
+      this.filters.categories
+    );
+    this.HEREMapObj.setCenter(address.position, true);
   }
 }

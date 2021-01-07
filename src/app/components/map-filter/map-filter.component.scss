@@ -2,6 +2,38 @@ ion-chip {
   border-radius: 0.5em;
 }
 
+ion-range {
+  --bar-background: var(--ion-color-light);
+  --bar-background-active: var(--ion-color-dark);
+  --knob-background: var(--ion-color-dark);
+  --pin-background: var(--ion-color-dark);
+  --pin-color: var(--ion-color-light);
+}
+
+ion-list {
+  background-color: var(--ion-color-primaryHL);
+}
+
+ion-item {
+  --background: var(--ion-color-primaryHL);
+}
+
+ion-button {
+  --box-shadow: none;
+  text-transform: none;
+  --border-radius: 10px;
+}
+
+ion-chip {
+  &.selected-chip {
+    --background: var(--ion-color-dark);
+    --color: var(--ion-color-light);
+  }
+
+  --background: var(--ion-color-light);
+  --color: var(--ion-color-dark);
+}
+
 .ios {
   .ios-padding-top {
     padding-top: 24px;

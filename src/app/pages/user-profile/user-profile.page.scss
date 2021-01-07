@@ -1,3 +1,19 @@
+ion-list {
+  .search-list {
+    background: var(--ion-color-light-tint);
+  }
+
+  max-height: 25vh;
+  overflow-y: scroll;
+  background-color: var(--ion-color-medium-shade);
+  padding-bottom: var(--ion-padding, 8px);
+  padding-top: var(--ion-padding, 8px);
+}
+
+ion-searchbar {
+  --border-radius: 10px;
+}
+
 // md upto lg devices
 @media (min-width: 768px) {
   ion-img {
@@ -35,16 +51,4 @@
 .formInvalid {
   color: #ea6153;
   text-align: center;
-}
-
-ion-list {
-  .search-list {
-    background: var(--ion-color-light-tint);
-  }
-
-  max-height: 25vh;
-  overflow-y: scroll;
-  background-color: var(--ion-color-medium-shade);
-  padding-bottom: var(--ion-padding, 8px);
-  padding-top: var(--ion-padding, 8px);
 }

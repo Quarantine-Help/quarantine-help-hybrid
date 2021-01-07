@@ -1,13 +1,9 @@
-<ion-header>
-  <ion-toolbar [color]="userThemeColorPrimary">
-    <ion-title>
-      <ion-grid>
-        <ion-row class="title-row ion-justify-content-start ion-align-items-center title">
-          <ion-back-button></ion-back-button>
-          <ion-text class="about"><strong>Settings</strong></ion-text>
-        </ion-row>
-      </ion-grid>
-    </ion-title>
+<ion-header translucent class="hide-lg hide-xl">
+  <ion-toolbar fixed [color]="userThemeColorPrimary">
+    <ion-buttons slot="start">
+      <ion-back-button icon="chevron-back" defaultHref="/my-requests"></ion-back-button>
+      <ion-title>Settings</ion-title>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -30,4 +26,4 @@
     </ion-label>
   </ion-item>
 </ion-content>
-<app-footer-nav currentTab="/settings" ></app-footer-nav>
+<app-footer-nav currentTab="/settings"></app-footer-nav>
