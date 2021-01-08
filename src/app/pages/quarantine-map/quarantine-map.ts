@@ -32,8 +32,6 @@ import {
   defaultPrimaryColor,
 } from 'src/app/constants/core-api';
 
-declare var H: any;
-
 @Component({
   selector: 'app-quarantine-map',
   templateUrl: 'quarantine-map.html',
@@ -42,18 +40,21 @@ declare var H: any;
 export class QuarantineMapPage implements OnInit, AfterViewInit {
   @ViewChild('mapContainer', { static: true }) mapElement: ElementRef;
 
-  private HEREMapsPlatform: any;
-  private HEREMapObj: any;
-  private HEREMapUI: any;
-  private HEREmapEvents: any;
-  private mapEventsBehavior: any;
-  private defaultLayers: any;
-  private markers: any;
-  private markerGroup: any;
-  private groceryIcon: any;
-  private medicalIcon: any;
-  private otherIcon: any;
-  private allIcon: any;
+  private HEREMapsPlatform: H.service.Platform;
+  private HEREMapObj: H.Map;
+  private HEREMapUI: H.ui.UI;
+  private HEREmapEvents: H.mapevents.MapEvents;
+  private mapEventsBehavior: H.mapevents.Behavior;
+  private defaultLayers: H.service.DefaultLayers;
+  private markers: H.map.Marker[];
+  private currentLocMarker: H.map.Marker;
+  private markerGroup: H.map.Group;
+  private locMarkerGroup: H.map.Group;
+  private groceryIcon: H.map.Icon;
+  private medicalIcon: H.map.Icon;
+  private otherIcon: H.map.Icon;
+  private allIcon: H.map.Icon;
+  private locationIcon: H.map.Icon;
   showSearchResults: boolean;
 
   currentLocation: LatLng = undefined;
@@ -89,6 +90,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
     this.userType = defaultUserType;
     this.isLoggedIn = false;
 
+    // Sets the page theme based on login status and userType
     this.authSubs = this.authService.user.subscribe((user) => {
       if (user && user.email !== undefined && user.token !== undefined) {
         this.userType = user.type;
@@ -110,15 +112,23 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
 
     // initialize Icon files
     this.medicalIcon = new H.map.Icon('assets/common/medicalIcon.svg', {
+      crossOrigin: false,
       size: { w: 56, h: 56 },
     });
     this.groceryIcon = new H.map.Icon('assets/common/groceryIcon.svg', {
+      crossOrigin: false,
       size: { w: 56, h: 56 },
     });
     this.otherIcon = new H.map.Icon('assets/common/otherIcon.svg', {
+      crossOrigin: false,
       size: { w: 56, h: 56 },
     });
     this.allIcon = new H.map.Icon('assets/common/allIcon.svg', {
+      crossOrigin: false,
+      size: { w: 56, h: 56 },
+    });
+    this.locationIcon = new H.map.Icon('assets/common/allIcon.svg', {
+      crossOrigin: false,
       size: { w: 56, h: 56 },
     });
 
@@ -260,18 +270,24 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
     }
 
     // Refer : https://developer.here.com/documentation/maps/3.1.14.0/api_reference/H.map.Style.html
-    const provider = this.HEREMapObj.getBaseLayer().getProvider();
-    const style = new H.map.Style(
-      `assets/normal.day.yaml`,
-      `https://js.api.here.com/v3/3.1/styles/omv/`
-    );
-    provider.setStyle(style);
+    // const provider = this.HEREMapObj.getBaseLayer().getProvider();
+    // const style = new H.map.Style(
+    //   `assets/normal.day.yaml`,
+    //   `https://js.api.here.com/v3/3.1/styles/omv/`
+    // );
+    // provider.setStyle(style);
 
     // Create the default UI:
     this.HEREMapUI = H.ui.UI.createDefault(this.HEREMapObj, this.defaultLayers);
-    this.HEREMapUI.getControl('zoom').setAlignment('right-middle');
-    this.HEREMapUI.getControl('mapsettings').setAlignment('right-middle');
-    this.HEREMapUI.getControl('scalebar').setAlignment('left-bottom');
+    this.HEREMapUI.getControl('zoom').setAlignment(
+      H.ui.LayoutAlignment.RIGHT_MIDDLE
+    );
+    this.HEREMapUI.getControl('mapsettings').setAlignment(
+      H.ui.LayoutAlignment.RIGHT_MIDDLE
+    );
+    this.HEREMapUI.getControl('scalebar').setAlignment(
+      H.ui.LayoutAlignment.LEFT_BOTTOM
+    );
     // Enable the event system on the map instance:
     this.HEREmapEvents = new H.mapevents.MapEvents(this.HEREMapObj);
     // Instantiate the default behavior on the map events
@@ -435,8 +451,8 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
     const coordinates = this.HEREMapObj.screenToGeo(viewportX, viewportY);
     // TODO - check precision of coordinates with backend team
     return {
-      lat: Math.abs(coordinates.lat.toFixed(4)),
-      lng: Math.abs(coordinates.lng.toFixed(4)),
+      lat: Math.abs(parseFloat(coordinates.lat.toFixed(4))),
+      lng: Math.abs(parseFloat(coordinates.lng.toFixed(4))),
     };
   }
 
