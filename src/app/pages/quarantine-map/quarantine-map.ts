@@ -6,7 +6,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { Subscription } from 'rxjs';
+import { fromEventPattern, Observable, Subscription } from 'rxjs';
 
 import { RequestInfoModalComponent } from 'src/app/components/request-info-modal/request-info-modal.component';
 import { GeoLocationService } from 'src/app/shared/services/geo-location/geo-location.service';
@@ -31,6 +31,7 @@ import {
   defaultUserType,
   defaultPrimaryColor,
 } from 'src/app/constants/core-api';
+import { debounce, debounceTime, first, throttleTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-quarantine-map',
@@ -58,6 +59,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
   showSearchResults: boolean;
 
   currentLocation: LatLng = undefined;
+  gpsAccuracy: number;
   loadingAniHEREMap: HTMLIonLoadingElement;
   loadingAniNearbyParticipants: HTMLIonLoadingElement;
   loadingAniGPSData: HTMLIonLoadingElement;
@@ -68,6 +70,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
   isLoggedIn: boolean;
   userType: string;
   authSubs: Subscription;
+  mapChangeObservable: Observable<any>;
 
   constructor(
     private geoLocationService: GeoLocationService,
@@ -83,6 +86,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
     this.showFiltering = false;
     this.showSearchResults = false;
     this.isLoggedIn = false;
+    this.mapChangeObservable = undefined;
   }
 
   ngOnInit() {
@@ -127,7 +131,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
       crossOrigin: false,
       size: { w: 56, h: 56 },
     });
-    this.locationIcon = new H.map.Icon('assets/common/allIcon.svg', {
+    this.locationIcon = new H.map.Icon('assets/common/userLocation.svg', {
       crossOrigin: false,
       size: { w: 56, h: 56 },
     });
@@ -176,7 +180,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
   getGPSLocation() {
     this.geoLocationService
       .getCurrentPosition()
-      .then((mapCenterlatLng) => {
+      .then((userLocation) => {
         // Destroy loading controller on dismiss
         if (this.loadingAniGPSData !== undefined) {
           this.loadingAniGPSData.dismiss().then(() => {
@@ -184,9 +188,10 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
           });
         }
         this.currentLocation = {
-          lat: mapCenterlatLng.coords.latitude,
-          lng: mapCenterlatLng.coords.longitude,
+          lat: userLocation.coords.latitude,
+          lng: userLocation.coords.longitude,
         };
+        this.gpsAccuracy = userLocation.coords.accuracy;
 
         // Checks to see if we are re-trying to get GPS or the first time
         if (this.HEREMapObj === undefined) {
@@ -201,7 +206,9 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
           this.currentLocation,
           this.filters.categories
         );
+
         this.HEREMapObj.setCenter(this.currentLocation, true);
+        this.setCurrentLocationMarker(this.currentLocation);
       })
       .catch((error) => {
         console.error(`ERROR - Unable to getting location`, error);
@@ -236,12 +243,16 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
     // Start a map loading animation and dismiss after 5 sec.
     this.miscService
       .presentLoadingWithOptions({
-        duration: 3000,
+        duration: 0,
         message: `Loading the map.`,
       })
       .then((onLoadSuccess) => {
         this.loadingAniHEREMap = onLoadSuccess;
         this.loadingAniHEREMap.present();
+        this.mapChangeObservable.pipe(first()).subscribe(() => {
+          this.loadingAniHEREMap.dismiss();
+          this.startMapViewChangeListener();
+        });
       })
       .catch((error) => alert(error));
 
@@ -292,20 +303,43 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
     this.HEREmapEvents = new H.mapevents.MapEvents(this.HEREMapObj);
     // Instantiate the default behavior on the map events
     this.mapEventsBehavior = new H.mapevents.Behavior(this.HEREmapEvents);
+
+    this.mapChangeObservable = fromEventPattern((handler: any) => {
+      this.HEREMapObj.addEventListener('mapviewchangeend', handler);
+    }).pipe(debounceTime(2000), throttleTime(2000));
+  }
+
+  startMapViewChangeListener() {
+    this.mapChangeObservable.subscribe((change) => {
+      const currentViewBox: H.geo.Rect = this.HEREMapObj.getViewModel()
+        .getLookAtData()
+        .bounds.getBoundingBox();
+      const diagonalDistance: number = currentViewBox
+        .getTopLeft()
+        .distance(currentViewBox.getBottomRight());
+      this.getNearbyParticipants(
+        diagonalDistance,
+        this.HEREMapObj.getCenter(),
+        this.filters.categories,
+        true
+      );
+    });
   }
 
   // TODO - refactor
   getNearbyParticipants(
     radius: number,
     latlng: LatLng,
-    categories: Category[]
+    categories: Category[],
+    isMapViewEventTriggered: boolean = false
   ) {
     // Removes all markers, marker group and event listeners.
     this.markers.forEach((marker) => {
       marker.dispose();
     });
-    // this.markerGroup.removeObjects(this.markers);
+
     this.HEREMapObj.removeObjects(this.HEREMapObj.getObjects());
+    this.setCurrentLocationMarker(this.currentLocation);
 
     // create a RequestTypes string value for query param, as per API requirements.
     let requestType: RequestTypes;
@@ -334,8 +368,8 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
                 this.loadingAniNearbyParticipants = undefined;
               });
             }
-            // Inform user if there are no nearby requests
-            if (result.body.count === 0) {
+            // Inform user if there are no nearby requests on first load
+            if (result.body.count === 0 && !isMapViewEventTriggered) {
               this.miscService.presentAlert({
                 header: 'Welcome volunteer',
                 subHeader: null,
@@ -344,14 +378,14 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
                 buttons: ['Ok'],
               });
             } else {
-              this.dropMarkersAndReCenter(result.body.results);
+              this.dropMarkers(result.body.results, !isMapViewEventTriggered);
             }
           });
       })
       .catch((error) => alert(error));
   }
 
-  dropMarkersAndReCenter(participants) {
+  dropMarkers(participants, doReCenter: boolean = true) {
     participants.forEach((participant: NearbyParticipant) => {
       // Set the correct icon for the marker, based on the requests
       const isGroceryRequest = participant.requests.some(
@@ -401,10 +435,41 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
     this.markerGroup.addObjects(this.markers);
     this.HEREMapObj.addObject(this.markerGroup);
 
-    // get geo bounding box for the group and set it to the map
-    this.HEREMapObj.getViewModel().setLookAtData({
-      bounds: this.markerGroup.getBoundingBox(),
+    // get geo bounding box for the group and set it to the map, practically centering the map
+    if (doReCenter) {
+      this.HEREMapObj.getViewModel().setLookAtData({
+        bounds: this.markerGroup.getBoundingBox(),
+      });
+    }
+  }
+
+  setCurrentLocationMarker(location: LatLng) {
+    if (this.locMarkerGroup) {
+      this.locMarkerGroup.removeAll();
+    }
+
+    this.currentLocMarker = new H.map.Marker(location, {
+      icon: this.locationIcon,
     });
+
+    // const currentLocAccuracyCircle = new H.map.Circle(
+    //   location,
+    //   this.gpsAccuracy,
+    //   {
+    //     style: {
+    //       strokeColor: 'rgba(121, 189, 203, 0.7)', // Color of the perimeter
+    //       lineWidth: 2,
+    //       fillColor: 'rgba(181, 225, 234, 0.4)', // Color of the circle
+    //     },
+    //   }
+    // );
+
+    this.locMarkerGroup = new H.map.Group();
+    this.locMarkerGroup.addObjects([
+      this.currentLocMarker,
+      // currentLocAccuracyCircle,
+    ]);
+    this.HEREMapObj.addObject(this.locMarkerGroup);
   }
 
   // Create markers for each participant request and attach handlers to show Request cards onClick
@@ -412,7 +477,7 @@ export class QuarantineMapPage implements OnInit, AfterViewInit {
     const marker = new H.map.Marker(coordinates, markerIcon);
     marker.addEventListener(
       'tap',
-      (event) => {
+      (event: any) => {
         this.showRequestCard(
           event.currentPointer,
           this.getLatLngFromScreen(event.currentPointer),
