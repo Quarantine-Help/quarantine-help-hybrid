@@ -1,21 +1,35 @@
 ion-toolbar {
-  --border-color: transparent;
+  margin-top: 8vh;
+}
+
+h4 {
+  margin: 0;
+  padding: 0.5rem 2.5rem;
+  background-color: #e9e9e9;
 }
 
 ion-button {
-  width: 70vw;
+  width: 40vw;
   margin-left: auto;
   margin-right: auto;
 }
 
-ion-text{
-  strong{
+ion-text {
+  strong {
     vertical-align: middle;
   }
 }
 
 ion-icon {
   vertical-align: middle;
+}
+
+form {
+  margin: 0 10vw 10vw 10vw;
+}
+
+.login-button {
+  text-transform: none;
 }
 
 .reg-icon {
@@ -45,7 +59,7 @@ ion-card {
 }
 
 //md upto lg devices
-@media (min-width:768px) {
+@media (min-width: 768px) {
   ion-img {
     max-width: 50vw;
     max-height: 200px;
@@ -53,7 +67,7 @@ ion-card {
 }
 
 // xl and above devices
-@media (min-width:1200px) {
+@media (min-width: 1200px) {
   ion-toolbar {
     height: 15vh;
   }
