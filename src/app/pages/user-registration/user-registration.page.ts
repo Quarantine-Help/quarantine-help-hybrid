@@ -2,12 +2,14 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { filter, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { UserType } from 'src/app/models/core-api';
 import { GeoLocationService } from 'src/app/shared/services/geo-location/geo-location.service';
 import { MiscService } from 'src/app/shared/services/misc/misc.service';
 import { HEREMapService } from 'src/app/shared/services/HERE-map/here-map.service';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
+
 import { LatLng } from '../../models/geo';
 import { UserRegData, UserRegResponse } from 'src/app/models/auth';
 import {
@@ -15,7 +17,6 @@ import {
   defaultUserType,
   defaultPrimaryColor,
 } from 'src/app/constants/core-api';
-import { filter, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import {
   countryList,
   isoCountry3To2Mapping,
@@ -23,12 +24,12 @@ import {
 import { UserThemeColorPrimary } from 'src/app/models/ui';
 
 interface UserAddress {
-  address: string;
+  address?: string;
   city: string;
   country: string;
-  countryCode: string;
-  postCode: string;
-  placeId: string;
+  countryCode?: string;
+  postCode?: string;
+  placeId?: string;
 }
 @Component({
   selector: 'app-user-registration',
@@ -68,8 +69,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) {
     this.regForm = new FormGroup({
-      firstName: new FormControl('', [Validators.required]),
-      lastName: new FormControl('', [Validators.required]),
+      fullName: new FormControl('', [Validators.required]),
       address: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
@@ -138,20 +138,11 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
       this.regFormClean = false;
     });
 
-    // Provide user with instructions on filling the form.
-    this.miscService.presentAlert({
-      header: 'Info',
-      subHeader: 'Registration Options',
-      buttons: ['Ok'],
-      message: `Please select <strong>I'm Quarantined</strong> if you are in quarantine and require assistance from volunteers.
-      <br><br>You may continue in the <strong>I Volunteer</strong> tab otherwise.`,
-    });
-
     // Start the loading animation for getting GPS data
     this.miscService
       .presentLoadingWithOptions({
         duration: 0,
-        message: `Getting current location.`,
+        message: `Getting you location.`,
       })
       .then((onLoadSuccess) => {
         this.loadingAniGPSData = onLoadSuccess;
@@ -334,8 +325,7 @@ export class UserRegistrationPage implements OnInit, OnDestroy {
     };
 
     userData.user = {
-      firstName: this.regForm.get('firstName').value,
-      lastName: this.regForm.get('lastName').value,
+      fullName: this.regForm.get('fullName').value,
       email: this.regForm.get('email').value,
       password: this.regForm.get('password').value,
     };

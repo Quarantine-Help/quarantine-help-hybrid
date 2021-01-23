@@ -9,12 +9,6 @@ interface Position {
   latitude: string;
 }
 
-export interface User {
-  firstName: string;
-  lastName: string;
-  email: string;
-}
-
 interface Headers {
   normalizedNames?: any;
   lazyUpdate?: any;
@@ -34,6 +28,12 @@ interface NearbyParticipantsResponseBody {
   next?: any;
   previous?: any;
   results: NearbyParticipant[];
+}
+
+export interface User {
+  firstName: string;
+  lastName: string;
+  email: string;
 }
 
 export interface NearbyParticipant {
@@ -86,10 +86,4 @@ export interface UserProfileData {
   city?: string;
   phone: string;
   crisis?: number;
-}
-
-export interface AcceptRequestAPIParams {
-  participantId: number;
-  requestId: number;
-  crisisId: number;
 }

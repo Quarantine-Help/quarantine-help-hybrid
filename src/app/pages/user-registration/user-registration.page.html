@@ -1,47 +1,38 @@
-<ion-header translucent class="hide-lg hide-xl">
-  <ion-toolbar fixed [color]="userThemeColorPrimary">
-    <ion-buttons slot="start">
-      <ion-menu-button autoHide="false"></ion-menu-button>
-      <ion-title>Quarantine Help</ion-title>
-    </ion-buttons>
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>
+      <ion-row class="ion-justify-content-start ion-align-items-center">
+        <ion-back-button mode="md" icon="chevron-back"></ion-back-button>
+        <ion-text class="about">
+          <h1>Register</h1>
+        </ion-text>
+      </ion-row>
+    </ion-title>
   </ion-toolbar>
+  <ion-row class="ion-justify-content-center ion-align-items-center ion-padding-top">
+    <h4>
+      {{ userType === 'HL' ? 'Volunteer' : 'Quarantined'}}
+    </h4>
+  </ion-row>
 </ion-header>
 
-<ion-content class="ion-padding ion-margin">
-  <ion-grid class="ion-padding top-spacer">
-    <ion-segment [(ngModel)]="userType">
-      <ion-segment-button value="AF">
-        <ion-label>I'm Quarantined</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="HL">
-        <ion-label>I Volunteer</ion-label>
-      </ion-segment-button>
-    </ion-segment>
+<ion-content class="ion-padding ion-margin ion-justify-content-center">
+  <ion-grid class="ion-padding top-spacer ion-justify-content-center">
+
+    <!-- <ion-label>Quarantined</ion-label> -->
+
 
     <form [formGroup]="regForm">
       <ion-row class="ion-justify-content-center">
-        <ion-col size-md="2" size-lg="2">
+        <ion-col size-md="4" size-lg="4" size-xs="12">
           <ion-item>
-            <ion-label color="medium" position="floating">First Name</ion-label>
-            <ion-input required formControlName="firstName"></ion-input>
+            <ion-label color="medium-text" position="floating">Full Name</ion-label>
+            <ion-input required formControlName="fullName"></ion-input>
           </ion-item>
           <ion-item lines="none" class="formInvalid"
-            *ngIf="(regForm.get('firstName').invalid && (regForm.get('firstName').dirty || regForm.get('firstName').touched))">
-            <div *ngIf="regForm.get('firstName').errors.required">
+            *ngIf="(regForm.get('fullName').invalid && (regForm.get('fullName').dirty || regForm.get('fullName').touched))">
+            <div *ngIf="regForm.get('fullName').errors.required">
               First Name is required.
-            </div>
-          </ion-item>
-        </ion-col>
-
-        <ion-col size-md="2" size-lg="2">
-          <ion-item>
-            <ion-label color="medium" position="floating">Last Name</ion-label>
-            <ion-input required formControlName="lastName"></ion-input>
-          </ion-item>
-          <ion-item lines="none" class="formInvalid"
-            *ngIf="(regForm.get('lastName').invalid && (regForm.get('lastName').dirty || regForm.get('lastName').touched))">
-            <div *ngIf="regForm.get('lastName').errors.required">
-              Last Name is required.
             </div>
           </ion-item>
         </ion-col>
@@ -50,7 +41,68 @@
       <ion-row class="ion-justify-content-center">
         <ion-col size-md="4" size-lg="4" size-xs="12">
           <ion-item>
-            <ion-label color="medium" position="floating"> Address Line </ion-label>
+            <ion-label color="medium-text" position="floating">Email address </ion-label>
+            <ion-input required formControlName="email" type="email"></ion-input>
+          </ion-item>
+          <ion-item lines="none" class="formInvalid"
+            *ngIf="(regForm.get('email').invalid && (regForm.get('email').dirty || regForm.get('email').touched))">
+            <div *ngIf="regForm.get('email').errors.required">
+              Email address is required.
+            </div>
+            <div *ngIf="regForm.get('email').errors.email">
+              Please enter a valid email.
+            </div>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-md="4" size-lg="4" size-xs="12">
+          <ion-item>
+            <ion-label color="medium-text" position="floating">Phone Number </ion-label>
+            <ion-input required formControlName="phoneNumber" type="tel"></ion-input>
+          </ion-item>
+          <ion-item lines="none" class="formInvalid"
+            *ngIf="(regForm.get('phoneNumber').invalid && (regForm.get('phoneNumber').dirty || regForm.get('phoneNumber').touched))">
+            <div *ngIf="regForm.get('phoneNumber').errors.required">
+              Phone Number is required.
+            </div>
+            <div *ngIf="regForm.get('phoneNumber').errors.minlength">
+              Please enter at least 8 digits.
+            </div>
+            <div *ngIf="regForm.get('phoneNumber').errors.maxlength">
+              Number exceeded maximum length.
+            </div>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-md="4" size-lg="4" size-xs="12">
+          <ion-item>
+            <ion-label color="medium-text" position="floating">Password </ion-label>
+            <ion-input [type]="passwordIcon === 'eye'? 'password':'text'" required formControlName="password"
+              type="password"></ion-input>
+            <ion-icon slot="end" [name]="passwordIcon" (click)="togglePasswordVisibility()" color="medium"
+              class="ion-align-self-center">
+            </ion-icon>
+          </ion-item>
+          <ion-item lines="none" class="formInvalid"
+            *ngIf="(regForm.get('password').invalid && (regForm.get('password').dirty || regForm.get('password').touched))">
+            <div *ngIf="regForm.get('password').errors.required">
+              Password is required.
+            </div>
+            <div *ngIf="regForm.get('password').errors.minlength">
+              Please enter minimum 8 characters.
+            </div>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-md="4" size-lg="4" size-xs="12">
+          <ion-item>
+            <ion-label color="medium-text" position="floating"> Address Line </ion-label>
             <ion-input required formControlName="address"></ion-input>
           </ion-item>
           <ion-list *ngIf="displayAddressSearchResult && addressResultList.length > 0" lines="none"
@@ -73,7 +125,7 @@
       <ion-row class="ion-justify-content-center">
         <ion-col size-md="4" size-lg="4" size-xs="12">
           <ion-item>
-            <ion-label color="medium" position="floating"> Post Code </ion-label>
+            <ion-label color="medium-text" position="floating"> Post Code </ion-label>
             <ion-input required formControlName="postCode"></ion-input>
           </ion-item>
           <ion-item lines="none" class="formInvalid"
@@ -88,7 +140,7 @@
       <ion-row class="ion-justify-content-center">
         <ion-col size-md="4" size-lg="4" size-xs="12">
           <ion-item>
-            <ion-label color="medium" position="floating"> City </ion-label>
+            <ion-label color="medium-text" position="floating"> City </ion-label>
             <ion-input required formControlName="city"></ion-input>
           </ion-item>
           <ion-item lines="none" class="formInvalid"
@@ -106,7 +158,7 @@
       <ion-row class="ion-justify-content-center">
         <ion-col size-md="4" size-lg="4" size-xs="12">
           <ion-item (click)="showCountrySearch()">
-            <ion-label color="medium" position="floating"> Country </ion-label>
+            <ion-label color="medium-text" position="floating"> Country </ion-label>
             <ion-input readonly="true" required formControlName="country"></ion-input>
           </ion-item>
           <ion-item *ngIf="displayCountrySearchResult" lines="none">
@@ -132,75 +184,21 @@
         </ion-col>
       </ion-row>
 
-      <ion-row class="ion-justify-content-center">
-        <ion-col size-md="4" size-lg="4" size-xs="12">
-          <ion-item>
-            <ion-label color="medium" position="floating">Email address </ion-label>
-            <ion-input required formControlName="email" type="email"></ion-input>
-          </ion-item>
-          <ion-item lines="none" class="formInvalid"
-            *ngIf="(regForm.get('email').invalid && (regForm.get('email').dirty || regForm.get('email').touched))">
-            <div *ngIf="regForm.get('email').errors.required">
-              Email address is required.
-            </div>
-            <div *ngIf="regForm.get('email').errors.email">
-              Please enter a valid email.
-            </div>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-
-      <ion-row class="ion-justify-content-center">
-        <ion-col size-md="4" size-lg="4" size-xs="12">
-          <ion-item>
-            <ion-label color="medium" position="floating">Phone Number </ion-label>
-            <ion-input required formControlName="phoneNumber" type="tel"></ion-input>
-          </ion-item>
-          <ion-item lines="none" class="formInvalid"
-            *ngIf="(regForm.get('phoneNumber').invalid && (regForm.get('phoneNumber').dirty || regForm.get('phoneNumber').touched))">
-            <div *ngIf="regForm.get('phoneNumber').errors.required">
-              Phone Number is required.
-            </div>
-            <div *ngIf="regForm.get('phoneNumber').errors.minlength">
-              Please enter at least 8 digits.
-            </div>
-            <div *ngIf="regForm.get('phoneNumber').errors.maxlength">
-              Number exceeded maximum length.
-            </div>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-
-      <ion-row class="ion-justify-content-center">
-        <ion-col size-md="4" size-lg="4" size-xs="12">
-          <ion-item>
-            <ion-label color="medium" position="floating">Password </ion-label>
-            <ion-input [type]="passwordIcon === 'eye'? 'password':'text'" required formControlName="password"
-              type="password"></ion-input>
-            <ion-icon slot="end" [name]="passwordIcon" (click)="togglePasswordVisibility()" color="medium"
-              class="ion-align-self-center">
-            </ion-icon>
-          </ion-item>
-          <ion-item lines="none" class="formInvalid"
-            *ngIf="(regForm.get('password').invalid && (regForm.get('password').dirty || regForm.get('password').touched))">
-            <div *ngIf="regForm.get('password').errors.required">
-              Password is required.
-            </div>
-            <div *ngIf="regForm.get('password').errors.minlength">
-              Please enter minimum 8 characters.
-            </div>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-
-      <ion-row class="ion-justify-content-center ion-padding-vertical">
-        <ion-col size-md="4" size-lg="3" size-xs="8">
-          <ion-button [color]="userThemeColorPrimary" shape="round" expand="full" size="default" fill="outline"
-            [disabled]="(regFormClean || !regForm.valid)" (click)="registerUser()">
-            Register
-          </ion-button>
-        </ion-col>
-      </ion-row>
     </form>
   </ion-grid>
 </ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-row class="ion-justify-content-center ion-padding-top ">
+    <ion-col size-md="4" size-lg="3" size-xs="8">
+      <ion-button [color]="userThemeColorPrimary" shape="round" expand="full" size="default" fill="solid"
+        [disabled]="(regFormClean || !regForm.valid)" (click)="registerUser()" class="submit-button">
+        Register
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="ion-justify-content-center ion-padding-bottom">
+    <p>Already have an account? <a routerLink="/login"> Log in</a></p>
+  </ion-row>
+</ion-footer>
