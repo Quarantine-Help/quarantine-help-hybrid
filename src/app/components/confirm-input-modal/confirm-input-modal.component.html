@@ -1,0 +1,33 @@
+<div class="ion-padding modal-container">
+  <ion-icon class="close" name="close" size="large" (click)="dismissModal()"></ion-icon>
+  <ion-row class="ion-justify-content-start ion-align-items-center">
+    <ion-text class="question">
+      <h1> <strong> {{ question }} </strong> </h1>
+    </ion-text>
+  </ion-row>
+  <ion-row class="ion-justify-content-center ion-align-items-center">
+    <ion-text class="note">
+      <small> {{ note }} </small>
+    </ion-text>
+  </ion-row>
+  <ion-row class="ion-justify-content-center ion-align-items-center">
+    <ion-col class="ion-justify-content-center ion-align-items-center denial-checkbox" size="3">
+      <ion-checkbox mode="md" value="nope" size="large"></ion-checkbox>
+      <ion-label class="denial-text">{{ radioLabel }}</ion-label>
+    </ion-col>
+    <ion-col class="ion-justify-content-center ion-align-items-center" size="7" offset="1">
+      <ion-item color="primaryAF" lines="none">
+        <ion-label class="affirmation-text">
+          <h1> {{ textboxLabel }} </h1>
+        </ion-label>
+        <ion-input class="ion-margin ion-padding amount-input" placeholder="amount"></ion-input>
+        <span>SEK</span>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <ion-row class="ion-text-center button-margin">
+    <ion-col>
+      <ion-button color="light" shape="round" strong="true" size="large"> {{ button }} </ion-button>
+    </ion-col>
+  </ion-row>
+</div>

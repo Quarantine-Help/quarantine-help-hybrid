@@ -5,9 +5,12 @@ import { PickerOptions } from '@ionic/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { CoreAPIService } from 'src/app/shared/services/core-api/core-api.service';
 import { MiscService } from 'src/app/shared/services/misc/misc.service';
-import { UserThemeColorPrimary, UserThemeColorSecondary } from 'src/app/models/ui';
+import {
+  UserThemeColorPrimary,
+  UserThemeColorSecondary,
+} from 'src/app/models/ui';
 import { ModalController } from '@ionic/angular';
-import { ConfirmModalComponent } from '../../components/confirm-modal/confirm-modal.component';
+import { ConfirmInputModalComponent } from '../../components/confirm-input-modal/confirm-input-modal.component';
 
 @Component({
   selector: 'app-create-request',
@@ -210,15 +213,16 @@ export class CreateRequestPage implements OnInit {
 
   async presentModal() {
     const modal = await this.modalController.create({
-      component: ConfirmModalComponent,
+      component: ConfirmInputModalComponent,
       cssClass: 'my-custom-class',
       componentProps: {
         question: 'Would you like to pay off volunteers for this request?',
-        note: '* Its not mandantory, we encourage you to do so if you have urgent needs, that increases response speed. Its promise-based deal, we dont process the payoff',
+        note:
+          "* It's not mandatory, we encourage you to do so if you have urgent needs, that increases response speed. Its promise-based deal, we don't process the payoff",
         radioLabel: 'Nope',
         textboxLabel: 'Yes',
-        button: 'finish'
-      }
+        button: 'finish',
+      },
     });
     return await modal.present();
   }
