@@ -3,22 +3,21 @@ import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-confirm-modal',
-  templateUrl: './confirm-modal.component.html',
-  styleUrls: ['./confirm-modal.component.scss'],
+  templateUrl: './confirm-input-modal.component.html',
+  styleUrls: ['./confirm-input-modal.component.scss'],
 })
-export class ConfirmModalComponent implements OnInit {
+export class ConfirmInputModalComponent implements OnInit {
   @Input() question: string;
   @Input() note: string;
   @Input() radioLabel: string;
   @Input() textboxLabel: string;
   @Input() button: string;
 
-  constructor(public modalController: ModalController) { }
+  constructor(public modalController: ModalController) {}
 
   ngOnInit() {}
 
-  dismiss() {
+  dismissModal() {
     this.modalController.dismiss();
   }
-
 }
