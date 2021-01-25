@@ -136,7 +136,7 @@ export class CreateRequestPage implements OnInit {
     return currentTime.toISOString();
   }
 
-  submitRequest() {
+  callCreateRequestAPI(modalData: any) {
     if (this.segmentSelected === 'Medicine') {
       this.selectedType = 'M';
     } else if (this.segmentSelected === 'Grocery') {
@@ -149,6 +149,7 @@ export class CreateRequestPage implements OnInit {
       type: this.selectedType,
       deadline: this.calculateDeadline(this.deadline.days, this.deadline.hours),
       description: this.requestForm.value.requestMessage,
+      ...modalData,
     };
 
     this.miscService
@@ -212,8 +213,9 @@ export class CreateRequestPage implements OnInit {
   }
 
   async presentModal() {
-    const modal = await this.modalController.create({
+    const modalController = await this.modalController.create({
       component: ConfirmInputModalComponent,
+      id: 'create-request-pay',
       cssClass: 'my-custom-class',
       componentProps: {
         question: 'Would you like to pay off volunteers for this request?',
@@ -224,6 +226,12 @@ export class CreateRequestPage implements OnInit {
         button: 'finish',
       },
     });
-    return await modal.present();
+
+    await modalController.present();
+    return await modalController.onDidDismiss().then((dismissedModal: any) => {
+      if (dismissedModal.role === 'finish') {
+        this.callCreateRequestAPI(dismissedModal.data);
+      }
+    });
   }
 }

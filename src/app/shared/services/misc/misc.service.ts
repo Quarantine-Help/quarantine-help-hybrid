@@ -34,6 +34,7 @@ export class MiscService {
     // operator) is used here and will replace the existing value.
     return this.loadingController.create({
       spinner: 'bubbles',
+      id: 'presentLoadingWithOptions',
       duration: 5000,
       message: 'Loader will dismiss in 5 seconds...',
       translucent: true,
@@ -45,6 +46,7 @@ export class MiscService {
   async presentAlert(options: AlertOptions) {
     const alert = await this.alertController.create({
       header: 'Error',
+      id: 'presentAlert',
       subHeader: 'Login failed !',
       message: 'Unknown error !',
       cssClass: 'alert-backdrop',
@@ -57,6 +59,7 @@ export class MiscService {
   presentToastWithOptions(options?) {
     return this.toastController.create({
       message: 'Click to Close',
+      id: 'presentToastWithOptions',
       position: 'bottom',
       cssClass: 'toast-service-class',
       buttons: [
