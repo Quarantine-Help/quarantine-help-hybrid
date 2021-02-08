@@ -23,9 +23,6 @@ export class AboutUsPage implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    this.userType = defaultUserType;
-    this.userThemeColorPrimary = defaultPrimaryColor;
-
     this.isLoggedIn = false;
     this.userType = defaultUserType;
     this.userThemeColorPrimary = defaultPrimaryColor;

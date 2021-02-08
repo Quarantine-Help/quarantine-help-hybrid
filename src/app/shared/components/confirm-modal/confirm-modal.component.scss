@@ -1,0 +1,66 @@
+ion-button {
+  width: 60%;
+  text-transform: lowercase;
+}
+
+ion-input {
+  background-color: var(--ion-color-light);
+}
+
+h1 {
+  font-size: x-large;
+
+  strong {
+    font-size: xx-large;
+  }
+}
+
+.modal-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100vh;
+  --ion-padding: 32px;
+}
+
+.afUser {
+  ion-radio {
+    --color-checked: var(--ion-color-secondaryAF);
+    --color: white;
+    --border-radius: 50%;
+    background-color: white;
+    border-radius: 50%;
+  }
+
+  background-color: var(--ion-color-primaryAF);
+}
+
+.hlUser {
+  ion-radio {
+    --color-checked: var(--ion-color-secondaryHL);
+    --color: white;
+    --border-radius: 50%;
+    background-color: white;
+    border-radius: 50%;
+  }
+
+  background-color: var(--ion-color-primaryHL);
+}
+
+.question {
+  width: 95%;
+}
+
+.affirmation-text,
+.denial-text {
+  font-size: larger;
+  font-weight: bolder;
+  margin-left: 2vw;
+}
+
+.close {
+  position: absolute;
+  top: 5vh;
+  right: 5vw;
+  cursor: pointer;
+}
