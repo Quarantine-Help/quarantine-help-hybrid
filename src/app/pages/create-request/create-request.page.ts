@@ -216,11 +216,9 @@ export class CreateRequestPage implements OnInit {
     const modalController = await this.modalController.create({
       component: ConfirmInputModalComponent,
       id: 'create-request-pay',
-      cssClass: 'my-custom-class',
       componentProps: {
         question: 'Would you like to pay off volunteers for this request?',
-        note:
-          "* It's not mandatory, we encourage you to do so if you have urgent needs, that increases response speed. Its promise-based deal, we don't process the payoff",
+        note: `* It's not mandatory, we encourage you to do so if you have urgent needs, that increases response speed. Its promise-based deal, we don't process the payoff`,
         radioLabel: 'Nope',
         textboxLabel: 'Yes',
         button: 'finish',

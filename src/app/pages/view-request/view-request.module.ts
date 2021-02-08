@@ -13,8 +13,8 @@ import { ViewRequestPage } from './view-request.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    ViewRequestPageRoutingModule
+    ViewRequestPageRoutingModule,
   ],
-  declarations: [ViewRequestPage]
+  declarations: [ViewRequestPage],
 })
 export class ViewRequestPageModule {}

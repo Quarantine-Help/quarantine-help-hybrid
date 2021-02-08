@@ -1,14 +1,21 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 
 import { CallNumberService } from 'src/app/shared/services/call-number/call-number.service';
 import { MiscService } from 'src/app/shared/services/misc/misc.service';
 import { CoreAPIService } from 'src/app/shared/services/core-api/core-api.service';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
+
 import { UserType } from 'src/app/models/core-api';
-import { defaultUserType, defaultPrimaryColor } from 'src/app/constants/core-api';
+import {
+  defaultUserType,
+  defaultPrimaryColor,
+} from 'src/app/constants/core-api';
 import { UserThemeColorPrimary } from 'src/app/models/ui';
+
+import { ConfirmModalComponent } from 'src/app/shared/components/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-viewrequest',
@@ -28,7 +35,8 @@ export class ViewRequestPage implements OnInit, OnDestroy {
     private callNumberService: CallNumberService,
     private miscService: MiscService,
     private coreAPIService: CoreAPIService,
-    private authService: AuthService
+    private authService: AuthService,
+    private modalController: ModalController
   ) {}
 
   ngOnInit() {
@@ -65,76 +73,83 @@ export class ViewRequestPage implements OnInit, OnDestroy {
       .catch((err) => console.log('Error launching dialer', err));
   }
 
-  resolveRequest() {
-    this.miscService.presentAlert({
-      header: 'Warning',
-      subHeader: 'Are you sure? ',
-      buttons: [
-        {
-          text: 'No',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {},
-        },
-        {
-          text: 'Yes',
-          handler: () => {
-            this.miscService
-              .presentLoadingWithOptions({
-                duration: 0,
-                message: `Resolving request`,
-              })
-              .then((onLoadSuccess) => {
-                this.loadingData = onLoadSuccess;
-                this.loadingData.present();
-                const status = {
-                  status: 'F',
-                };
-                this.coreAPIService
-                  .resolveARequest(this.requestId, status)
-                  .then((result: any) => {
-                    if (this.loadingData !== undefined) {
-                      this.loadingData.dismiss().then(() => {
-                        this.loadingData = undefined;
-                      });
-                    }
-                    this.miscService.presentAlert({
-                      header: 'Success!!!',
-                      subHeader: 'Request Resolved.',
-                      buttons: [
-                        {
-                          text: 'Ok',
-                          cssClass: 'secondary',
-                          handler: () => {
-                            this.router.navigate(['/my-requests'], { replaceUrl: true });
-                          },
-                        },
-                      ],
-                      message: `Request Resolved successfully. Click Ok to continue`,
-                    });
-                  })
-                  .catch((errorObj) => {
-                    this.loadingData.dismiss();
-                    const { error, status: statusCode } = errorObj;
-                    const errorMessages: string[] = [];
-                    for (const key in error) {
-                      if (
-                        error.hasOwnProperty(key) &&
-                        typeof key !== 'function'
-                      ) {
-                        console.error(error[key][0]);
-                        errorMessages.push(error[key][0]);
-                      }
-                    }
-                    // show the errors as alert
-                    this.handleErrors(errorMessages, statusCode);
-                  });
-              });
-          },
-        },
-      ],
-      message: `Are you sure you want to Resolve the Request? `,
+  async presentModal() {
+    const modalController = await this.modalController.create({
+      component: ConfirmModalComponent,
+      id: 'confirm-modal',
+      componentProps: {
+        question: 'Resolve request now?',
+        buttonLabel: 'finish',
+        confirmLabel: 'Yes, help has been delivered',
+        denyLabel: 'No, not yet',
+      },
     });
+
+    await modalController.present();
+    return await modalController.onDidDismiss().then((dismissedModal: any) => {
+      console.log('dismissedModal', dismissedModal);
+      if (
+        dismissedModal.role === 'finish' &&
+        dismissedModal.data.agreement === 'confirm'
+      ) {
+        this.resolveRequest();
+      }
+    });
+  }
+
+  resolveRequest() {
+    console.log('calling resolveRequest');
+
+    this.miscService
+      .presentLoadingWithOptions({
+        duration: 0,
+        message: `Resolving request`,
+      })
+      .then((onLoadSuccess) => {
+        this.loadingData = onLoadSuccess;
+        this.loadingData.present();
+        const status = {
+          status: 'F',
+        };
+        this.coreAPIService
+          .resolveARequest(this.requestId, status)
+          .then((result: any) => {
+            if (this.loadingData !== undefined) {
+              this.loadingData.dismiss().then(() => {
+                this.loadingData = undefined;
+              });
+            }
+            this.miscService.presentAlert({
+              header: 'Success!!!',
+              subHeader: 'Request Resolved.',
+              buttons: [
+                {
+                  text: 'Ok',
+                  cssClass: 'secondary',
+                  handler: () => {
+                    this.router.navigate(['/my-requests'], {
+                      replaceUrl: true,
+                    });
+                  },
+                },
+              ],
+              message: `Request Resolved successfully. Click Ok to continue`,
+            });
+          })
+          .catch((errorObj) => {
+            this.loadingData.dismiss();
+            const { error, status: statusCode } = errorObj;
+            const errorMessages: string[] = [];
+            for (const key in error) {
+              if (error.hasOwnProperty(key) && typeof key !== 'function') {
+                console.error(error[key][0]);
+                errorMessages.push(error[key][0]);
+              }
+            }
+            // show the errors as alert
+            this.handleErrors(errorMessages, statusCode);
+          });
+      });
   }
 
   removeRequest() {
@@ -175,7 +190,9 @@ export class ViewRequestPage implements OnInit, OnDestroy {
                           text: 'Ok',
                           cssClass: 'secondary',
                           handler: () => {
-                            this.router.navigate(['/my-requests'], { replaceUrl: true });
+                            this.router.navigate(['/my-requests'], {
+                              replaceUrl: true,
+                            });
                           },
                         },
                       ],
