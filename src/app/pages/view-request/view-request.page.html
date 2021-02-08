@@ -116,10 +116,10 @@
   *ngIf="(userType==='HL') && (requestData.status === 'P' || requestData.status === 'T')">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="removeRequest()" [color]="userThemeColorPrimary"> Remove </ion-button>
+      <ion-button (click)="removeRequest()" [color]="userThemeColorPrimary"> cancel delivery </ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button (click)="presentModal()" [color]="userThemeColorPrimary" fill="solid" size="default">Resolve</ion-button>
+      <ion-button (click)="presentModal()" [color]="userThemeColorPrimary" fill="solid" size="default">resolve request</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>
