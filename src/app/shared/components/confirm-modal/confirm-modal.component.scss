@@ -30,6 +30,9 @@ h1 {
     --border-radius: 50%;
     background-color: white;
     border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    --size: 6vw;
   }
 
   background-color: var(--ion-color-primaryAF);
@@ -42,6 +45,10 @@ h1 {
     --border-radius: 50%;
     background-color: white;
     border-radius: 50%;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    --size: 6vw;
   }
 
   background-color: var(--ion-color-primaryHL);
