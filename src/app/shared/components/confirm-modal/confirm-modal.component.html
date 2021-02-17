@@ -5,19 +5,19 @@
       <h1> <strong> {{ question }} </strong> </h1>
     </ion-text>
   </ion-row>
-  <ion-row class="ion-justify-content-center ion-align-items-center" [formGroup]="modalForm">
+  <ion-row class="ion-justify-content-start ion-align-items-center" [formGroup]="modalForm">
     <ion-radio-group formControlName="agreement">
       <ion-item class="ion-margin-bottom" lines="none" [color]="userType === 'HL' ? 'primaryHL': 'primaryAF'">
         <ion-radio radio-group mode=" md" size="large" value="confirm">
         </ion-radio>
-        <ion-label class="denial-text">
+        <ion-label class="denial-text ion-text-wrap">
           <h1>{{ confirmLabel }} </h1>
         </ion-label>
       </ion-item>
       <ion-item radio-group class="ion-margin-top" lines="none" [color]="userType === 'HL' ? 'primaryHL': 'primaryAF'">
         <ion-radio mode=" md" size="large" value="deny">
         </ion-radio>
-        <ion-label class="denial-text">
+        <ion-label class="denial-text ion-text-wrap">
           <h1>{{ denyLabel }} </h1>
         </ion-label>
       </ion-item>
