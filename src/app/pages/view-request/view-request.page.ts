@@ -73,7 +73,7 @@ export class ViewRequestPage implements OnInit, OnDestroy {
       .catch((err) => console.log('Error launching dialer', err));
   }
 
-  async presentModal() {
+  async displayResolveModal() {
     const modalController = await this.modalController.create({
       component: ConfirmModalComponent,
       id: 'confirm-modal',
@@ -152,75 +152,78 @@ export class ViewRequestPage implements OnInit, OnDestroy {
       });
   }
 
-  removeRequest() {
-    this.miscService.presentAlert({
-      header: 'Warning',
-      subHeader: 'Are you sure? ',
-      buttons: [
-        {
-          text: 'No',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {},
-        },
-        {
-          text: 'Yes',
-          handler: () => {
-            this.miscService
-              .presentLoadingWithOptions({
-                duration: 0,
-                message: `Removing request`,
-              })
-              .then((onLoadSuccess) => {
-                this.loadingData = onLoadSuccess;
-                this.loadingData.present();
-                this.coreAPIService
-                  .unassignRequest(this.requestId)
-                  .then((result: any) => {
-                    if (this.loadingData !== undefined) {
-                      this.loadingData.dismiss().then(() => {
-                        this.loadingData = undefined;
-                      });
-                    }
-                    this.miscService.presentAlert({
-                      header: 'Success!!!',
-                      subHeader: 'Request Removed.',
-                      buttons: [
-                        {
-                          text: 'Ok',
-                          cssClass: 'secondary',
-                          handler: () => {
-                            this.router.navigate(['/my-requests'], {
-                              replaceUrl: true,
-                            });
-                          },
-                        },
-                      ],
-                      message: `Request removed successfully. Click Ok to continue`,
-                    });
-                  })
-                  .catch((errorObj) => {
-                    this.loadingData.dismiss();
-                    const { error, status: statusCode } = errorObj;
-                    const errorMessages: string[] = [];
-                    for (const key in error) {
-                      if (
-                        error.hasOwnProperty(key) &&
-                        typeof key !== 'function'
-                      ) {
-                        console.error(error[key][0]);
-                        errorMessages.push(error[key][0]);
-                      }
-                    }
-                    // show the errors as alert
-                    this.handleErrors(errorMessages, statusCode);
-                  });
-              });
-          },
-        },
-      ],
-      message: `Are you sure you want to Remove the Request? `,
+  async displayRejectModal() {
+    const modalController = await this.modalController.create({
+      component: ConfirmModalComponent,
+      id: 'confirm-modal',
+      componentProps: {
+        question: 'Are you sure to cancel your help on this request?',
+        buttonLabel: 'finish',
+        confirmLabel: 'Yes',
+        denyLabel: 'No',
+      },
     });
+
+    await modalController.present();
+    return await modalController.onDidDismiss().then((dismissedModal: any) => {
+      console.log('dismissedModal', dismissedModal);
+      if (
+        dismissedModal.role === 'finish' &&
+        dismissedModal.data.agreement === 'confirm'
+      ) {
+        this.removeRequest();
+      }
+    });
+  }
+
+  removeRequest() {
+    this.miscService
+      .presentLoadingWithOptions({
+        duration: 0,
+        message: `Removing request`,
+      })
+      .then((onLoadSuccess) => {
+        this.loadingData = onLoadSuccess;
+        this.loadingData.present();
+        this.coreAPIService
+          .unassignRequest(this.requestId)
+          .then((result: any) => {
+            if (this.loadingData !== undefined) {
+              this.loadingData.dismiss().then(() => {
+                this.loadingData = undefined;
+              });
+            }
+            this.miscService.presentAlert({
+              header: 'Success!!!',
+              subHeader: 'Request Removed.',
+              buttons: [
+                {
+                  text: 'Ok',
+                  cssClass: 'secondary',
+                  handler: () => {
+                    this.router.navigate(['/my-requests'], {
+                      replaceUrl: true,
+                    });
+                  },
+                },
+              ],
+              message: `Request removed successfully. Click Ok to continue`,
+            });
+          })
+          .catch((errorObj) => {
+            this.loadingData.dismiss();
+            const { error, status: statusCode } = errorObj;
+            const errorMessages: string[] = [];
+            for (const key in error) {
+              if (error.hasOwnProperty(key) && typeof key !== 'function') {
+                console.error(error[key][0]);
+                errorMessages.push(error[key][0]);
+              }
+            }
+            // show the errors as alert
+            this.handleErrors(errorMessages, statusCode);
+          });
+      });
   }
 
   handleErrors(errorMessages: string[], statusCode) {
