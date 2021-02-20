@@ -89,6 +89,13 @@
   --ion-color-themetext-shade: #04669e;
   --ion-color-themetext-tint: #1e82bc;
 
+  --ion-color-medium-text: #c0c0c0;
+  --ion-color-medium-text-rgb: 192, 192, 192;
+  --ion-color-medium-text-contrast: #000000;
+  --ion-color-medium-text-contrast-rgb: 0, 0, 0;
+  --ion-color-medium-text-shade: #a9a9a9;
+  --ion-color-medium-text-tint: #c6c6c6;
+
   --ion-font-family: Questrial;
   // --ion-text-color: blue;
   // --ion-text-color-rgb:  rgb(0, 0, 255);
@@ -96,9 +103,9 @@
 
 @media (prefers-color-scheme: dark) {
   /*
-   * Dark Colors
-   * -------------------------------------------
-   */
+  * Dark Colors
+  * -------------------------------------------
+  */
 
   body {
     --ion-color-primaryAF: #f2cfcf;
@@ -185,13 +192,20 @@
     --ion-color-themetext-shade: #04669e;
     --ion-color-themetext-tint: #1e82bc;
 
+    --ion-color-medium-text: #c0c0c0;
+    --ion-color-medium-text-rgb: 192, 192, 192;
+    --ion-color-medium-text-contrast: #000000;
+    --ion-color-medium-text-contrast-rgb: 0, 0, 0;
+    --ion-color-medium-text-shade: #a9a9a9;
+    --ion-color-medium-text-tint: #c6c6c6;
+
     --ion-font-family: Questrial;
   }
 
   /*
-   * iOS Dark Theme
-   * -------------------------------------------
-   */
+  * iOS Dark Theme
+  * -------------------------------------------
+  */
 
   .ios body {
     --ion-background-color: #000000;
@@ -311,6 +325,15 @@
   --ion-color-contrast-rgb: var(--ion-color-themetext-contrast-rgb);
   --ion-color-shade: var(--ion-color-themetext-shade);
   --ion-color-tint: var(--ion-color-themetext-tint);
+}
+
+.ion-color-medium-text {
+  --ion-color-base: var(--ion-color-medium-text);
+  --ion-color-base-rgb: var(--ion-color-medium-text-rgb);
+  --ion-color-contrast: var(--ion-color-medium-text-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-medium-text-contrast-rgb);
+  --ion-color-shade: var(--ion-color-medium-text-shade);
+  --ion-color-tint: var(--ion-color-medium-text-tint);
 }
 
 @font-face {
