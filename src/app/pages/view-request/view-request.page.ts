@@ -12,8 +12,12 @@ import { UserType } from 'src/app/models/core-api';
 import {
   defaultUserType,
   defaultPrimaryColor,
+  defaultSecondaryColor,
 } from 'src/app/constants/core-api';
-import { UserThemeColorPrimary } from 'src/app/models/ui';
+import {
+  UserThemeColorPrimary,
+  UserThemeColorSecondary,
+} from 'src/app/models/ui';
 
 import { ConfirmModalComponent } from 'src/app/shared/components/confirm-modal/confirm-modal.component';
 
@@ -29,6 +33,7 @@ export class ViewRequestPage implements OnInit, OnDestroy {
   userType: UserType;
   authSubs: Subscription;
   userThemeColorPrimary: UserThemeColorPrimary;
+  userThemeColorSecondary: UserThemeColorSecondary;
   isLoggedIn: boolean;
   constructor(
     private router: Router,
@@ -47,6 +52,7 @@ export class ViewRequestPage implements OnInit, OnDestroy {
     this.isLoggedIn = false;
     this.userType = defaultUserType;
     this.userThemeColorPrimary = defaultPrimaryColor;
+    this.userThemeColorSecondary = defaultSecondaryColor;
 
     this.authSubs = this.authService.user.subscribe((user) => {
       if (user && user.email !== undefined && user.token !== undefined) {
@@ -54,10 +60,13 @@ export class ViewRequestPage implements OnInit, OnDestroy {
         this.isLoggedIn = true;
         this.userThemeColorPrimary =
           this.userType === 'AF' ? 'primaryAF' : 'primaryHL';
+        this.userThemeColorSecondary =
+          this.userType === 'AF' ? 'secondaryAF' : 'secondaryHL';
       } else {
         this.isLoggedIn = false;
         this.userType = defaultUserType;
         this.userThemeColorPrimary = defaultPrimaryColor;
+        this.userThemeColorSecondary = defaultSecondaryColor;
       }
     });
   }
@@ -224,6 +233,12 @@ export class ViewRequestPage implements OnInit, OnDestroy {
             this.handleErrors(errorMessages, statusCode);
           });
       });
+  }
+
+  async displayCloseRequestModal() {
+  }
+
+  editRequest() {
   }
 
   handleErrors(errorMessages: string[], statusCode) {

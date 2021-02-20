@@ -1,3 +1,16 @@
+hr {
+  border-bottom: solid 1px var(--ion-color-light-shade);
+}
+
+h5 {
+  margin: 0px;
+  padding: 0px;
+}
+
+ion-button {
+  text-transform: lowercase;
+}
+
 ion-icon {
   &[name='calendar-outline'] {
     font-size: 64px;
@@ -7,28 +20,91 @@ ion-icon {
     font-size: 32px;
   }
 
-  vertical-align: middle;
-}
-
-hr {
-  border-bottom: solid 1px var(--ion-color-light-shade);
-}
-
-.request-desc {
-  font-size: large;
-  line-height: 4vh;
-  min-height: 116px;
-  max-height: 200px;
-}
-
-h5 {
-  margin: 0px;
-  padding: 0px;
-}
-
-ion-icon {
-  vertical-align: middle;
   &.medium-icon {
-    zoom: 1.5;
+    font-size: 1.8em;
   }
+
+  vertical-align: middle;
+}
+
+ion-title {
+  font-weight: 900;
+  font-size: 1.4rem;
+}
+
+ion-item {
+  &.upper {
+    --inner-padding-bottom: 0;
+    --inner-padding-end: 10vw;
+    --inner-padding-start: 0vw;
+    --inner-padding-top: 0;
+  }
+
+  &.request-desc-box {
+    --inner-padding-bottom: 3vh;
+    --inner-padding-end: 7vw;
+    --inner-padding-start: 7vw;
+    --inner-padding-top: 0vh;
+  }
+
+  &.deadline-date {
+    display: flex;
+    height: 5%;
+    width: 65%;
+    margin: 0 auto;
+    top: -7vh;
+    position: relative;
+
+    ion-text {
+      color: white;
+      width: 100%;
+    }
+  }
+}
+
+ion-text {
+  &.request-desc-text {
+    height: 25vh;
+    width: 100%;
+    border-radius: 6.5vh;
+    font-size: large;
+    line-height: 4vh;
+    padding: 10vw;
+    overflow-y: auto;
+
+    &.AF {
+      background: var(--ion-color-primaryAF-light);
+    }
+
+    &.HL {
+      background: var(--ion-color-primaryHL-light);
+    }
+  }
+
+  h5 {
+    font-size: 1.2em;
+    line-height: 2em;
+  }
+}
+
+ion-grid {
+  &.person {
+    position: relative;
+    top: -4vh;
+    background: var(--ion-color-light);
+    padding: 2.5vw 10vw;
+  }
+
+  &.status {
+    position: relative;
+    top: -2vh;
+
+    ion-row {
+      --ion-padding: 10vw;
+    }
+  }
+}
+
+ion-footer {
+  --ion-padding: 0.5em;
 }
