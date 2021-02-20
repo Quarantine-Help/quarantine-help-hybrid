@@ -25,8 +25,8 @@
   </ion-row>
   <ion-row class="ion-text-center button-margin">
     <ion-col>
-      <ion-button disabled="false" (click)="dismissModal('finish')" color="light" shape="round" strong="true"
-        size="large"> {{ buttonLabel }}
+      <ion-button [disabled]="(modalForm.pristine || modalForm.invalid)" (click)="dismissModal('finish')" color="light"
+        shape="round" strong="true" size="large"> {{ buttonLabel }}
       </ion-button>
     </ion-col>
   </ion-row>
