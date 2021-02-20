@@ -1,17 +1,21 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, MenuController } from '@ionic/angular';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { MenuController } from '@ionic/angular';
 
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { MiscService } from 'src/app/shared/services/misc/misc.service';
 import { StorageService } from 'src/app/shared/services/storage/storage.service';
+
 import { LoginUserCred, LoginResponse } from '../../models/auth';
 import { UserType } from 'src/app/models/core-api';
 import { UserThemeColorPrimary } from 'src/app/models/ui';
-import { StorageKeys } from 'src/app/constants/core-api';
+import {
+  defaultPrimaryColor,
+  defaultUserType,
+  StorageKeys,
+} from 'src/app/constants/core-api';
 
 @Component({
   selector: 'app-login',
@@ -35,6 +39,7 @@ export class LoginPage implements OnInit, OnDestroy {
     private miscService: MiscService,
     private router: Router,
     private menu: MenuController,
+    private route: ActivatedRoute,
     private storageService: StorageService
   ) {
     this.userThemeColorPrimary = 'primaryAF';
@@ -65,8 +70,17 @@ export class LoginPage implements OnInit, OnDestroy {
     // this.loginForm.controls.email.setValue('testuser1@patient.com');
     // this.loginForm.controls.password.setValue('testuser1');
     // HL user
-    this.loginForm.controls.email.setValue('testuser4@patient.com');
-    this.loginForm.controls.password.setValue('testuser4');
+    this.loginForm.controls.email.setValue('');
+    this.loginForm.controls.password.setValue('');
+
+    this.userType = defaultUserType;
+    this.userThemeColorPrimary = defaultPrimaryColor;
+
+    this.route.queryParams.subscribe((params: Params) => {
+      this.userType = params.userType;
+      this.userThemeColorPrimary =
+        this.userType === 'AF' ? 'primaryAF' : 'primaryHL';
+    });
 
     this.loginSubs = this.loginForm.valueChanges.subscribe((change) => {
       this.pageClean = false;
