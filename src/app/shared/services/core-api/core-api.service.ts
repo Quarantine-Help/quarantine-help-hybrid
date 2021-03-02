@@ -85,4 +85,8 @@ export class CoreAPIService {
       status
     );
   }
+
+  closeRequest(requestId) {
+    return this.commonHTTP.httpDelete(`${this.afRequestsMgtURL}${requestId}`);
+  }
 }
