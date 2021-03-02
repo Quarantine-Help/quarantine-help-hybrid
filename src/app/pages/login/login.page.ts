@@ -11,7 +11,6 @@ import { StorageService } from 'src/app/shared/services/storage/storage.service'
 import { LoginUserCred, LoginResponse } from '../../models/auth';
 import { UserType } from 'src/app/models/core-api';
 import { UserThemeColorPrimary } from 'src/app/models/ui';
-import { StorageKeys } from 'src/app/constants/core-api';
 
 @Component({
   selector: 'app-login',

@@ -236,9 +236,81 @@ export class ViewRequestPage implements OnInit, OnDestroy {
   }
 
   async displayCloseRequestModal() {
+    const modalController = await this.modalController.create({
+      component: ConfirmModalComponent,
+      id: 'confirm-modal',
+      componentProps: {
+        question: 'Are you sure you wanna close the request??',
+        buttonLabel: 'finish',
+        confirmLabel: "Yes, I've got the help I need",
+        denyLabel: 'No, keep it open',
+      },
+    });
+
+    await modalController.present();
+    return await modalController.onDidDismiss().then((dismissedModal: any) => {
+      console.log('dismissedModal', dismissedModal);
+      if (
+        dismissedModal.role === 'finish' &&
+        dismissedModal.data.agreement === 'confirm'
+      ) {
+        this.closeRequest();
+      }
+    });
+  }
+
+  closeRequest() {
+    this.miscService
+      .presentLoadingWithOptions({
+        duration: 0,
+        message: `Closing request`,
+      })
+      .then((onLoadSuccess) => {
+        this.loadingData = onLoadSuccess;
+        this.loadingData.present();
+        this.coreAPIService
+          .closeRequest(this.requestId)
+          .then((result: any) => {
+            if (this.loadingData !== undefined) {
+              this.loadingData.dismiss().then(() => {
+                this.loadingData = undefined;
+              });
+            }
+            this.miscService.presentAlert({
+              header: 'Success!!!',
+              subHeader: 'Request Closed.',
+              buttons: [
+                {
+                  text: 'Ok',
+                  cssClass: 'secondary',
+                  handler: () => {
+                    this.router.navigate(['/my-requests'], {
+                      replaceUrl: true,
+                    });
+                  },
+                },
+              ],
+              message: `Request removed successfully. Click Ok to continue`,
+            });
+          })
+          .catch((errorObj) => {
+            this.loadingData.dismiss();
+            const { error, status: statusCode } = errorObj;
+            const errorMessages: string[] = [];
+            for (const key in error) {
+              if (error.hasOwnProperty(key) && typeof key !== 'function') {
+                console.error(error[key][0]);
+                errorMessages.push(error[key][0]);
+              }
+            }
+            // show the errors as alert
+            this.handleErrors(errorMessages, statusCode);
+          });
+      });
   }
 
   editRequest() {
+    console.log('Edit request page');
   }
 
   handleErrors(errorMessages: string[], statusCode) {
