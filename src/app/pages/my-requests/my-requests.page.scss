@@ -33,7 +33,14 @@ ion-segment-button {
   --border-width: 1px;
   --margin-top: 0;
   --margin-bottom: 0;
+  height: 5vh;
+  min-height: 5vh;
   align-items: center;
+
+  ion-label {
+    font-size: smaller;
+    text-transform: none;
+  }
 }
 
 app-footer-nav {
