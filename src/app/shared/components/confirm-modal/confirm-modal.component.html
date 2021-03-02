@@ -1,4 +1,4 @@
-<div class="ion-padding modal-container" [ngClass]="{'afUser': false, 'hlUser': true}">
+<div class="ion-padding modal-container" [ngClass]="{'afUser': userType === 'AF', 'hlUser': userType === 'HL'}">
   <ion-icon class="close" name="close" size="large" (click)="dismissModal('close')"></ion-icon>
   <ion-row class="ion-justify-content-start ion-align-items-center">
     <ion-text class="question">
