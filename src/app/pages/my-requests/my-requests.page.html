@@ -1,6 +1,6 @@
 <ion-header translucent class="hide-lg hide-xl">
   <ion-toolbar fixed [color]="userThemeColorPrimary">
-    <ion-title>Requests</ion-title>
+    <ion-title>{{ userType === 'AF' ? 'Requests' : 'Volunteered' }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -20,10 +20,10 @@
   </ion-item>
   <ion-segment (ionChange)="segmentChanged($event)" value="Open Requests">
     <ion-segment-button value="Open Requests">
-      <ion-label>Open Requests</ion-label>
+      <ion-label>{{userType === 'AF' ? 'Open Requests' : 'Accepted requests'}}</ion-label>
     </ion-segment-button>
     <ion-segment-button value="Closed Requests">
-      <ion-label>Closed Requests</ion-label>
+      <ion-label>{{userType === 'AF' ? 'Closed Requests' : 'Resolved requests'}}</ion-label>
     </ion-segment-button>
   </ion-segment>
   <ng-container *ngFor="let item of allRequests" class="ion-padding-top">
@@ -32,4 +32,4 @@
     </app-request>
   </ng-container>
 </ion-content>
-<app-footer-nav currentTab="/my-requests" ></app-footer-nav>
+<app-footer-nav currentTab="/my-requests"></app-footer-nav>
