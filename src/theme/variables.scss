@@ -73,7 +73,7 @@
   --ion-color-medium-contrast: #000000;
   --ion-color-medium-contrast-rgb: 0, 0, 0;
   --ion-color-medium-shade: #cdcdcd;
-  --ion-color-medium-tint: #ebebeb;
+  --ion-color-medium-tint: #e9e9e938;
 
   --ion-color-light: #f4f5f8;
   --ion-color-light-rgb: 244, 245, 248;
@@ -88,6 +88,13 @@
   --ion-color-themetext-contrast-rgb: 255, 255, 255;
   --ion-color-themetext-shade: #04669e;
   --ion-color-themetext-tint: #1e82bc;
+
+  --ion-color-text-light: #5d5d5d;
+  --ion-color-text-light-rgb: 93, 93, 93;
+  --ion-color-text-light-contrast: #ffffff;
+  --ion-color-text-light-contrast-rgb: 255, 255, 255;
+  --ion-color-text-light-shade: #525252;
+  --ion-color-text-light-tint: #6d6d6d;
 
   --ion-font-family: Questrial;
   // --ion-text-color: blue;
@@ -184,6 +191,13 @@
     --ion-color-themetext-contrast-rgb: 255, 255, 255;
     --ion-color-themetext-shade: #04669e;
     --ion-color-themetext-tint: #1e82bc;
+
+    --ion-color-text-light: #5d5d5d;
+    --ion-color-text-light-rgb: 93, 93, 93;
+    --ion-color-text-light-contrast: #ffffff;
+    --ion-color-text-light-contrast-rgb: 255, 255, 255;
+    --ion-color-text-light-shade: #525252;
+    --ion-color-text-light-tint: #6d6d6d;
 
     --ion-font-family: Questrial;
   }
@@ -311,6 +325,15 @@
   --ion-color-contrast-rgb: var(--ion-color-themetext-contrast-rgb);
   --ion-color-shade: var(--ion-color-themetext-shade);
   --ion-color-tint: var(--ion-color-themetext-tint);
+}
+
+.ion-color-text-light {
+  --ion-color-base: var(--ion-color-text-light);
+  --ion-color-base-rgb: var(--ion-color-text-light-rgb);
+  --ion-color-contrast: var(--ion-color-text-light-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-text-light-contrast-rgb);
+  --ion-color-shade: var(--ion-color-text-light-shade);
+  --ion-color-tint: var(--ion-color-text-light-tint);
 }
 
 @font-face {

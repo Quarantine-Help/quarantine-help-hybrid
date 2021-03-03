@@ -2,7 +2,7 @@ ion-item {
   --inner-padding-end: 0px;
   --padding-start: 0px;
   border-radius: 8px;
-  font-size: .8em;
+  font-size: 0.8em;
 }
 
 .category-icon {
@@ -27,7 +27,7 @@ small {
   position: absolute;
   left: 10px;
   bottom: 5px;
-  font-size: .8em;
+  font-size: 0.8em;
   margin-left: 6px;
 }
 
@@ -35,6 +35,7 @@ small {
   position: absolute;
   right: 7px;
   bottom: 5px;
+  font-weight: bold;
 }
 
 .request-content {

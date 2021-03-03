@@ -1,3 +1,7 @@
+ion-content {
+  --background: var(--ion-color-medium-tint);
+}
+
 hr {
   border-bottom: solid 1px var(--ion-color-light-shade);
 }
@@ -30,10 +34,18 @@ ion-icon {
   }
 
   &.medium-icon {
-    font-size: 1.8em;
+    font-size: 1.5em;
   }
 
   vertical-align: middle;
+
+  &.dollar-icon {
+    zoom: 0.8;
+    margin-right: 2vw;
+    // position: absolute;
+    // right: 24px;
+    // top: 5px;
+  }
 }
 
 ion-title {
@@ -93,13 +105,28 @@ ion-text {
   &.acceptedMessage {
     font-size: large;
   }
+
+  &.instMessage {
+    font-size: 0.9em;
+    line-height: 1.3em;
+    color: var(--ion-color-text-light);
+  }
+
+  &.phoneNo,
+  &.address {
+    margin-top: 1vh;
+  }
+
+  &.status {
+    font-weight: bold;
+  }
 }
 
 ion-grid {
   &.person {
     position: relative;
     top: -4vh;
-    background: var(--ion-color-light);
+    background: white;
     padding: 2.5vw 10vw;
 
     ion-text {

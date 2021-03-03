@@ -242,7 +242,7 @@ export class ViewRequestPage implements OnInit, OnDestroy {
       componentProps: {
         question: 'Are you sure you wanna close the request??',
         buttonLabel: 'finish',
-        confirmLabel: "Yes, I've got the help I need",
+        confirmLabel: `Yes, I've got the help I need`,
         denyLabel: 'No, keep it open',
       },
     });
