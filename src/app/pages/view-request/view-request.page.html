@@ -4,13 +4,14 @@
       <ion-back-button icon="chevron-back" defaultHref="/my-requests"></ion-back-button>
       <ion-title>Request detail</ion-title>
     </ion-buttons>
-    <ion-text slot="end" class="ion-padding" (click)="editRequest()">edit</ion-text>
+    <ion-text *ngIf="userType==='AF'" slot="end" class="ion-padding" (click)="editRequest()">edit</ion-text>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-no-padding ion-justify-content-center ion-align-items-center" color="medium">
+<ion-content class="ion-no-padding ion-justify-content-center ion-align-items-center">
   <ion-item lines="none" [color]="userThemeColorPrimary" class="ion-align-items-center">
-    <ion-text class="status ion-no-padding ion-padding-top ion-padding-start ion-no-margin ion-margin-start ion-margin-top"
+    <ion-text
+      class="status ion-no-padding ion-padding-top ion-padding-start ion-no-margin ion-margin-start ion-margin-top"
       slot="start">
       <h6 *ngIf="requestData.type=='G'">
         <ion-icon size="large" name="cart"></ion-icon> Grocery Request
@@ -19,7 +20,11 @@
         <ion-icon size="large" name="medkit"></ion-icon> Medicine Request
       </h6>
     </ion-text>
-    <ion-text slot="end" class="ion-padding-top ion-no-margin ion-margin-top ion-margin-end">100 SEK</ion-text>
+    <ion-icon class="dollar-icon ion-padding-top ion-no-margin ion-margin-top ion-margin-end" slot="end"
+      *ngIf="requestData.hasIncentive" src="assets/common/dollar-black.svg"></ion-icon>
+    <ion-text slot="end" *ngIf="requestData.hasIncentive"
+      class="ion-padding-top ion-no-margin ion-margin-top ion-margin-end"><strong>100 SEK</strong>
+    </ion-text>
   </ion-item>
   <ion-item lines="none" [color]="userThemeColorPrimary"
     class="request-desc-box ion-no-padding ion-no-margin ion-text-wrap">
@@ -50,7 +55,7 @@
       </ion-text> -->
     </ion-row>
     <ion-row class="ion-no-padding ion-no-margin">
-      <ion-text color="themetext">Stora gata No.2, stockholm, SE</ion-text>
+      <ion-text color="themetext" class="address">Stora gata No.2, stockholm, SE</ion-text>
     </ion-row>
     <ion-row class="ion-margin-bottom" *ngIf="(userType==='AF') && (requestData.assignee !== null)">
       <ion-col size="5">
@@ -79,60 +84,97 @@
   <ion-grid class="status ion-no-padding ion-no-margin">
     <ion-row class="ion-padding-horizontal ion-align-items-center">
       <ion-col size="6">
-        <ion-text>
+        <ion-text color="text-light">
           <h6> Request status </h6>
         </ion-text>
       </ion-col>
       <ion-col size="6" class="statusText ion-justify-content-end ion-align-items-end">
         <ng-container [ngSwitch]="requestData.status">
           <ng-container *ngSwitchCase="'P'" color="themetext">
-            <ion-icon class="medium-icon" name="stopwatch" color="warning"></ion-icon>
-            <ion-text class="ion-text-end">
-              Waiting
+            <ion-icon class="medium-icon" name="stopwatch" color="dark"></ion-icon>
+            <ion-text class="ion-text-end status">
+              <strong>
+                Waiting
+              </strong>
             </ion-text>
           </ng-container>
           <ng-container *ngSwitchCase="'T'">
             <ion-icon class="medium-icon" name="bicycle" color="themetext"></ion-icon>
-            <ion-text class="ion-text-end">
-              On the way
+            <ion-text class="ion-text-end status" color="themetext">
+              <strong>
+                On the way
+              </strong>
             </ion-text>
           </ng-container>
           <ng-container *ngSwitchCase="'F'">
             <ion-icon class="medium-icon" name="checkmark-circle" color="success"></ion-icon>
-            <ion-text class="ion-text-end">
-              Finished
+            <ion-text class="ion-text-end status">
+              <strong>
+                Finished
+              </strong>
             </ion-text>
           </ng-container>
           <ng-container *ngSwitchCase="'C'">
             <ion-icon class="medium-icon" name="close-circle-outline" color="danger"></ion-icon>
-            <ion-text class="ion-text-end">
-              Cancelled
+            <ion-text class="ion-text-end status">
+              <strong>
+                Cancelled
+              </strong>
             </ion-text>
           </ng-container>
           <ng-container *ngSwitchDefault>
             <ion-icon class="medium-icon" name="bug-outline" color="danger"></ion-icon>
-            <ion-text class="ion-text-end">
+            <ion-text class="ion-text-end status">
               Unknown
             </ion-text>
           </ng-container>
         </ng-container>
       </ion-col>
     </ion-row>
-    <ion-row class="ion-margin-vertical ion-padding-horizontal">
-      <ion-text class="acceptedMessage">
-        <strong>
-          Teresa accept your request at 2:00pm, Saturday.
-        </strong>
-      </ion-text>
-    </ion-row>
-    <ion-row class="ion-margin-top ion-padding-horizontal">
-      <ion-text>
-        You will be called by our volunteer, if not please reach out to teresa directly
-      </ion-text>
-      <ion-text color="themetext">
-        +46 235-324-211
-      </ion-text>
-    </ion-row>
+
+    <ng-container *ngIf="(requestData.status === 'T') && (userType==='AF')">
+      <ion-row class="ion-margin-vertical ion-padding-horizontal">
+        <ion-text class="acceptedMessage">
+          <strong>
+            Teresa accept your request at 2:00pm, Saturday.
+          </strong>
+        </ion-text>
+      </ion-row>
+      <ion-row class="ion-margin-top ion-padding-horizontal">
+        <ion-text class="instMessage">
+          You will be called by our volunteer, if not please reach out to teresa directly
+        </ion-text>
+        <ion-text color="themetext" class="phoneNo">
+          +46 235-324-211
+        </ion-text>
+      </ion-row>
+    </ng-container>
+
+    <ng-container *ngIf="(requestData.status === 'T') && (userType==='HL')">
+      <ion-row class="ion-margin-vertical ion-padding-horizontal ion-padding-top">
+        <ion-text class="acceptedMessage">
+          <strong>
+            You accept your request at 2:00pm, Saturday Thank you for your kindness!
+          </strong>
+        </ion-text>
+      </ion-row>
+      <ion-row class="ion-margin-top ion-padding-horizontal">
+        <ion-text class="instMessage">
+          <a routerLink="/instructions">Read instructions of how to delivery help.</a>
+        </ion-text>
+      </ion-row>
+    </ng-container>
+
+    <ng-container *ngIf="requestData.status === 'P'">
+      <ion-row class="ion-margin-vertical ion-padding-horizontal">
+      </ion-row>
+      <ion-row class="ion-margin-top ion-padding-horizontal">
+        <ion-text class="instMessage">
+          You will get notified if the request gets accepted Please be patient and take care.
+        </ion-text>
+      </ion-row>
+    </ng-container>
+
   </ion-grid>
 </ion-content>
 
