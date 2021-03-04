@@ -30,11 +30,11 @@
 
     </ion-text>
     <ion-text class="status ion-no-padding ion-no-margin ion-margin-top" slot="end">
-      <ion-icon (click)="selectRequestType('G')" size="large" [ngClass]="{ 'selectedRequest' : requestData.type === 'G' }"
+      <ion-icon (click)="selectRequestType('G')" size="default" [ngClass]="{ 'selectedRequest' : requestData.type === 'G' }"
         name="cart"></ion-icon>
-      <ion-icon (click)="selectRequestType('M')" size="large" [ngClass]="{ 'selectedRequest' : requestData.type === 'M' }"
+      <ion-icon (click)="selectRequestType('M')" size="default" [ngClass]="{ 'selectedRequest' : requestData.type === 'M' }"
         name="medkit"></ion-icon>
-      <ion-icon (click)="selectRequestType('O')" size="large" [ngClass]="{ 'selectedRequest' : requestData.type === 'O' }"
+      <ion-icon (click)="selectRequestType('O')" size="default" [ngClass]="{ 'selectedRequest' : requestData.type === 'O' }"
         name="grid"></ion-icon>
     </ion-text>
     <ion-icon class="dollar-icon ion-padding-top ion-no-margin ion-margin-top ion-margin-end" slot="end"
