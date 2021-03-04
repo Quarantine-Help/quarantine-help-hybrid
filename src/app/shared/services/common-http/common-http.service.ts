@@ -82,7 +82,6 @@ export class CommonHTTPService {
         headers: headerOptions,
         observe: 'response',
       };
-      console.log(body);
       this.http
         .patch(encodeURI(url), body, options)
         .toPromise()
