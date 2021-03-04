@@ -117,8 +117,14 @@ ion-textarea {
 
   &.status {
     font-weight: bold;
+
     ion-icon {
       padding-right: 0.5em;
+      color: var(--ion-color-primaryAF);
+
+      &.selectedRequest {
+        color: var(--ion-color-dark);
+      }
     }
   }
 

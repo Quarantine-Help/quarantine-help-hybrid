@@ -12,15 +12,30 @@
 
 <ion-content class="ion-no-padding ion-justify-content-center ion-align-items-center">
   <ion-item lines="none" class="ion-align-items-center ion-padding-top ion-margin-top">
-    <ion-text slot="start" class="reqDesc ion-no-padding ion-padding-start ion-no-margin ion-margin-start ion-margin-top">
-      Grocery request
+    <ion-text slot="start"
+      class="reqDesc ion-no-padding ion-padding-start ion-no-margin ion-margin-start ion-margin-top">
+    <ng-container [ngSwitch]="requestData.type">
+      <span *ngSwitchCase="'G'">
+        Grocery request
+      </span>
+      <span *ngSwitchCase="'M'">
+        Medicine request
+      </span>
+      <span *ngSwitchCase="'O'">
+        Other request
+      </span>
+    </ng-container>
+
+
+
     </ion-text>
-    <ion-text
-      class="status ion-no-padding ion-no-margin ion-margin-top"
-      slot="end">
-      <ion-icon size="large" name="cart"></ion-icon>
-      <ion-icon size="large" name="medkit"></ion-icon>
-      <ion-icon size="large" src="assets/common/other.svg"></ion-icon>
+    <ion-text class="status ion-no-padding ion-no-margin ion-margin-top" slot="end">
+      <ion-icon (click)="selectRequestType('G')" size="large" [ngClass]="{ 'selectedRequest' : requestData.type === 'G' }"
+        name="cart"></ion-icon>
+      <ion-icon (click)="selectRequestType('M')" size="large" [ngClass]="{ 'selectedRequest' : requestData.type === 'M' }"
+        name="medkit"></ion-icon>
+      <ion-icon (click)="selectRequestType('O')" size="large" [ngClass]="{ 'selectedRequest' : requestData.type === 'O' }"
+        name="grid"></ion-icon>
     </ion-text>
     <ion-icon class="dollar-icon ion-padding-top ion-no-margin ion-margin-top ion-margin-end" slot="end"
       *ngIf="requestData.hasIncentive" src="assets/common/dollar-black.svg"></ion-icon>
@@ -28,7 +43,8 @@
       class="ion-padding-top ion-no-margin ion-margin-top ion-margin-end"><strong>100 SEK</strong>
     </ion-text>
   </ion-item>
-  <ion-item lines="none" class="request-desc-box ion-no-padding ion-no-margin ion-padding-top ion-margin-top ion-text-wrap">
+  <ion-item lines="none"
+    class="request-desc-box ion-no-padding ion-no-margin ion-padding-top ion-margin-top ion-text-wrap">
     <ion-textarea autoGrow="true"
       class="request-desc-text ion-padding ion-margin-top ion-margin-bottom ion-justify-content-center ion-align-items-center"
       [ngClass]="userType" [(ngModel)]="requestData.description">

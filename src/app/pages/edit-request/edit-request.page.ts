@@ -10,6 +10,7 @@ import {
   defaultUserType,
 } from 'src/app/constants/core-api';
 import { HelpRequest, UserType } from 'src/app/models/core-api';
+import { RequestTypes } from 'src/app/models/here-map-core';
 import {
   UserThemeColorPrimary,
   UserThemeColorSecondary,
@@ -181,7 +182,6 @@ export class EditRequestPage implements OnInit {
 
     await modalController.present();
     return await modalController.onDidDismiss().then((dismissedModal: any) => {
-      console.log('dismissedModal', dismissedModal);
       if (
         dismissedModal.role === 'finish' &&
         dismissedModal.data.agreement === 'confirm'
@@ -246,7 +246,10 @@ export class EditRequestPage implements OnInit {
     const errorString =
       statusCode === 500 ? 'Internal Server Error' : errorMessages.join('. ');
 
-    console.log(errorString, statusCode);
     this.miscService.presentAlert({ message: errorString });
+  }
+
+  selectRequestType(requestType: RequestTypes) {
+    this.requestData.type = requestType;
   }
 }
