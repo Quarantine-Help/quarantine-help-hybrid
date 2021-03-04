@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 
@@ -8,7 +8,7 @@ import { MiscService } from 'src/app/shared/services/misc/misc.service';
 import { CoreAPIService } from 'src/app/shared/services/core-api/core-api.service';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
 
-import { UserType } from 'src/app/models/core-api';
+import { HelpRequest, UserType } from 'src/app/models/core-api';
 import {
   defaultUserType,
   defaultPrimaryColor,
@@ -28,7 +28,7 @@ import { ConfirmModalComponent } from 'src/app/shared/components/confirm-modal/c
 })
 export class ViewRequestPage implements OnInit, OnDestroy {
   loadingData: HTMLIonLoadingElement;
-  requestData: any;
+  requestData: HelpRequest;
   requestId: number;
   userType: UserType;
   authSubs: Subscription;
@@ -46,7 +46,7 @@ export class ViewRequestPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     const navigation = this.router.getCurrentNavigation();
-    this.requestData = navigation.extras.state;
+    this.requestData = navigation.extras.state as HelpRequest;
     this.requestId = navigation.extras.state.id;
 
     this.isLoggedIn = false;
@@ -185,6 +185,14 @@ export class ViewRequestPage implements OnInit, OnDestroy {
     });
   }
 
+  editRequest() {
+    const afNavExtras: NavigationExtras = {
+      state: this.requestData,
+      replaceUrl: false,
+    };
+    this.router.navigate(['/edit-request'], afNavExtras);
+  }
+
   removeRequest() {
     this.miscService
       .presentLoadingWithOptions({
@@ -307,10 +315,6 @@ export class ViewRequestPage implements OnInit, OnDestroy {
             this.handleErrors(errorMessages, statusCode);
           });
       });
-  }
-
-  editRequest() {
-    console.log('Edit request page');
   }
 
   handleErrors(errorMessages: string[], statusCode) {

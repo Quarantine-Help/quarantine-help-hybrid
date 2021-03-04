@@ -5,7 +5,11 @@ import { Subscription } from 'rxjs';
 import { MiscService } from 'src/app/shared/services/misc/misc.service';
 import { CoreAPIService } from 'src/app/shared/services/core-api/core-api.service';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
-import { UserType } from 'src/app/models/core-api';
+import {
+  HelpRequest,
+  HelpRequestResponse,
+  UserType,
+} from 'src/app/models/core-api';
 import {
   defaultUserType,
   defaultPrimaryColor,
@@ -23,7 +27,7 @@ import {
 export class MyRequestsPage implements OnInit, OnDestroy {
   loadingData: HTMLIonLoadingElement;
   hasOpenRequests: boolean;
-  allRequests: any;
+  allRequests: HelpRequest[];
   userType: UserType;
   authSubs: Subscription;
   userThemeColorPrimary: UserThemeColorPrimary;
@@ -70,7 +74,7 @@ export class MyRequestsPage implements OnInit, OnDestroy {
     this.router.navigate(['/create-request'], { replaceUrl: true });
   }
 
-  onRequestOpened(requestData) {
+  onRequestOpened(requestData: HelpRequest) {
     const afNavExtras: NavigationExtras = {
       state: requestData,
       replaceUrl: true,
@@ -104,7 +108,7 @@ export class MyRequestsPage implements OnInit, OnDestroy {
         this.loadingData = onLoadSuccess;
         this.loadingData.present();
         this.getAfOrHlRequest()
-          .then((result: any) => {
+          .then((result: HelpRequestResponse) => {
             // Dismiss & destroy loading controller on
             if (this.loadingData !== undefined) {
               this.loadingData.dismiss().then(() => {
@@ -123,7 +127,7 @@ export class MyRequestsPage implements OnInit, OnDestroy {
   }
 
   // sort data from api in descending order by created date
-  sortRequests(requests) {
+  sortRequests(requests: HelpRequest[]) {
     return requests.sort((a, b) => {
       const dateA = new Date(a.createdAt);
       const dateB = new Date(b.createdAt);
@@ -146,7 +150,7 @@ export class MyRequestsPage implements OnInit, OnDestroy {
         errorMessages.push(error[key]);
       }
     }
-    console.log(...errorMessages, statusCode);
+    console.log(errorMessages, statusCode);
     this.miscService.presentAlert({
       message: errorMessages.join('. '),
       subHeader: null,

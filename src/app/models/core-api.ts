@@ -1,3 +1,5 @@
+import { RequestTypes } from './here-map-core';
+
 export type UserType =
   | 'HL' // Helper - Volunteer
   | 'AF' // Affected Participant - Quarantined
@@ -19,6 +21,7 @@ interface Headers {
   normalizedNames?: any;
   lazyUpdate?: any;
 }
+
 export interface NearbyParticipantsResponse {
   headers: Headers;
   status: number;
@@ -34,6 +37,35 @@ interface NearbyParticipantsResponseBody {
   next?: any;
   previous?: any;
   results: NearbyParticipant[];
+}
+
+export interface HelpRequestResponse {
+  headers: Headers;
+  status: number;
+  statusText: string;
+  url: string;
+  ok: boolean;
+  type: number;
+  body: Body;
+}
+
+interface Body {
+  count: number;
+  next?: any;
+  previous?: any;
+  results: HelpRequest[];
+}
+
+export interface HelpRequest {
+  id: number;
+  type: RequestTypes;
+  deadline: string;
+  description: string;
+  assignee?: any;
+  status: string;
+  assignmentHistory: any[];
+  hasIncentive?: boolean;
+  createdAt: string;
 }
 
 export interface NearbyParticipant {

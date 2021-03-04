@@ -5,6 +5,7 @@ import { CommonHTTPService } from '../common-http/common-http.service';
 import { LatLng } from 'src/app/models/geo';
 import { RequestTypes } from 'src/app/models/here-map-core';
 import { Crisis } from 'src/app/constants/core-api';
+import { HelpRequest } from 'src/app/models/core-api';
 
 @Injectable({
   providedIn: 'root',
@@ -52,7 +53,7 @@ export class CoreAPIService {
     return this.commonHTTP.httpPatch(this.userProfileMgtURL, profileData);
   }
 
-  createAFRequest(requestData) {
+  createAFRequest(requestData: HelpRequest) {
     return this.commonHTTP.httpPost(this.afRequestsMgtURL, requestData);
   }
 
@@ -88,5 +89,12 @@ export class CoreAPIService {
 
   closeRequest(requestId) {
     return this.commonHTTP.httpDelete(`${this.afRequestsMgtURL}${requestId}`);
+  }
+
+  updateRequest(requestId, requestData) {
+    return this.commonHTTP.httpPatch(
+      `${this.afRequestsMgtURL}${requestId}/`,
+      requestData
+    );
   }
 }

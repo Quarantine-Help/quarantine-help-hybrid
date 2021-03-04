@@ -56,6 +56,13 @@ const routes: CustomRoute[] = [
       ),
   },
   {
+    path: 'edit-request',
+    loadChildren: () =>
+      import('./pages/edit-request/edit-request.module').then(
+        (m) => m.EditRequestPageModule
+      ),
+  },
+  {
     path: 'view-request',
     canActivate: [AuthGuard],
     data: {
@@ -117,7 +124,10 @@ const routes: CustomRoute[] = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, relativeLinkResolution: 'legacy' }),
+    RouterModule.forRoot(routes, {
+      preloadingStrategy: PreloadAllModules,
+      relativeLinkResolution: 'legacy',
+    }),
   ],
   exports: [RouterModule],
 })

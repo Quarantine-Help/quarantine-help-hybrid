@@ -31,7 +31,7 @@
     </ion-row>
     <ng-template #buttonRef>
       <ion-row class="ion-justify-content-center ion-align-items-center ion-padding-top">
-        <ion-col size-xs="6" size-md="4" size-lg="3">
+        <ion-col size-xs="8" size-md="4" size-lg="3">
           <ion-button class="text-center" size="default" color="tertiary" expand="full" fill="clear"
             (click)="showPicker()"> + Add
             a deadline
@@ -39,24 +39,27 @@
         </ion-col>
       </ion-row>
     </ng-template>
-    <ion-row *ngIf="showDaysHours; else buttonRef"
-      class="text-center ion-justify-content-center ion-align-items-center ion-padding-top">
+    <ng-container *ngIf="showDaysHours; else buttonRef">
+      <ion-row class="text-center ion-justify-content-center ion-align-items-center ion-padding-top">
       <ion-col size-md="2" size-lg="1" size-xs="3" offset-xs="1" class="ion-no-margin ion-no-padding">
-        <ion-text [color]="userThemeColorPrimary"> Deadline </ion-text>
+        <ion-text color="themetext"> Deadline </ion-text>
       </ion-col>
-      <ion-col size-md="2" size-lg="1" size-xs="4" class="ion-no-margin ion-no-padding" *ngIf="deadline.days !== '0'">
+      </ion-row>
+      <ion-row class="text-center ion-justify-content-center ion-align-items-center ion-padding-top">
+      <ion-col size-md="3" size-lg="2" size-xs="5" class="ion-no-margin ion-no-padding" *ngIf="deadline.days !== '0'">
         <ion-chip [color]="userThemeColorSecondary" (click)="showDaysHours=false">
           <ion-label>{{ deadline.days }} days </ion-label>
           <ion-icon name="close-circle"></ion-icon>
         </ion-chip>
       </ion-col>
-      <ion-col size-md="2" size-lg="2" size-xs="4" class="ion-no-margin ion-no-padding">
+      <ion-col size-md="3" size-lg="2" size-xs="5" class="ion-no-margin ion-no-padding">
         <ion-chip [color]="userThemeColorSecondary" (click)="showDaysHours=false">
           <ion-label> {{ deadline.hours }} {{ deadline.hours !== '1'? 'hours': 'hour' }} </ion-label>
           <ion-icon name="close-circle"></ion-icon>
         </ion-chip>
       </ion-col>
     </ion-row>
+  </ng-container>
   </form>
 </ion-content>
 <ion-footer>
