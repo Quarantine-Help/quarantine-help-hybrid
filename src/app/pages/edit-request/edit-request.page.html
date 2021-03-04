@@ -1,0 +1,67 @@
+<ion-header translucent class="hide-lg hide-xl">
+  <ion-toolbar fixed [color]="userThemeColorPrimary">
+    <ion-buttons slot="start">
+      <ion-back-button icon="chevron-back" defaultHref="/my-requests"></ion-back-button>
+      <ion-title>Request detail</ion-title>
+    </ion-buttons>
+    <ion-text *ngIf="userType==='AF'" slot="end" class="ion-padding" (click)="displayFinishModal()">
+      <strong>Finish</strong>
+    </ion-text>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-no-padding ion-justify-content-center ion-align-items-center">
+  <ion-item lines="none" class="ion-align-items-center ion-padding-top ion-margin-top">
+    <ion-text slot="start" class="reqDesc ion-no-padding ion-padding-start ion-no-margin ion-margin-start ion-margin-top">
+      Grocery request
+    </ion-text>
+    <ion-text
+      class="status ion-no-padding ion-no-margin ion-margin-top"
+      slot="end">
+      <ion-icon size="large" name="cart"></ion-icon>
+      <ion-icon size="large" name="medkit"></ion-icon>
+      <ion-icon size="large" src="assets/common/other.svg"></ion-icon>
+    </ion-text>
+    <ion-icon class="dollar-icon ion-padding-top ion-no-margin ion-margin-top ion-margin-end" slot="end"
+      *ngIf="requestData.hasIncentive" src="assets/common/dollar-black.svg"></ion-icon>
+    <ion-text slot="end" *ngIf="requestData.hasIncentive"
+      class="ion-padding-top ion-no-margin ion-margin-top ion-margin-end"><strong>100 SEK</strong>
+    </ion-text>
+  </ion-item>
+  <ion-item lines="none" class="request-desc-box ion-no-padding ion-no-margin ion-padding-top ion-margin-top ion-text-wrap">
+    <ion-textarea autoGrow="true"
+      class="request-desc-text ion-padding ion-margin-top ion-margin-bottom ion-justify-content-center ion-align-items-center"
+      [ngClass]="userType" [(ngModel)]="requestData.description">
+    </ion-textarea>
+  </ion-item>
+  <ion-item class="deadline-date ion-justify-content-center ion-align-items-center" color="secondaryAF">
+    <ion-text color="danger" class="ion-text-center"> Deadline
+      {{ requestData.deadline | date: 'yyyy/M/d' }}
+      {{ requestData.deadline | date:'h' }}:{{ requestData.deadline | date:'mm' }} {{ requestData.deadline |
+      date:'aa' }}
+    </ion-text>
+  </ion-item>
+
+  <ion-grid class="person ion-padding ion-margin-top">
+    <ion-row class="ion-justify-content-center ion-align-items-center">
+      <ion-col size-xs="6" size-md="4" size-lg="3">
+        <ion-button class="text-center" size="default" color="tertiary" expand="full" fill="clear"
+          (click)="showPicker()"> + update deadline
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid class="person ion-padding ion-margin-top" *ngIf="requestData.hasIncentive">
+    <ion-row class="ion-no-margin ion-padding-top ion-margin-top">
+      <ion-text>
+        <h4>Pay off</h4>
+      </ion-text>
+    </ion-row>
+    <ion-row class="ion-no-margin">
+      <ion-text>
+        <h6>100 SEK</h6>
+      </ion-text>
+    </ion-row>
+  </ion-grid>
+</ion-content>

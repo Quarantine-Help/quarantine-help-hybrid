@@ -1,0 +1,168 @@
+hr {
+  border-bottom: solid 1px var(--ion-color-light-shade);
+}
+
+h4,
+h5,
+h6 {
+  margin: 0px;
+  padding: 0px;
+}
+
+ion-button {
+  text-transform: lowercase;
+  --box-shadow: none;
+  --ripple-color: transparent;
+}
+
+ion-icon {
+  &[name='calendar-outline'] {
+    font-size: 64px;
+  }
+
+  &[name='bicycle-outline'] {
+    font-size: 32px;
+  }
+
+  &[name='medkit'],
+  &[name='cart'] {
+    font-size: 16px;
+    padding-right: 1vw;
+  }
+
+  &.medium-icon {
+    font-size: 1.5em;
+  }
+
+  vertical-align: middle;
+
+  &.dollar-icon {
+    zoom: 0.8;
+    margin-right: 2vw;
+    // position: absolute;
+    // right: 24px;
+    // top: 5px;
+  }
+}
+
+ion-title {
+  font-weight: 900;
+  font-size: 1.4rem;
+}
+
+ion-item {
+  &.upper {
+    --inner-padding-bottom: 0;
+    --inner-padding-end: 10vw;
+    --inner-padding-start: 0vw;
+    --inner-padding-top: 0;
+  }
+
+  &.request-desc-box {
+    --inner-padding-bottom: 3vh;
+    --inner-padding-end: 7vw;
+    --inner-padding-start: 7vw;
+    --inner-padding-top: 0vh;
+  }
+
+  &.deadline-date {
+    display: flex;
+    height: 5%;
+    width: 75%;
+    margin: 0 auto;
+    position: relative;
+
+    ion-text {
+      color: white;
+      width: 100%;
+    }
+  }
+}
+
+ion-textarea {
+  display: flex;
+}
+
+ion-text,
+ion-textarea {
+  &.request-desc-text {
+    height: 25vh;
+    width: 100%;
+    border-radius: 6.5vh;
+    font-size: medium;
+    line-height: 4vh;
+    padding: 10vw;
+    overflow-y: auto;
+    background: var(--ion-color-medium);
+
+    textarea {
+      padding: 0;
+    }
+  }
+
+  &.acceptedMessage {
+    font-size: large;
+  }
+
+  &.instMessage {
+    font-size: 0.9em;
+    line-height: 1.3em;
+    color: var(--ion-color-text-light);
+  }
+
+  &.phoneNo,
+  &.address {
+    margin-top: 1vh;
+  }
+
+  &.status {
+    font-weight: bold;
+    ion-icon {
+      padding-right: 0.5em;
+    }
+  }
+
+  &.reqDesc {
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+}
+
+ion-grid {
+  &.person {
+    background: white;
+    padding: 2.5vw 10vw;
+
+    ion-text {
+      h4 {
+        font-size: 1.4em;
+        line-height: 2em;
+        font-weight: bold;
+      }
+
+      h5 {
+        font-size: 1.2em;
+        line-height: 2em;
+        font-weight: bold;
+      }
+
+      h6 {
+        line-height: 2em;
+        font-weight: bold;
+      }
+    }
+  }
+
+  &.status {
+    position: relative;
+    top: -2vh;
+
+    ion-row {
+      --ion-padding: 10vw;
+
+      .statusText {
+        text-align: end;
+      }
+    }
+  }
+}
