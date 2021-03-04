@@ -19,6 +19,9 @@
       <h6 *ngIf="requestData.type=='M'">
         <ion-icon size="large" name="medkit"></ion-icon> Medicine Request
       </h6>
+      <h6 *ngIf="requestData.type=='O'">
+        <ion-icon size="large" src="assets/common/other.svg"></ion-icon> Others
+      </h6>
     </ion-text>
     <ion-icon class="dollar-icon ion-padding-top ion-no-margin ion-margin-top ion-margin-end" slot="end"
       *ngIf="requestData.hasIncentive" src="assets/common/dollar-black.svg"></ion-icon>

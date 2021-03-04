@@ -1,6 +1,11 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+
 import { RequestStatus } from 'src/app/constants/core-api';
-import { UserThemeColorPrimary, UserThemeColorSecondary } from 'src/app/models/ui';
+import { HelpRequest } from 'src/app/models/core-api';
+import {
+  UserThemeColorPrimary,
+  UserThemeColorSecondary,
+} from 'src/app/models/ui';
 
 interface RequestId {
   id: string;
@@ -11,17 +16,14 @@ interface RequestId {
   styleUrls: ['./request.component.scss'],
 })
 export class RequestComponent implements OnInit {
-  @Input() requestData: any;
+  @Input() requestData: HelpRequest;
   @Output() requestOpened: EventEmitter<RequestId> = new EventEmitter<
     RequestId
   >();
   requestStatusColor: UserThemeColorPrimary;
   requestStatusSecondaryColor: UserThemeColorSecondary;
   constructor() {}
-
-
   ngOnInit() {
-
     // TODO: Find out about the other statuses - C & F
     this.requestStatusColor = 'primaryAF';
     this.requestStatusSecondaryColor = 'secondaryAF';

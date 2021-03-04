@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { PickerController } from '@ionic/angular';
 import { PickerOptions } from '@ionic/core';
-import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { ModalController } from '@ionic/angular';
+
 import { CoreAPIService } from 'src/app/shared/services/core-api/core-api.service';
 import { MiscService } from 'src/app/shared/services/misc/misc.service';
 import {
   UserThemeColorPrimary,
   UserThemeColorSecondary,
 } from 'src/app/models/ui';
-import { ModalController } from '@ionic/angular';
 import { ConfirmInputModalComponent } from '../../components/confirm-input-modal/confirm-input-modal.component';
 
 @Component({
